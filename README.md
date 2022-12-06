@@ -8,4 +8,5 @@ The game is to be played in french.
 4. After git has been installed, please write 'git' again on your command line. A series of basic git command may appear. If this is the case, it means your computer has succesfully installed git and you're ready to use it!
 # Useful links:
 https://girliemac.com/blog/2017/12/26/git-purr/
+
 https://reglesdejeux.github.io/regles-du-scrabble/index.html
