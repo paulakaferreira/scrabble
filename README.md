@@ -8,7 +8,7 @@ The game is to be played in french.
 4. After git has been installed, write 'git' again on your command line. A series of basic git commands may appear. If this is the case, it means your computer has succesfully installed git and you're ready to use it.
 # Installing Git on Windows:
 Follow this step-by-step: https://www.geeksforgeeks.org/how-to-install-git-on-windows-command-line/
-# Getting started with Git on Windows
+# Getting started with Git on Windows - draft
 Start the ssh-agent in the background
 $ eval $(ssh-agent -s)
 > Agent pid 59566
