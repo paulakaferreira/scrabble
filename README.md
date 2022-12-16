@@ -9,6 +9,7 @@ The game is to be played in french.
 # Installing Git on Windows:
 https://www.geeksforgeeks.org/how-to-install-git-on-windows-command-line/
 # Getting started with Git
+git remote add origin git@github.com:paulakaferreira/scrabble.git
 
 # Useful links:
 https://girliemac.com/blog/2017/12/26/git-purr/
