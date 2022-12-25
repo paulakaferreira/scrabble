@@ -1,8 +1,10 @@
+#include <stdio.h>
+
 /* Essai : ce programme initialise et affiche un tableau contenant l'ensemble des lettres du 
 sac de lettres, leur quantité et le nombre de points qui leur sont associés*/
 #define MAX_LETTRE 26
 #define MAX_JETON 27
-#include <stdio.h>
+
 
 int main()
 {
