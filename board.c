@@ -57,5 +57,7 @@ void print_board()
 
 void modify_board(char jeton, int column, int row)
 {
+    column--;
+    row--;
     board_value[column][row] = jeton;
 }
