@@ -1,8 +1,6 @@
 #include <stdio.h>
 #define MAX_LETTRE 27
 #define TOTAL_JETON 102
-#define MAX_JETON_TOUR 7
-#define MAX_JOUEUR 2
 
 
 /* Déclaration des types globaux*/
