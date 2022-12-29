@@ -1,140 +1,202 @@
 #include <stdio.h>
+#define MAX_LETTRE 27
+#define TOTAL_JETON 102
+#define MAX_JETON_TOUR 7
+#define MAX_JOUEUR 2
 
-/* Essai : ce programme initialise et affiche un tableau contenant l'ensemble des lettres du 
-sac de lettres, leur quantité et le nombre de points qui leur sont associés*/
-#define MAX_LETTRE 26
-#define MAX_JETON 27
 
+/* Déclaration des types globaux*/
+
+// type lettre
+struct lettre
+{
+  int id_lettre;
+  int nbpoint, quantite;
+};
+
+
+
+// variables globales
+struct lettre tablettre[MAX_LETTRE-1];
+char tabjeton[TOTAL_JETON - 1];
+
+
+void fiche_lettre ();
+void sac_lettres ();
+void affichage_sac();
 
 int main()
 {
-    struct lettre{
-        int id_lettre;
-        int nbpoint, quantite;
-    };
-    
-    struct lettre lettre;
-    struct lettre tablettre[MAX_JETON-1];
-    int i, j;
+	fiche_lettre();
+	sac_lettres();
+	affichage_sac();
+}
+
+void fiche_lettre ()
+{
 
 
-printf("Voilà le nombre de jetons : %d\n", MAX_JETON);
+  struct lettre lettre;
+  int i, j;
 
 /* Utilisation d'une boucle for qui parcourt i de 65 (code ASCII de A) jusque 90, code ASCII de Z,
 et 91 qu'on utilisera pour le cas des jetons joker. Le switch est fait en utilisant les caractères
-qui sont interprétés comme entiers, par leur code ASCII */ 
+qui sont interprétés comme entiers, par leur code ASCII */
 
-  for(i=65, j=0; i<MAX_JETON+65; i++, j++)
-  {
-    
-    if (i==91)
+  for (i = 65, j = 0; i < MAX_LETTRE + 65; i++, j++)
     {
-        lettre.id_lettre='0';
+
+      if (i == 91)
+	{
+	  lettre.id_lettre = '0';
+	}
+      else
+	{
+	  lettre.id_lettre = i;
+	}
+
+
+      switch (i)
+	{
+	case 'A':
+	case 'E':
+	case 'I':
+	case 'L':
+	case 'N':
+	case 'O':
+	case 'R':
+	case 'S':
+	case 'T':
+	case 'U':
+	  lettre.nbpoint = 1;
+	  break;
+
+	case 'D':
+	case 'G':
+	case 'M':
+	  lettre.nbpoint = 2;
+	  break;
+
+	  /* Pour les cas suivants, chaque lettre valant le même nombre de point ont aussi la même quantité. Cela permet de simplifier le switch 
+	     suivant qui attribuera une quantité à une lettre */
+	case 'B':
+	case 'C':
+	case 'P':
+	  lettre.nbpoint = 3;
+	  lettre.quantite = 2;
+	  break;
+
+	case 'F':
+	case 'H':
+	case 'V':
+	  lettre.nbpoint = 4;
+	  lettre.quantite = 2;
+	  break;
+
+	case 'J':
+	case 'Q':
+	  lettre.nbpoint = 8;
+	  lettre.quantite = 1;
+	  break;
+
+	case 'K':
+	case 'W':
+	case 'X':
+	case 'Y':
+	case 'Z':
+	  lettre.nbpoint = 10;
+	  lettre.quantite = 1;
+	  break;
+
+	  /* Cas des jetons jokers */
+	case 91:
+	  lettre.nbpoint = 0;
+	  lettre.quantite = 2;
+	  break;
+	}
+
+      switch (i)
+	{
+	case 'E':
+	  lettre.quantite = 15;
+	  break;
+
+	case 'A':
+	  lettre.quantite = 9;
+	  break;
+
+	case 'I':
+	  lettre.quantite = 8;
+	  break;
+
+	case 'N':
+	case 'O':
+	case 'R':
+	case 'S':
+	case 'T':
+	case 'U':
+	  lettre.quantite = 6;
+	  break;
+
+	case 'L':
+	  lettre.quantite = 5;
+	  break;
+
+	case 'D':
+	case 'M':
+	  lettre.quantite = 3;
+	  break;
+	case 'G':
+	  lettre.quantite = 2;
+	  break;
+
+
+	}
+	/* La variable lettre en type structure lettre est rangée dans un tableau de 
+	structure lettre, et ceci à chaque passage de la boucle qui incrémente le compteur
+	j pour avancer dans le tableau, jusqu'à <MAX_LETTRE qui correspond à 92 */
+      tablettre[j] = lettre;
     }
-    else
+
+}
+
+
+void sac_lettres ()
+{
+  int i, j = 0;
+
+/* Ici, la boucle for parcourt le tableau de caractères tabjeton, qui correspond au sac de lettre
+grâce au compteur i. la variable j permet de vérifier la quantité de chaque lettre, si tablettre[j]
+n'est pas égal à 0, c'est qu'il y a encore des lettres de ce type à mettre dans le sac de lettres.
+Sinon, j est incrémenté pour passer à la lettre suivante, jusqu'à arriver à 0 de quantité pour la
+lettre suivante */
+
+  for (i = 0; i < TOTAL_JETON; i++)
     {
-      lettre.id_lettre=i;
+      if (tablettre[j].quantite == 0)
+	{
+	  j++;
+
+	}
+	// Quand la quantité n'est pas égale à 0, on range cette lettre dans une case du sac de lettres
+      tabjeton[i] = tablettre[j].id_lettre;
+      tablettre[j].quantite--;
+
     }
-    
-    
-    switch(i)
-      {
-          case 'A' : 
-          case 'E' : 
-          case 'I' : 
-          case 'L' : 
-          case 'N' : 
-          case 'O' : 
-          case 'R' : 
-          case 'S' : 
-          case 'T' : 
-          case 'U' : 
-             lettre.nbpoint=1;
-          break;
-          
-          case 'D' :
-          case 'G' :
-          case 'M' :
-             lettre.nbpoint=2;
-          break;
-          
-          /* Pour les cas suivants, chaque lettre valant le même nombre de point ont aussi la même quantité. Cela permet de simplifier le switch 
-          suivant qui attribuera une quantité à une lettre*/
-          case 'B' :
-          case 'C' :
-          case 'P' :
-              lettre.nbpoint=3;
-              lettre.quantite=2;
-          break;
-          
-          case 'F' :
-          case 'H' :
-          case 'V' :
-             lettre.nbpoint=4;
-             lettre.quantite=2;
-          break;
-          
-          case 'J' :
-          case 'Q' :
-             lettre.nbpoint=8;
-             lettre.quantite=1;
-          break;
-          
-          case 'K' :
-          case 'W' :
-          case 'X' :
-          case 'Y' :
-          case 'Z' :
-            lettre.nbpoint=10;
-            lettre.quantite=1;
-          break;
-          
-          /* Cas des jetons jokers */
-          case 91 :
-            lettre.nbpoint=0;
-            lettre.quantite=2;
-      }
-      
-    switch(i)
+}
+
+void affichage_sac ()
+{
+  int i, cpt = 0;
+  for (i = 0; i < TOTAL_JETON; i++)
     {
-        case 'E' : 
-            lettre.quantite=15;
-        break;
-        
-        case 'A' :
-            lettre.quantite=9;
-        break;
-        
-        case 'I' :
-            lettre.quantite=8;
-        break;
-        
-        case 'N' :
-        case 'O' :
-        case 'R' :
-        case 'S' :
-        case 'T' :
-        case 'U' :
-            lettre.quantite=6;
-        break;
-        
-        case 'L' :
-            lettre.quantite=5;
-        break;
-        
-        case 'D' :
-        case 'M' :
-            lettre.quantite=3;
-        case 'G' :
-            lettre.quantite=2;
-        
-        
+      printf ("%c", tabjeton[i]);
+      if (tabjeton[i] != '\0')
+	{
+	  cpt++;
+	}
     }
-      tablettre[j]=lettre;
-  }
-  
-  for(i=0; i<MAX_JETON; i++)
-  {
-      printf("%d. %c : %d point(s), %d jeton(s)\n", i+1, tablettre[i].id_lettre, tablettre[i].nbpoint, tablettre[i].quantite);
-  }
+  printf ("\n");
+  printf ("Il reste %d lettres dans le sac de lettres.\n", cpt);
+
 }
