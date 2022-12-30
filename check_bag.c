@@ -4,8 +4,10 @@ Elle sera utilisée
 au début de la procédure d'échange (si nb_lettre<7 alors échange impossible)
 et lors de la procédure de tirage pour vérifier que le sac n'est pas vide */
 
-#incluse <stdio.h>
+#include <stdio.h>
 #define TOTAL_JETON 102
+
+int sac_vide=0;
 
 int verification_sac ()
 {
