@@ -37,7 +37,7 @@ int main()
     create_board();
     print_board();
     set_board_value();
-    print_board_value();
+    //print_board_value();
     get_position();
     modify_board();
     print_board();
@@ -76,13 +76,14 @@ void create_board()
 // Implémente les valeurs de multiplication pour chaque carré spécial
 void set_board_value()
 {
+    // Crétion du premier triangle + ligne du milieu
     board[0][0].value = TRIPLE_CASE;
     board[0][0].type = WORD_FLAG;
 
     board[0][3].value = DOUBLE_CASE;
     board[0][3].type = LETTER_FLAG;
     
-    // Début ligne du milieu
+        // Début ligne du milieu
     board[0][7].value = TRIPLE_CASE;
     board[0][7].type = WORD_FLAG;
 
@@ -94,7 +95,7 @@ void set_board_value()
 
     board[11][7].value = DOUBLE_CASE;
     board[11][7].type = LETTER_FLAG;
-    // Fin ligne du milieu
+        // Fin ligne du milieu
 
     board[1][5].value = TRIPLE_CASE;
     board[1][5].type = LETTER_FLAG;
@@ -120,6 +121,7 @@ void set_board_value()
     board[6][6].value = DOUBLE_CASE;
     board[6][6].type = LETTER_FLAG;
 
+    // Réflexion du premier triangle = création d'un carré
     for (i = 0; i < (BOARD_SIZE / 2); i++)
     {
         for (j = 0; j < (BOARD_SIZE / 2); j++)
@@ -129,6 +131,7 @@ void set_board_value()
         }
     }
 
+    // Réflexion du carré = création d'un réctangle (première moité du tableau)
     for (i = 0; i < (BOARD_SIZE / 2); i++)
     {
         for (j = 0; j < (BOARD_SIZE / 2); j++)
@@ -138,7 +141,7 @@ void set_board_value()
         }
     }
 
-
+    // Réflexion de la moité du tableau = création du tableau complét
     for (i = 0; i < BOARD_SIZE; i++)
     {
         for (j = 0; j < (BOARD_SIZE / 2); j++)
@@ -166,6 +169,7 @@ void print_board()
     }
 
 }
+
 
 void print_board_value()
 {
