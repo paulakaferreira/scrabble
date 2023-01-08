@@ -81,6 +81,20 @@ void set_board_value()
 
     board[0][3].value = DOUBLE_CASE;
     board[0][3].type = LETTER_FLAG;
+    
+    // Début ligne du milieu
+    board[0][7].value = TRIPLE_CASE;
+    board[0][7].type = WORD_FLAG;
+
+    board[3][7].value = DOUBLE_CASE;
+    board[3][7].type = LETTER_FLAG;
+
+    board[14][7].value = TRIPLE_CASE;
+    board[14][7].type = WORD_FLAG;
+
+    board[11][7].value = DOUBLE_CASE;
+    board[11][7].type = LETTER_FLAG;
+    // Fin ligne du milieu
 
     board[1][5].value = TRIPLE_CASE;
     board[1][5].type = LETTER_FLAG;
@@ -105,6 +119,34 @@ void set_board_value()
 
     board[6][6].value = DOUBLE_CASE;
     board[6][6].type = LETTER_FLAG;
+
+    for (i = 0; i < (BOARD_SIZE / 2); i++)
+    {
+        for (j = 0; j < (BOARD_SIZE / 2); j++)
+        {
+            board[j][i].value = board[i][j].value;
+            board[j][i].type = board[i][j].type;
+        }
+    }
+
+    for (i = 0; i < (BOARD_SIZE / 2); i++)
+    {
+        for (j = 0; j < (BOARD_SIZE / 2); j++)
+        {
+            board[(BOARD_SIZE - 1) - i][j].value = board[i][j].value;
+            board[(BOARD_SIZE - 1) - i][j].type = board[i][j].type;
+        }
+    }
+
+
+    for (i = 0; i < BOARD_SIZE; i++)
+    {
+        for (j = 0; j < (BOARD_SIZE / 2); j++)
+        {
+            board[i][(BOARD_SIZE - 1) - j].value = board[i][j].value;
+            board[i][(BOARD_SIZE - 1) - j].type = board[i][j].type;
+        }
+    }
 
 }
 
