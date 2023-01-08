@@ -1,8 +1,15 @@
 #include <stdio.h>
 
 #define BOARD_SIZE 15
+
 #define TRIPLE_CASE 3
 #define DOUBLE_CASE 2
+#define SIMPLE_CASE 1
+
+#define WORD_FLAG 'W'
+#define LETTER_FLAG 'L'
+#define ABSENT_FLAG 'A'
+
 
 struct Square 
 {
@@ -37,6 +44,7 @@ int main()
     return 0;
 }
 
+// Demande au joueur la position du tableau à laquelle il souhaite ajouter un jeton
 void get_position()
 {
 
@@ -49,6 +57,7 @@ void get_position()
 
 }
 
+// Initialise le tableau avec les valeurs de base
 void create_board()
 {
     // i pour la ligne
@@ -58,40 +67,45 @@ void create_board()
         for (j = 0; j < BOARD_SIZE; j++)
         {
             board[i][j].tile = '0';
-            board[i][j].value = 1;
-            board[i][j].type = 'A';
+            board[i][j].value = SIMPLE_CASE;
+            board[i][j].type = ABSENT_FLAG;
         }
     }
 }
 
+// Implémente les valeurs de multiplication pour chaque carré spécial
 void set_board_value()
 {
-    // Le type 'A' indique l'absence de multiplication
-    // Le type 'M' indique une multiplication du mot
-    // Le type 'L' indique une multiplication de la valeur de la lettre
     board[0][0].value = TRIPLE_CASE;
-    board[0][0].type = 'M';
+    board[0][0].type = WORD_FLAG;
 
-    board[0][7].value = TRIPLE_CASE;
-    board[0][7].type = 'M';
+    board[0][3].value = DOUBLE_CASE;
+    board[0][3].type = LETTER_FLAG;
 
-    board[0][14].value = TRIPLE_CASE;
-    board[0][14].type = 'M';
-    
-    board[7][0].value = TRIPLE_CASE;
-    board[7][0].type = 'M';
+    board[1][5].value = TRIPLE_CASE;
+    board[1][5].type = LETTER_FLAG;
 
-    board[7][14].value = TRIPLE_CASE;
-    board[7][14].type = 'M';
+    board[2][6].value = DOUBLE_CASE;
+    board[2][6].type = LETTER_FLAG;
 
-    board[14][0].value = TRIPLE_CASE;
-    board[14][0].type = 'M';
+    board[1][1].value = DOUBLE_CASE;
+    board[1][1].type = WORD_FLAG;
 
-    board[14][7].value = TRIPLE_CASE;
-    board[14][7].type = 'M';
+    board[2][2].value = DOUBLE_CASE;
+    board[2][2].type = WORD_FLAG;
 
-    board[14][14].value = TRIPLE_CASE;
-    board[14][14].type = 'M';
+    board[3][3].value = DOUBLE_CASE;
+    board[3][3].type = WORD_FLAG;
+
+    board[4][4].value = DOUBLE_CASE;
+    board[4][4].type = WORD_FLAG;
+
+    board[5][5].value = TRIPLE_CASE;
+    board[5][5].type = LETTER_FLAG;
+
+    board[6][6].value = DOUBLE_CASE;
+    board[6][6].type = LETTER_FLAG;
+
 }
 
 void print_board()
