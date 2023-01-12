@@ -9,10 +9,19 @@ The game is to be played in french.
 # Installing Git on Windows:
 Follow this step-by-step: https://www.geeksforgeeks.org/how-to-install-git-on-windows-command-line/
 # Getting started with GitHub
-Creating SSH key: ssh-keygen  
-Showing your key: cat pathtowherepublickeywassaved  
-Copying key to GitHub (profile >> settings >> SSH keys)  
-Cloning GitHub: git clone git@github.com:paulakaferreira/scrabble.git  
+Creating SSH key: 
+
+`ssh-keygen`  
+
+Showing your key: 
+
+`cat pathtowherepublickeywassaved`
+
+Copying key to GitHub: (profile >> settings >> SSH keys)  
+
+Cloning GitHub: 
+
+`git clone git@github.com:paulakaferreira/scrabble.git`  
 
 # Useful links:
 https://girliemac.com/blog/2017/12/26/git-purr/
