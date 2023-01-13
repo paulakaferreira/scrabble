@@ -7,7 +7,7 @@ struct type_joueur
 {
   int id_joueur;
   int score;
-  char jeton[MAX_JETON_TOUR - 1];
+  char jeton[MAX_JETON_TOUR];
 };
 
 // variables globales
