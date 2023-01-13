@@ -15,8 +15,8 @@ struct lettre
 
 
 // variables globales
-struct lettre tablettre[MAX_LETTRE-1];
-char tabjeton[TOTAL_JETON - 1];
+struct lettre tablettre[MAX_LETTRE];
+char tabjeton[TOTAL_JETON];
 
 
 void fiche_lettre ();
