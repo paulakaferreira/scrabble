@@ -35,8 +35,8 @@ void print_board_value();
 int main()
 {
     create_board();
-    print_board();
     set_board_value();
+    print_board();
     //print_board_value();
     get_position();
     modify_board();
@@ -66,7 +66,7 @@ void create_board()
         // j pour la colomne
         for (j = 0; j < BOARD_SIZE; j++)
         {
-            board[i][j].tile = '0';
+            board[i][j].tile = '*';
             board[i][j].value = SIMPLE_CASE;
             board[i][j].type = ABSENT_FLAG;
         }
@@ -83,7 +83,7 @@ void set_board_value()
     board[0][3].value = DOUBLE_CASE;
     board[0][3].type = LETTER_FLAG;
     
-        // Début ligne du milieu
+        // Début colomne du milieu
     board[0][7].value = TRIPLE_CASE;
     board[0][7].type = WORD_FLAG;
 
@@ -95,7 +95,21 @@ void set_board_value()
 
     board[11][7].value = DOUBLE_CASE;
     board[11][7].type = LETTER_FLAG;
-        // Fin ligne du milieu
+        // Fin colomne du milieu
+
+        //Début ligne du milieu
+    board[7][0].value = TRIPLE_CASE;
+    board[7][0].type = WORD_FLAG;
+
+    board[7][3].value = DOUBLE_CASE;
+    board[7][3].type = LETTER_FLAG;
+
+    board[7][14].value = TRIPLE_CASE;
+    board[7][14].type = WORD_FLAG;
+
+    board[7][11].value = DOUBLE_CASE;
+    board[7][11].type = LETTER_FLAG;    
+        //FIN ligne du milieu
 
     board[1][5].value = TRIPLE_CASE;
     board[1][5].type = LETTER_FLAG;
@@ -159,8 +173,36 @@ void print_board()
     for (i = 0; i < BOARD_SIZE; i++)
     {
         for (j = 0; j < BOARD_SIZE; j++)
-        {            
-            printf("%c ", board[i][j].tile);
+        {   
+            // Imprime les carrés spéciaux         
+            if (board[i][j].tile == '*')
+            {
+                // Mot triple
+                if ((board[i][j].value == TRIPLE_CASE) && (board[i][j].type == WORD_FLAG))
+                {
+                    printf("X ");
+                }
+                // Lettre double
+                else if ((board[i][j].value == DOUBLE_CASE) && (board[i][j].type == LETTER_FLAG))
+                {
+                    printf("# ");
+                }
+                // Lettre triple
+                else if ((board[i][j].value == TRIPLE_CASE) && (board[i][j].type == LETTER_FLAG))
+                {
+                    printf("@ ");
+                }
+                else
+                {
+                    printf("%c ", board[i][j].tile);
+                }
+            }
+            else
+            {
+                printf("%c ", board[i][j].tile);
+            }
+
+            // Saut de ligne du tableau
             if (j == BOARD_SIZE - 1)
             {
                 printf("\n");
