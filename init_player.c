@@ -11,7 +11,7 @@ struct type_joueur
 };
 
 // variables globales
-struct type_joueur tabjoueur[MAX_JOUEUR-1];
+struct type_joueur tabjoueur[MAX_JOUEUR];
 
 void init_joueur();
 
