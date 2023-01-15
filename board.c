@@ -66,7 +66,7 @@ void create_board()
         // j pour la colomne
         for (j = 0; j < BOARD_SIZE; j++)
         {
-            board[i][j].tile = '*';
+            board[i][j].tile = '.';
             board[i][j].value = SIMPLE_CASE;
             board[i][j].type = ABSENT_FLAG;
         }
@@ -175,22 +175,27 @@ void print_board()
         for (j = 0; j < BOARD_SIZE; j++)
         {   
             // Imprime les carrés spéciaux         
-            if (board[i][j].tile == '*')
+            if (board[i][j].tile == '.')
             {
                 // Mot triple
                 if ((board[i][j].value == TRIPLE_CASE) && (board[i][j].type == WORD_FLAG))
                 {
-                    printf("X ");
+                    printf("# ");
+                }
+                // Mot double
+                else if ((board[i][j].value == DOUBLE_CASE) && (board[i][j].type == WORD_FLAG))
+                {
+                    printf("@ ");
                 }
                 // Lettre double
                 else if ((board[i][j].value == DOUBLE_CASE) && (board[i][j].type == LETTER_FLAG))
                 {
-                    printf("# ");
+                    printf("* ");
                 }
                 // Lettre triple
                 else if ((board[i][j].value == TRIPLE_CASE) && (board[i][j].type == LETTER_FLAG))
                 {
-                    printf("@ ");
+                    printf("& ");
                 }
                 else
                 {
