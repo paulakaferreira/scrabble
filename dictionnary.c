@@ -18,7 +18,7 @@ int in_dic(char word[30])
     int find=3;
     char word_dic[30];
 
-    dic = fopen("dictionnary.txt", "r");
+    dic = fopen("liste_francais.txt", "r");
     strcpy(word_dic,"");
 
     while ((! feof(dic)) && (strcmp(word, word_dic) != 0))
