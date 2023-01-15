@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #define BOARD_SIZE 15
 
@@ -26,9 +27,8 @@ int i = 0;
 int j = 0;
 
 void create_board();
-void get_position();
+void get_move();
 void print_board();
-void modify_board();
 void set_board_value();
 void print_board_value();
 
@@ -38,22 +38,45 @@ int main()
     set_board_value();
     print_board();
     //print_board_value();
-    get_position();
-    modify_board();
+    get_move();
     print_board();
     return 0;
 }
 
-// Demande au joueur la position du tableau à laquelle il souhaite ajouter un jeton
-void get_position()
+// Demande au joueur de jouer son tour
+void get_move()
 {
+    int count = 1;
+    char word_read[30];
+    char direction;
 
-    printf("Entrez la lettre à ajouter au tableau: ");
-    scanf("%c", &jeton);
-    printf("Entrez le numéro de la colomne: ");
+    printf("Vouz avez decidé d'ajouter un mot au tableau. \n");
+    printf("Entrez le mot à former au tableau: ");
+    scanf("%s", word_read);
+    // in_dic();
+    printf("Entrez le numéro de la colomne où la première lettre du mot apparaitra (1 - 14): ");
     scanf("%d", &column);
-    printf("Entrez le numéro de la ligne: ");
+    printf("Entrez le numéro de la ligne où la première lettre du mot apparaitra (1 - 14): ");
     scanf("%d", &row);
+    printf("Entrez la direction du mot (H pour horizontal et V pour vertical) : ");
+    scanf(" %c", &direction);
+    direction = toupper(direction);
+
+    column--;
+    row--;
+
+    for (i = 0; i < strlen(word_read); i++)
+    {
+        board[row][column].tile = toupper(word_read[i]);
+        if (direction == 'H')
+        {
+            column++;
+        }
+        else
+        {
+            row++;
+        }
+    }
 
 }
 
@@ -232,11 +255,4 @@ void print_board_value()
         }
     } 
 
-}
-
-void modify_board()
-{
-    column--;
-    row--;
-    board[row][column].tile = jeton;
 }
