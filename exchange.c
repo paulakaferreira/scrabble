@@ -557,6 +557,8 @@ int verif_lettres(int choix_joueur)
 	int j=0;
 	int trouve=0;
 	int cpt=0; // compteur pour vérifier que l'utilisateur n'a pas entré plus de 7 lettres
+	char tab_jeton_tempo[MAX_JETON_TOUR]; // Variable locale représentant le nombre de jetons du joueur.
+
 	
 	// initialisation de la chaîne chaine_lettres_lues
 	for(i=0; i<MAX_JETON_TOUR; i++)
@@ -607,7 +609,7 @@ int verif_lettres(int choix_joueur)
     else
     {
 	
-	
+	strcpy(tab_jeton_tempo, tabjoueur[choix_joueur].jeton);
 	for(i=0; chaine_lettres_lues[i]!='\0'; i++)
 	{
 		if(chaine_lettres_lues[i]!='\0')
@@ -616,16 +618,17 @@ int verif_lettres(int choix_joueur)
 		}
 		for(j=0; j<MAX_JETON_TOUR; j++)
 		{
-			if(tabjoueur[choix_joueur].jeton[j]==chaine_lettres_lues[i])
+			if(tab_jeton_tempo[j]==chaine_lettres_lues[i])
 				{
 					trouve=1;
+					tab_jeton_tempo[j]='\0';
 					j=MAX_JETON_TOUR;
 				}
 			
 		}
 		if (trouve==0) // Si une lettre n'a pas été trouvé, on sort de la boucle directement et la fonction renvoie trouve=0
 		{
-			printf("La lettre %c n'a pas été trouvée.\n", chaine_lettres_lues[i]);
+			printf("La lettre %c n'est pas dans votre jeu.\n", chaine_lettres_lues[i]);
 			return(trouve);
 		}
 	}
@@ -636,6 +639,6 @@ int verif_lettres(int choix_joueur)
 		return(trouve);
 	}
 	
-	}
+   }
 
 }
