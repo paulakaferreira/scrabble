@@ -6,7 +6,7 @@ int in_dic();
 int main()
 {
     int result;
-    result = in_dic("");
+    result = in_dic("alshdas");
     printf("%d", result);
 }
 
