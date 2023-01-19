@@ -12,12 +12,6 @@ int in_dic(char word[30])
     int find=3;
     char word_dic[30];
 
-    for (i = 0; i < strlen(word); i++)
-    {
-        word[i] = toupper(word[i]);
-
-    }
-
     dic = fopen("liste_normalisee.txt", "r");
     strcpy(word_dic,"");
 

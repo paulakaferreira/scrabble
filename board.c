@@ -13,6 +13,8 @@
 #define LETTER_FLAG 'L'
 #define ABSENT_FLAG 'A'
 
+#define DEFAULT_TILE '.'
+
 
 struct Square 
 {
@@ -33,6 +35,7 @@ void get_move();
 void print_board();
 void set_board_value();
 void print_board_value();
+int check_board_compatibility(int column, int row, char direction, char word_read[30]);
 
 int main()
 {
@@ -40,9 +43,35 @@ int main()
     set_board_value();
     print_board();
     //print_board_value();
-    get_move();
-    print_board();
+    while (1)
+    {
+        get_move();
+        print_board();
+    }
     return 0;
+}
+
+
+int check_board_compatibility(int column, int row, char direction, char word_read[30])
+{
+
+    for (i = 0; i < strlen(word_read); i++)
+    {
+        if (board[row][column].tile != word_read[i] && board[row][column].tile != DEFAULT_TILE)
+        {
+            return 0;
+        }
+        if (direction == 'H')
+        {
+            column++;
+        }
+        else
+        {
+            row++;
+        }
+    }
+
+    return 1;
 }
 
 // Demande au joueur de jouer son tour
@@ -53,23 +82,30 @@ void get_move()
     char direction;
 
     printf("Vouz avez decidé d'ajouter un mot au tableau. \n");
-    printf("Entrez le mot à former au tableau: ");
-    scanf("%s", word_read);
+    strcpy(word_read, "not-a-word");
 
 
     while (in_dic(word_read) == 0)
     {
-        printf("Le mot que vous avez écrit n'est pas dans notre dictionnaire\n");
-        //Ici, on aura l'option de retour au menu
-        printf("Merci d'entrer un mot valide: ");
+        printf("Entrez le mot à ajouter au tableau: ");
         scanf("%s", word_read);
+        for (i = 0; i < strlen(word_read); i++)
+        {
+            word_read[i] = toupper(word_read[i]);
 
+        }
+        if (in_dic(word_read) == 0)
+        {
+            printf("Le mot que vous avez écrit n'est pas dans notre dictionnaire\n");
+            //Ici, on aura l'option de retour au menu
+            printf("Merci d'entrer un mot valide.\n");
+        }
     }
 
     printf("Le mot est valide \n");
-    printf("Entrez le numéro de la colomne où la première lettre du mot apparaitra (1 - 14): ");
+    printf("Entrez le numéro de la colomne où la première lettre du mot apparaitra (1 - 15): ");
     scanf("%d", &column);
-    printf("Entrez le numéro de la ligne où la première lettre du mot apparaitra (1 - 14): ");
+    printf("Entrez le numéro de la ligne où la première lettre du mot apparaitra (1 - 15): ");
     scanf("%d", &row);
     printf("Entrez la direction du mot (H pour horizontal et V pour vertical) : ");
     scanf(" %c", &direction);
@@ -79,17 +115,28 @@ void get_move()
     column--;
     row--;
 
-    for (i = 0; i < strlen(word_read); i++)
+    if (check_board_compatibility(column, row, direction, word_read) == 1)
     {
-        board[row][column].tile = toupper(word_read[i]);
-        if (direction == 'H')
+
+        printf("Votre mot est compatible avec le tableau\n");
+        // Ajoute du mot validé au tableau
+        for (i = 0; i < strlen(word_read); i++)
         {
-            column++;
+            board[row][column].tile = toupper(word_read[i]);
+            if (direction == 'H')
+            {
+                column++;
+            }
+            else
+            {
+                row++;
+            }
         }
-        else
-        {
-            row++;
-        }
+    }
+    else
+    {
+        printf("Les directions ne sont pas compatibles avec le tableau\n");
+        printf("Impossible d'ajouter le mot %s à l'endroit souhaité\n", word_read);
     }
 
 }
@@ -103,7 +150,7 @@ void create_board()
         // j pour la colomne
         for (j = 0; j < BOARD_SIZE; j++)
         {
-            board[i][j].tile = '.';
+            board[i][j].tile = DEFAULT_TILE;
             board[i][j].value = SIMPLE_CASE;
             board[i][j].type = ABSENT_FLAG;
         }
@@ -212,7 +259,7 @@ void print_board()
         for (j = 0; j < BOARD_SIZE; j++)
         {   
             // Imprime les carrés spéciaux         
-            if (board[i][j].tile == '.')
+            if (board[i][j].tile == DEFAULT_TILE)
             {
                 // Mot triple
                 if ((board[i][j].value == TRIPLE_CASE) && (board[i][j].type == WORD_FLAG))
