@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 int in_dic();
 
@@ -10,6 +11,12 @@ int in_dic(char word[30])
     int i=0;
     int find=3;
     char word_dic[30];
+
+    for (i = 0; i < strlen(word); i++)
+    {
+        word[i] = toupper(word[i]);
+
+    }
 
     dic = fopen("liste_normalisee.txt", "r");
     strcpy(word_dic,"");
