@@ -6,7 +6,7 @@ int in_dic();
 int main()
 {
     int result;
-    result = in_dic("alshdas");
+    result = in_dic("ABATTRE");
     printf("%d", result);
 }
 
@@ -18,7 +18,7 @@ int in_dic(char word[30])
     int find=3;
     char word_dic[30];
 
-    dic = fopen("liste_francais.txt", "r");
+    dic = fopen("liste_normalisee.txt", "r");
     strcpy(word_dic,"");
 
     while ((! feof(dic)) && (strcmp(word, word_dic) != 0))
