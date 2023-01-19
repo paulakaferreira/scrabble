@@ -3,13 +3,6 @@
 
 int in_dic();
 
-int main()
-{
-    int result;
-    result = in_dic("ABATTRE");
-    printf("%d", result);
-}
-
 /* Finds word in dictionnary */
 int in_dic(char word[30])
 {
