@@ -54,7 +54,7 @@ void affichage_lettre_joueur(int joueur_lu)
 }
 
 // fonction pour changer le tour du joueur.
-int change_turn(player)
+int change_turn(int player)
 {
     if (player == MAX_JOUEUR - 1)
     {

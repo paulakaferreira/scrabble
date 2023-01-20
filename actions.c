@@ -14,9 +14,10 @@ int actions()
 
         if ((action < 1) || (action > 3))
         {
-            printf("Option erronée;\n");
-            printf("Veuillez saisir un numéro entre 1 et 3 : ");
+            printf("Option erronée\n");
+            printf("Veuillez saisir un numéro entre 1 et 3.\n");
         }
+        //Still needs to check if the caracter is an actual number. Otherwise we get an infinite loop.
     }
 
     return action;

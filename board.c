@@ -27,8 +27,6 @@ struct Square
 struct Square board[BOARD_SIZE][BOARD_SIZE];
 char jeton;
 int column, row;
-int i = 0;
-int j = 0;
 
 void create_board();
 void get_move();
@@ -40,6 +38,7 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
 
 int check_board_compatibility(int column, int row, char direction, char word_read[30])
 {
+    int i = 0;
 
     for (i = 0; i < strlen(word_read); i++)
     {
@@ -63,9 +62,12 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
 // Demande au joueur de jouer son tour
 void get_move()
 {
+    int i = 0;
     int count = 1;
     char word_read[30];
     char direction;
+    int column = 0;
+    int row = 0;
 
     printf("Vouz avez decidé d'ajouter un mot au tableau. \n");
     strcpy(word_read, "not-a-word");
@@ -139,6 +141,8 @@ void get_move()
 // Initialise le tableau avec les valeurs de base
 void create_board()
 {
+    int i, j = 0;
+
     // i pour la ligne
     for (i = 0; i < BOARD_SIZE; i++)
     {
@@ -155,6 +159,7 @@ void create_board()
 // Implémente les valeurs de multiplication pour chaque carré spécial
 void set_board_value()
 {
+    int i, j = 0;
     // Crétion du premier triangle + ligne du milieu
     board[0][0].value = TRIPLE_CASE;
     board[0][0].type = WORD_FLAG;
@@ -248,6 +253,7 @@ void set_board_value()
 
 void print_board()
 {
+    int i, j = 0;
     printf("Voici le plateau à l'état actuel: \n");
     for (i = 0; i < BOARD_SIZE; i++)
     {
@@ -299,6 +305,7 @@ void print_board()
 
 void print_board_value()
 {
+    int i, j = 0;
     for (i = 0; i < BOARD_SIZE; i++)
     {
         for (j = 0; j < BOARD_SIZE; j++)

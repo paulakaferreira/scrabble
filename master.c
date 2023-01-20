@@ -30,6 +30,18 @@ int main()
 
     /* Menu d'actions */
     action = actions();
+    switch(action)
+    {
+        case 1:
+            get_move();
+            break;
+        case 2:
+            break;
+        case 3:
+            current_player = change_turn(current_player);
+            break;
+
+    }
     
     return 0;
 
