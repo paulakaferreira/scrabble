@@ -11,21 +11,19 @@ int sac_vide=0;
 
 int verification_sac ()
 {
-  int i, cpt_lettre = 0;
-  
+  int i, cpt = 0;
   for (i = 0; i < TOTAL_JETON; i++)
-  {
+    {
       if (tabjeton[i] != '\0')
-	   {
-	    cpt_lettre++;
-  	 }
-   }
-  
-  if(cpt_lettre==0)
-  {
-    sac_vide=1;
-  }
-  
-  return cpt_lettre;
+	{
+	  cpt++;
+	}
+    }
+  if (cpt == 0)
+    {
+      sac_vide = 1;
+    }
+    
+    return(cpt);
 
 }

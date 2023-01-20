@@ -19,17 +19,6 @@ struct lettre tablettre[MAX_LETTRE];
 char tabjeton[TOTAL_JETON];
 
 
-void fiche_lettre ();
-void sac_lettres ();
-void affichage_sac();
-
-int main()
-{
-	fiche_lettre();
-	sac_lettres();
-	affichage_sac();
-}
-
 void fiche_lettre ()
 {
 
@@ -181,20 +170,4 @@ lettre suivante */
       tablettre[j].quantite--;
 
     }
-}
-
-void affichage_sac ()
-{
-  int i, cpt = 0;
-  for (i = 0; i < TOTAL_JETON; i++)
-    {
-      printf ("%c", tabjeton[i]);
-      if (tabjeton[i] != '\0')
-	{
-	  cpt++;
-	}
-    }
-  printf ("\n");
-  printf ("Il reste %d lettres dans le sac de lettres.\n", cpt);
-
 }
