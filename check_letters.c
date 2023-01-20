@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define MAX_JETON_TOUR 7
+#define MAX_JOUEUR 2
 
 struct type_joueur
 {
