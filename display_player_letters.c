@@ -1,5 +1,6 @@
 #include <stdio.h>
 #define MAX_JETON_TOUR 7
+#define MAX_JOUEUR 2
 
 struct type_joueur
 {
@@ -8,6 +9,7 @@ struct type_joueur
   char jeton[MAX_JETON_TOUR];
 };
 
+struct type_joueur tabjoueur[MAX_JOUEUR];
 
 void affichage_lettre_joueur (int joueur_lu)
 {
