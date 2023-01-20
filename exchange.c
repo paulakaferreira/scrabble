@@ -29,7 +29,7 @@ struct type_joueur
 // variables globales
 struct lettre tablettre[MAX_LETTRE];
 struct type_joueur tabjoueur[MAX_JOUEUR];
-char tabjeton[TOTAL_JETON - 1];
+char tabjeton[TOTAL_JETON];
 int premier_tour = 1;
 int sac_vide = 0;
 char chaine_lettres_lues[MAX_JETON_TOUR]; // une variable globale qui va nous permettre de stocker les lettres lues
@@ -48,17 +48,6 @@ int verif_lettres();
 
 /*-------------------Programme appelant--------------------*/
 
-int main ()
-{
-
-
-  fiche_lettre ();
-  saclettres ();
-  init_joueur ();
-  tirage (7, 1);
-  echange ();
-	
-}
 
 void fiche_lettre ()
 {
