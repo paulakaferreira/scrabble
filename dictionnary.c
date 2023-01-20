@@ -1,14 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 int in_dic();
-
-int main()
-{
-    int result;
-    result = in_dic("");
-    printf("%d", result);
-}
 
 /* Finds word in dictionnary */
 int in_dic(char word[30])
@@ -18,7 +12,7 @@ int in_dic(char word[30])
     int find=3;
     char word_dic[30];
 
-    dic = fopen("dictionnary.txt", "r");
+    dic = fopen("liste_normalisee.txt", "r");
     strcpy(word_dic,"");
 
     while ((! feof(dic)) && (strcmp(word, word_dic) != 0))
