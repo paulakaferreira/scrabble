@@ -19,7 +19,7 @@ struct lettre tablettre[MAX_LETTRE];
 char tabjeton[TOTAL_JETON];
 
 
-void fiche_lettre ()
+void fiche_lettre()
 {
 
 
@@ -148,7 +148,7 @@ qui sont interprétés comme entiers, par leur code ASCII */
 }
 
 
-void sac_lettres ()
+void sac_lettres()
 {
   int i, j = 0;
 

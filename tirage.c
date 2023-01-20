@@ -8,18 +8,30 @@
 #define MAX_JETON_TOUR 7
 #define MAX_JOUEUR 2
 
-struct type_joueur
-{
-  int id_joueur;
-  int score;
-  char jeton[MAX_JETON_TOUR];
-};
-
 // variables globales
-struct type_joueur tabjoueur[MAX_JOUEUR];
 char tabjeton[TOTAL_JETON];
 int premier_tour = 1;
 int sac_vide = 0;
+
+int verification_sac ()
+{
+  int i, cpt = 0;
+  for (i = 0; i < TOTAL_JETON; i++)
+    {
+      if (tabjeton[i] != '\0')
+	{
+	  cpt++;
+	}
+    }
+  if (cpt == 0)
+    {
+      sac_vide = 1;
+    }
+    
+    return(cpt);
+
+}
+
 
 void tirage (int nb_jetons, int joueur_lu)
 {

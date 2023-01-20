@@ -37,20 +37,6 @@ void set_board_value();
 void print_board_value();
 int check_board_compatibility(int column, int row, char direction, char word_read[30]);
 
-int main()
-{
-    create_board();
-    set_board_value();
-    print_board();
-    //print_board_value();
-    while (1)
-    {
-        get_move();
-        print_board();
-    }
-    return 0;
-}
-
 
 int check_board_compatibility(int column, int row, char direction, char word_read[30])
 {
@@ -103,8 +89,17 @@ void get_move()
     }
 
     printf("Le mot est valide \n");
-    printf("Entrez le numéro de la colomne où la première lettre du mot apparaitra (1 - 15): ");
-    scanf("%d", &column);
+    while ((column < 1) && (column > 15))
+    {
+        printf("Entrez le numéro de la colomne où la première lettre du mot apparaitra (1 - 15): ");
+        scanf("%d", &column);
+        //ajouter le cas ou le caracter n'est pas un chiffre
+        if ((column < 1) && (column > 15))
+        {
+            printf("Réponse invalide. Veuillez réssayer\n");
+        }
+
+    }
     printf("Entrez le numéro de la ligne où la première lettre du mot apparaitra (1 - 15): ");
     scanf("%d", &row);
     printf("Entrez la direction du mot (H pour horizontal et V pour vertical) : ");
@@ -253,7 +248,7 @@ void set_board_value()
 
 void print_board()
 {
-
+    printf("Voici le plateau à l'état actuel: \n");
     for (i = 0; i < BOARD_SIZE; i++)
     {
         for (j = 0; j < BOARD_SIZE; j++)
@@ -264,12 +259,12 @@ void print_board()
                 // Mot triple
                 if ((board[i][j].value == TRIPLE_CASE) && (board[i][j].type == WORD_FLAG))
                 {
-                    printf("# ");
+                    printf("@ ");
                 }
                 // Mot double
                 else if ((board[i][j].value == DOUBLE_CASE) && (board[i][j].type == WORD_FLAG))
                 {
-                    printf("@ ");
+                    printf("# ");
                 }
                 // Lettre double
                 else if ((board[i][j].value == DOUBLE_CASE) && (board[i][j].type == LETTER_FLAG))

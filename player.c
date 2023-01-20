@@ -14,7 +14,7 @@ struct type_joueur
 struct type_joueur tabjoueur[MAX_JOUEUR];
 
 
-void init_joueur ()
+void init_joueur()
 {
   struct type_joueur un_joueur;
   int i;
@@ -32,11 +32,36 @@ joueur*/
       un_joueur.id_joueur = cpt_joueur+1;
       un_joueur.score = 0;
       for (i = 0; i < MAX_JETON_TOUR; i++)
-		{
+		  {
 		  un_joueur.jeton[i] = '\0';
-		}
+		  }
       tabjoueur[cpt_joueur] = un_joueur;
       printf ("Le joueur %d a été initialisé. Score : %d\n", tabjoueur[cpt_joueur].id_joueur, tabjoueur[cpt_joueur].score);
     }
+}
 
+void affichage_lettre_joueur(int joueur_lu)
+{
+  int i;
+
+  printf ("Lettres du joueur %d:\n", joueur_lu + 1);
+  for (i = 0; i < MAX_JETON_TOUR; i++)
+    {
+      printf ("%c ", tabjoueur[joueur_lu].jeton[i]);
+    }
+  printf ("\n");
+
+}
+
+// fonction pour changer le tour du joueur.
+int change_turn(player)
+{
+    if (player == MAX_JOUEUR - 1)
+    {
+      return 0;
+    }
+    else
+    {
+      return player + 1;
+    }
 }
