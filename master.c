@@ -33,9 +33,19 @@ int main()
     switch(action)
     {
         case 1:
-            get_move();
+            if (get_move() == 1)
+            {
+                // ajouter une fonction de calcul après la validation du mot;
+                current_player = change_turn(current_player);
+            }
+            else 
+            {
+                // ajouter la possibilité qui permet le joueur de retourner au menu;
+            }
             break;
         case 2:
+            //import from exchange.c
+            current_player = change_turn(current_player);
             break;
         case 3:
             current_player = change_turn(current_player);

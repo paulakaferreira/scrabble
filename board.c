@@ -29,7 +29,7 @@ char jeton;
 int column, row;
 
 void create_board();
-void get_move();
+int get_move();
 void print_board();
 void set_board_value();
 void print_board_value();
@@ -60,7 +60,7 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
 }
 
 // Demande au joueur de jouer son tour
-void get_move()
+int get_move()
 {
     int i = 0;
     int count = 1;
@@ -75,18 +75,25 @@ void get_move()
 
     while (in_dic(word_read) == 0)
     {
-        printf("Entrez le mot à ajouter au tableau: ");
+        printf("Entrez le mot à ajouter au tableau (1 pour retourner au menu) : ");
         scanf("%s", word_read);
-        for (i = 0; i < strlen(word_read); i++)
+        if (strcmp(word_read, "1") == 0)
         {
-            word_read[i] = toupper(word_read[i]);
-
+            return 0;
         }
-        if (in_dic(word_read) == 0)
+        else
         {
-            printf("Le mot que vous avez écrit n'est pas dans notre dictionnaire\n");
-            //Ici, on aura l'option de retour au menu
-            printf("Merci d'entrer un mot valide.\n");
+            for (i = 0; i < strlen(word_read); i++)
+            {
+                word_read[i] = toupper(word_read[i]);
+
+            }
+            if (in_dic(word_read) == 0)
+            {
+                printf("Le mot que vous avez écrit n'est pas dans notre dictionnaire\n");
+                //Ici, on aura l'option de retour au menu
+                printf("Merci d'entrer un mot valide.\n");
+            }
         }
     }
 
@@ -135,6 +142,8 @@ void get_move()
         printf("Les directions ne sont pas compatibles avec le tableau\n");
         printf("Impossible d'ajouter le mot %s à l'endroit souhaité\n", word_read);
     }
+
+    return 1;
 
 }
 
