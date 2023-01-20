@@ -23,34 +23,35 @@ int main()
     /* Tirage au sort des lettres */
     tirage(7, 0);
 
-    /* Affichage de lettres pour le joueur 1 */
-    affichage_lettre_joueur(current_player);
-
     print_board(); //pour tester l'initialisation des valeurs: print_board_value();
 
-    /* Menu d'actions */
-    action = actions();
-    switch(action)
+    /* Menu d'actions - Boucle du jeu */
+    while (1)
     {
-        case 1:
-            if (get_move() == 1)
-            {
-                // ajouter une fonction de calcul après la validation du mot;
-                current_player = change_turn(current_player);
-            }
-            else 
-            {
-                // ajouter la possibilité qui permet le joueur de retourner au menu;
-            }
-            break;
-        case 2:
-            //import from exchange.c
-            current_player = change_turn(current_player);
-            break;
-        case 3:
-            current_player = change_turn(current_player);
-            break;
+        /* Affichage de lettres du joueur en cours */
+        affichage_lettre_joueur(current_player);
 
+        action = actions();
+        switch(action)
+        {
+            case 1:
+                if (get_move() == 1)
+                {
+                    // ajouter une fonction de calcul après la validation du mot;
+                    printf("Votre mot a bient été ajouté au plateau\n");
+                    print_board();
+                    current_player = change_turn(current_player);
+                }
+                break;
+            case 2:
+                //import from exchange.c
+                current_player = change_turn(current_player);
+                break;
+            case 3:
+                current_player = change_turn(current_player);
+                break;
+
+        }
     }
     
     return 0;
