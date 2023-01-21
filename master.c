@@ -1,18 +1,16 @@
 #include <stdio.h>
-#include "player.c"
 #include "saclettre.c"
-#include "tirage.c"
-#include "board.c"
 #include "actions.c"
-
+#include "move.c"
 
 int main()
 {
     int action = 0;
     int current_player = 0;
+    int turn = 0;
 
     printf("            S C R A B B L E\n");
-    
+
     /* Initialisations */
     init_joueur();
     fiche_lettre();
@@ -23,7 +21,7 @@ int main()
     /* Tirage au sort des lettres */
     tirage(7, 0);
 
-    print_board(); //pour tester l'initialisation des valeurs: print_board_value();
+    print_board(); // pour tester l'initialisation des valeurs: print_board_value();
 
     /* Menu d'actions - Boucle du jeu */
     while (1)
@@ -32,28 +30,26 @@ int main()
         affichage_lettre_joueur(current_player);
 
         action = actions();
-        switch(action)
+        switch (action)
         {
-            case 1:
-                if (get_move() == 1)
-                {
-                    // ajouter une fonction de calcul après la validation du mot;
-                    printf("Votre mot a bient été ajouté au plateau\n");
-                    print_board();
-                    current_player = change_turn(current_player);
-                }
-                break;
-            case 2:
-                //import from exchange.c
+        case 1:
+            if (get_move(current_player) == 1)
+            {
+                // ajouter une fonction de calcul après la validation du mot;
+                printf("Votre mot a été ajouté au plateau\n");
+                print_board();
                 current_player = change_turn(current_player);
-                break;
-            case 3:
-                current_player = change_turn(current_player);
-                break;
-
+            }
+            break;
+        case 2:
+            // import from exchange.c
+            current_player = change_turn(current_player);
+            break;
+        case 3:
+            current_player = change_turn(current_player);
+            break;
         }
     }
-    
-    return 0;
 
+    return 0;
 }
