@@ -8,13 +8,14 @@ int main()
 {
     int action = 0;
     int current_player = 0;
+    int n_players = 2; // to do: let the player decide the number of players.
     int current_turn = 0;
     int turn = 0;
 
     printf("\n            S C R A B B L E\n\n");
 
     /* Initialisations */
-    init_joueur();
+    init_joueur(n_players);
     fiche_lettre();
     sac_lettres();
     create_board();
@@ -56,6 +57,9 @@ int main()
             break;
         case 4:
             board_rules();
+            break;
+        case 5:
+            // to do.
             break;
         }
     }
