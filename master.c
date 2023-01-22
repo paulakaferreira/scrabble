@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include "saclettre.c"
 #include "actions.c"
 #include "move.c"
+#include "score.c"
 #include "rules.c"
+#include "exchange.c"
 
 int main()
 {
@@ -10,7 +11,6 @@ int main()
     int current_player = 0;
     int n_players = 2; // to do: let the player decide the number of players.
     int current_turn = 0;
-    int turn = 0;
 
     printf("\n            S C R A B B L E\n\n");
 
@@ -43,18 +43,19 @@ int main()
                 // To do: ajouter une fonction de calcul après la validation du mot;
                 print_board();
                 current_player = change_turn(current_player);
-                turn++;
+                current_turn++;
             }
             break;
         case 2:
             // To do: import from exchange.c and make sure it works
             current_player = change_turn(current_player);
-            printf("Joueur actuel: %d\n", current_player + 1);
+            current_turn++;
             break;
         case 3:
             printf("Vous avez dédicé de passer votre tour\n");
+            printf("----------------------------------------\n");
             current_player = change_turn(current_player);
-            printf("Joueur actuel: %d\n", current_player + 1);
+            current_turn++;
             break;
         case 4:
             board_rules();

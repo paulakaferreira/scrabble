@@ -1,8 +1,8 @@
+#pragma once
 #include <stdio.h>
 #define MAX_JETON_TOUR 7
 #define MAX_JOUEUR 2
 
-// Type joueur
 struct type_joueur
 {
   int id_joueur;

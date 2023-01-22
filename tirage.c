@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "player.c"
 
 #define MAX_LETTRE 27
 #define TOTAL_JETON 102

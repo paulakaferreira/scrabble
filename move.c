@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include "player.c"
 #include "board.c"
+#include "score.c"
 #include "tirage.c"
 
 #define DEFAULT_TILE '.'
@@ -158,14 +160,15 @@ int get_move(int current_player, int turn)
             }
             if (in_dic(word_read) == 0)
             {
+                printf("----------------------------------------\n");
                 printf("Le mot que vous avez écrit n'est pas dans notre dictionnaire\n");
                 printf("Merci d'entrer un mot valide.\n");
             }
         }
     }
 
+    printf("----------------------------------------\n");
     printf("Le mot est valide \n");
-    printf("\n");
     printf("Vous allez saisir maintenant les coordonées du tableau\n");
 
     if (turn == 0)
@@ -191,7 +194,6 @@ int get_move(int current_player, int turn)
         scanf(" %c", &column_letter);
         column = toupper(column_letter);
         column = column - 'A' + 1;
-        printf("coluna : %d\n", column);
         // ajouter le cas ou le caracter n'est pas un chiffre
         if ((column < 1) || (column > 15))
         {
@@ -213,7 +215,7 @@ int get_move(int current_player, int turn)
     // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
     if (check_board_compatibility(column, row, direction, word_read, turn) == 1)
     {
-
+        printf("----------------------------------------\n");
         printf("Votre mot est compatible avec le tableau\n");
         n_letters_removed = check_hand_compatibility(word_read, current_player);
 
@@ -224,6 +226,7 @@ int get_move(int current_player, int turn)
         }
         else
         {
+            printf("----------------------------------------\n");
             printf("Le lettres saisies ne sont pas compatibles avec votre main\n");
             printf("Retour au menu. Veuillez choisir une autre option au ressayer\n");
             return 0;
@@ -231,6 +234,7 @@ int get_move(int current_player, int turn)
     }
     else
     {
+        printf("----------------------------------------\n");
         printf("Les directions ne sont pas compatibles avec le tableau\n");
         printf("Impossible d'ajouter le mot %s à l'endroit souhaité\n", word_read);
         printf("Retour au menu. Veuillez saisir une autre option ou ressayer\n");
@@ -239,8 +243,15 @@ int get_move(int current_player, int turn)
 
     // Modifie le tableau après validation
     modify_board(word_read, column, row, direction);
+
+    // Change le score du joueur en cours
+    printf("----------------------------------------\n");
+    get_player_score(word_read, column, row, direction, current_player);
+    printf("----------------------------------------\n");
     printf("Nombre de lettres à modifier dans votre main: %d\n", n_letters_removed);
+
     // Fait le tirage au sort pour le joeur actuel
+    printf("----------------------------------------\n");
     tirage(n_letters_removed, current_player);
     return 1;
 }

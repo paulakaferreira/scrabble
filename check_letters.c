@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -5,14 +6,6 @@
 #define MAX_JETON_TOUR 7
 #define MAX_JOUEUR 2
 
-struct type_joueur
-{
-	int id_joueur;
-	int score;
-	char jeton[MAX_JETON_TOUR];
-};
-
-struct type_joueur tabjoueur[MAX_JOUEUR];
 char chaine_lettres_lues[MAX_JETON_TOUR];
 
 int verif_lettres(int choix_joueur)
