@@ -42,6 +42,7 @@ void affichage_lettre_joueur(int joueur_lu)
 {
   int i;
 
+  printf("----------------------------------------\n");
   printf("Lettres du joueur %d:\n", joueur_lu + 1);
   for (i = 0; i < MAX_JETON_TOUR; i++)
   {

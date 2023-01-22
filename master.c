@@ -30,6 +30,7 @@ int main()
     while (1)
     {
         /* Affichage de lettres du joueur en cours */
+        printf("----------------------------------------\n");
         printf("Joueur actuel: %d\n", current_player + 1);
         affichage_lettre_joueur(current_player);
 
