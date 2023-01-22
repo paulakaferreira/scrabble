@@ -129,6 +129,7 @@ void tirage(int nb_jetons, int joueur_lu)
 				i = nb_jetons;
 			}
 		}
-		printf("Vous avez tiré %d jetons\n", cpt_jeton_tire);
+		printf("Tirage au sort: vous avez tiré %d jetons du sac\n", cpt_jeton_tire);
+		printf("Le(s) jeton(s) ont été ajoutés à votre main\n");
 	}
 }

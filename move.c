@@ -11,6 +11,7 @@
 int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
 {
     char hand_copy[MAX_JETON_TOUR];
+    int n_letters_removed = 0;
 
     // Initialise une copie de la main de joueur.
     strcpy(hand_copy, tabjoueur[current_player].jeton);
@@ -38,14 +39,23 @@ int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
         }
     }
 
-    return 1;
+    for (int i = 0; i < MAX_JETON_TOUR; i++)
+    {
+        tabjoueur[current_player].jeton[i] = hand_copy[i];
+        if (hand_copy[i] == '\0')
+        {
+            n_letters_removed++;
+        }
+    }
+    return n_letters_removed;
 }
 
 // Verifie la compatibilité du mot saisie avec le tableau;
 // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
-int check_board_compatibility(int column, int row, char direction, char word_read[30])
+int check_board_compatibility(int column, int row, char direction, char word_read[30], int turn)
 {
     int i = 0;
+    int intersection = 0;
 
     for (i = 0; i < strlen(word_read); i++)
     {
@@ -54,9 +64,11 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
         {
             return 0;
         }
+        // Intersection
         else if (board[row][column].tile != DEFAULT_TILE)
         {
             word_read[i] = DEFAULT_TILE;
+            intersection = 1;
         }
 
         if (direction == 'H')
@@ -69,9 +81,10 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
         }
     }
 
-    printf("dentro: ");
-    puts(word_read);
-
+    if ((intersection == 0) && (turn != 0))
+    {
+        return 0;
+    }
     return 1;
 }
 
@@ -95,11 +108,12 @@ void modify_board(char word_read[30], int column, int row, char direction)
             row++;
         }
     }
+    printf("Votre mot a été ajouté au plateau\n");
 }
 
 // Demande au joueur de jouer son tour
 // Fonction principale qui appelle les fonctions de compatibilité et de modification du tableau
-int get_move(int current_player)
+int get_move(int current_player, int turn)
 {
     int i = 0;
     int count = 1;
@@ -107,6 +121,7 @@ int get_move(int current_player)
     char direction;
     int column = 0;
     int row = 0;
+    int n_letters_removed = 0;
 
     printf("Vouz avez decidé d'ajouter un mot au tableau. \n");
     strcpy(word_read, "not-a-word");
@@ -135,17 +150,6 @@ int get_move(int current_player)
 
     printf("Le mot est valide \n");
 
-    // Verification de saisie de la colomne
-    while ((column < 1) || (column > 15))
-    {
-        printf("Entrez le numéro de la colomne où la première lettre du mot apparaitra (1 - 15): ");
-        scanf("%d", &column);
-        // ajouter le cas ou le caracter n'est pas un chiffre
-        if ((column < 1) || (column > 15))
-        {
-            printf("Réponse invalide. Veuillez réssayer\n");
-        }
-    }
     // Verification de saisie de la ligne
     while ((row < 1) || (row > 15))
     {
@@ -153,6 +157,18 @@ int get_move(int current_player)
         scanf("%d", &row);
         // ajouter le cas ou le caracter n'est pas un chiffre
         if ((row < 1) || (row > 15))
+        {
+            printf("Réponse invalide. Veuillez réssayer\n");
+        }
+    }
+
+    // Verification de saisie de la colonne
+    while ((column < 1) || (column > 15))
+    {
+        printf("Entrez le numéro de la colonne où la première lettre du mot apparaitra (1 - 15): ");
+        scanf("%d", &column);
+        // ajouter le cas ou le caracter n'est pas un chiffre
+        if ((column < 1) || (column > 15))
         {
             printf("Réponse invalide. Veuillez réssayer\n");
         }
@@ -170,15 +186,14 @@ int get_move(int current_player)
 
     // Verifie la compatibilité du mot avec le tableau;
     // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
-    if (check_board_compatibility(column, row, direction, word_read) == 1)
+    if (check_board_compatibility(column, row, direction, word_read, turn) == 1)
     {
 
         printf("Votre mot est compatible avec le tableau\n");
-        printf("fora: ");
-        puts(word_read);
+        n_letters_removed = check_hand_compatibility(word_read, current_player);
 
         // Verifie la compatibilité du mot avec le main du joueur
-        if (check_hand_compatibility(word_read, current_player) == 1)
+        if (n_letters_removed != 0)
         {
             printf("Votre mot est compatible avec votre main\n");
         }
@@ -199,5 +214,7 @@ int get_move(int current_player)
 
     // Modifie le tableau après validation
     modify_board(word_read, column, row, direction);
+    printf("Nombre de lettres à modifier dans votre main: %d\n", n_letters_removed);
+    tirage(n_letters_removed, current_player);
     return 1;
 }
