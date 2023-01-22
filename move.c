@@ -56,21 +56,29 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
 {
     int i = 0;
     int intersection = 0;
+    int middle_board = 0;
 
     for (i = 0; i < strlen(word_read); i++)
     {
-        // Vérifie que le mot peut bien rentrer dans le plateau à l'lendroit souhaité
+        // Vérifie la compatibilité du mot avec le plateau
         if (board[row][column].tile != word_read[i] && board[row][column].tile != DEFAULT_TILE)
         {
             return 0;
         }
-        // Intersection
+        // Intersection avec un autre mot
         else if (board[row][column].tile != DEFAULT_TILE)
         {
             word_read[i] = DEFAULT_TILE;
             intersection = 1;
         }
 
+        // Milieu du tableu
+        if ((column == 7) && (row == 7))
+        {
+            middle_board = 1;
+        }
+
+        // Fait avancer la boucle
         if (direction == 'H')
         {
             column++;
@@ -80,9 +88,16 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
             row++;
         }
     }
-
+    // Verifie la condition du premier tour : le mot doit passer par le milieu tu tableau
+    if ((middle_board == 0) && (turn == 0))
+    {
+        printf("Vous êtes au premier tour et votre mot ne passe pas par le milieu du tableau\n");
+        return 0;
+    }
+    // Verifie la condition des tours suivants : le mot doit croiser un mot existant
     if ((intersection == 0) && (turn != 0))
     {
+        printf("Attention à la règle basique du scrabble : votre mot doit croiser un mot existant sur le plateau\n");
         return 0;
     }
     return 1;
@@ -149,7 +164,13 @@ int get_move(int current_player, int turn)
     }
 
     printf("Le mot est valide \n");
+    printf("\n");
+    printf("Vous allez saisir maintenant les coordonées du tableau\n");
 
+    if (turn == 0)
+    {
+        printf("Attention: pour le premier tour, le mot doit passer impérativement par le milieu du tableau\n");
+    }
     // Verification de saisie de la ligne
     while ((row < 1) || (row > 15))
     {
@@ -215,6 +236,7 @@ int get_move(int current_player, int turn)
     // Modifie le tableau après validation
     modify_board(word_read, column, row, direction);
     printf("Nombre de lettres à modifier dans votre main: %d\n", n_letters_removed);
+    // Fait le tirage au sort pour le joeur actuel
     tirage(n_letters_removed, current_player);
     return 1;
 }
