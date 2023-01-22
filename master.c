@@ -40,6 +40,7 @@ int main()
                 // To do: ajouter une fonction de calcul après la validation du mot;
                 print_board();
                 current_player = change_turn(current_player);
+                turn++;
             }
             break;
         case 2:

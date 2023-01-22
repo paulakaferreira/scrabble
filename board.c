@@ -18,13 +18,11 @@
 
 #define MAX_JETON_TOUR 7
 
-
-struct Square 
+struct Square
 {
     int value;
     char type;
     char tile;
-
 };
 
 struct Square board[BOARD_SIZE][BOARD_SIZE];
@@ -57,8 +55,8 @@ void set_board_value()
 
     board[0][3].value = DOUBLE_CASE;
     board[0][3].type = LETTER_FLAG;
-    
-        // Début colomne du milieu
+
+    // Début colonne du milieu
     board[0][7].value = TRIPLE_CASE;
     board[0][7].type = WORD_FLAG;
 
@@ -70,9 +68,9 @@ void set_board_value()
 
     board[11][7].value = DOUBLE_CASE;
     board[11][7].type = LETTER_FLAG;
-        // Fin colomne du milieu
+    // Fin colonne du milieu
 
-        //Début ligne du milieu
+    // Début ligne du milieu
     board[7][0].value = TRIPLE_CASE;
     board[7][0].type = WORD_FLAG;
 
@@ -83,8 +81,13 @@ void set_board_value()
     board[7][14].type = WORD_FLAG;
 
     board[7][11].value = DOUBLE_CASE;
-    board[7][11].type = LETTER_FLAG;    
-        //Fin ligne du milieu
+    board[7][11].type = LETTER_FLAG;
+    // Fin ligne du milieu
+
+    // Carré du milieu
+    board[7][7].value = DOUBLE_CASE;
+    board[7][7].type = WORD_FLAG;
+    // Fin carré du milieu
 
     board[1][5].value = TRIPLE_CASE;
     board[1][5].type = LETTER_FLAG;
@@ -139,18 +142,35 @@ void set_board_value()
             board[i][(BOARD_SIZE - 1) - j].type = board[i][j].type;
         }
     }
-
 }
 
 void print_board()
 {
-    int i, j = 0;
+    int i, j;
+    int k = 1;
+
+    // Imprime les indices des colonnes
     printf("Voici le plateau à l'état actuel: \n");
+    printf("\n");
+    printf("     A B C D E F G H I J K L M N O\n");
+    printf("    ------------------------------\n");
     for (i = 0; i < BOARD_SIZE; i++)
     {
+        // Imprime les indices des lignes
+        if (k < 10)
+        {
+            printf("0%d | ", k);
+        }
+        else
+        {
+            printf("%d | ", k);
+        }
+        k++;
+
+        // Imprime les valeurs du tableau
         for (j = 0; j < BOARD_SIZE; j++)
-        {   
-            // Imprime les carrés spéciaux         
+        {
+            // Imprime les carrés spéciaux
             if (board[i][j].tile == DEFAULT_TILE)
             {
                 // Mot triple
@@ -190,9 +210,7 @@ void print_board()
             }
         }
     }
-
 }
-
 
 void print_board_value()
 {
@@ -200,13 +218,12 @@ void print_board_value()
     for (i = 0; i < BOARD_SIZE; i++)
     {
         for (j = 0; j < BOARD_SIZE; j++)
-        {            
+        {
             printf("%d ", board[i][j].value);
             if (j == BOARD_SIZE - 1)
             {
                 printf("\n");
             }
         }
-    } 
-
+    }
 }

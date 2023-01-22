@@ -134,6 +134,7 @@ int get_move(int current_player, int turn)
     int count = 1;
     char word_read[30];
     char direction;
+    char column_letter = '\0';
     int column = 0;
     int row = 0;
     int n_letters_removed = 0;
@@ -186,8 +187,11 @@ int get_move(int current_player, int turn)
     // Verification de saisie de la colonne
     while ((column < 1) || (column > 15))
     {
-        printf("Entrez le numéro de la colonne où la première lettre du mot apparaitra (1 - 15): ");
-        scanf("%d", &column);
+        printf("Entrez la lettre de la colonne où la première lettre du mot apparaitra (A - O): ");
+        scanf(" %c", &column_letter);
+        column = toupper(column_letter);
+        column = column - 'A' + 1;
+        printf("coluna : %d\n", column);
         // ajouter le cas ou le caracter n'est pas un chiffre
         if ((column < 1) || (column > 15))
         {
