@@ -2,6 +2,7 @@
 #include "saclettre.c"
 #include "actions.c"
 #include "move.c"
+#include "rules.c"
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
     int current_turn = 0;
     int turn = 0;
 
-    printf("            S C R A B B L E\n");
+    printf("\n            S C R A B B L E\n\n");
 
     /* Initialisations */
     init_joueur();
@@ -52,6 +53,9 @@ int main()
             printf("Vous avez dédicé de passer votre tour\n");
             current_player = change_turn(current_player);
             printf("Joueur actuel: %d\n", current_player + 1);
+            break;
+        case 4:
+            board_rules();
             break;
         }
     }
