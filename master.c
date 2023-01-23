@@ -38,12 +38,22 @@ int main()
         switch (action)
         {
         case 1:
-            if (get_move(current_player, current_turn) == 1)
+           if (get_move(current_player, current_turn) == 1)
             {
                 // To do: ajouter une fonction de calcul après la validation du mot;
                 print_board();
-                current_player = change_turn(current_player);
-                current_turn++;
+                verification_sac();
+                cpt_lettres_joueur(current_player);
+                if ((sac_vide==1)&&(lettre_joueur_vide==1))
+                {
+                  printf("La partie est terminée ! \n");
+                  fin_partie();
+                }
+                else
+                {
+                  current_player = change_turn(current_player);
+                  current_turn++;
+                }
             }
             break;
         case 2:
