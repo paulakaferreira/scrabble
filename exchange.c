@@ -25,13 +25,12 @@ void remise(int lettre_remise)
 	tabjeton[i] = lettre_remise;
 }
 
-void echange()
+void echange(int choix_joueur)
 {
 	char lettre;
 	int i = 0, j = 0, cpt_jeton = 0, k;
 	char jeton;
 	int trouve = 0;
-	int choix_joueur;
 	int lettres_ok;
 	int compteur_sac;
 
@@ -43,24 +42,6 @@ void echange()
 
 	else
 	{
-		printf("Quel joueur souhaite échanger ses lettres ? : ");
-		scanf("%d", &choix_joueur);
-
-		// Vérification que l'utilisateur a bien entré un identifiant de joueur correct
-		while (choix_joueur < 1 || choix_joueur > MAX_JOUEUR)
-		{
-			printf("Le numéro de joueur doit être entre 1 et %d", MAX_JOUEUR);
-			scanf("%d", &choix_joueur);
-		}
-
-		// Le tableau de joueur commençant à 0, il faut décrémenter la variable choix_joueur
-		// Pour traiter le joueur demandé par l'utilisateur. Si l'utilisateur demande le joueur 1
-		// il faut traiter la case 0 du tableau de joueur
-		choix_joueur--;
-
-		// rappel des lettres possédées par le joueur
-		printf("Le joueur %d possède les lettres suivantes : \n", tabjoueur[choix_joueur].id_joueur);
-		affichage_lettre_joueur(choix_joueur);
 		printf("Quelles lettres souhaitez-vous remettre dans le sac ? : ");
 
 		// appel à la fonction verif_lettres qui permettra à l'utilisateur de saisir des lettres
