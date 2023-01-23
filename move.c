@@ -59,6 +59,7 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
     int i = 0;
     int intersection = 0;
     int middle_board = 0;
+    int up, down, right, left;
 
     for (i = 0; i < strlen(word_read); i++)
     {
@@ -73,6 +74,16 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
             word_read[i] = DEFAULT_TILE;
             intersection = 1;
         }
+	    
+	up=row-1;
+        down=row+1;
+        right=column+1;
+        left=column-1;
+        if ((board[down][column].tile != DEFAULT_TILE) || (board[up][column].tile != DEFAULT_TILE) || (board[row][left].tile!= DEFAULT_TILE) || (board[row][right].tile != DEFAULT_TILE))
+        {
+          intersection = 1;
+        }
+
 
         // Milieu du tableu
         if ((column == 7) && (row == 7))
