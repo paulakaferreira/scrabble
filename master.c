@@ -52,7 +52,7 @@ int main()
             current_turn++;
             break;
         case 3:
-            printf("Vous avez dédicé de passer votre tour\n");
+            printf("Vous avez décidé de passer votre tour\n");
             printf("----------------------------------------\n");
             current_player = change_turn(current_player);
             break;
