@@ -140,6 +140,7 @@ int get_move(int current_player, int turn)
     int column = 0;
     int row = 0;
     int n_letters_removed = 0;
+    int ligne_ok=0;
 
     printf("Vouz avez decidé d'ajouter un mot au tableau. \n");
     strcpy(word_read, "not-a-word");
@@ -175,35 +176,52 @@ int get_move(int current_player, int turn)
     {
         printf("Attention: pour le premier tour, le mot doit passer impérativement par le milieu du tableau\n");
     }
+    
+    printf("Entrez le numéro de la ligne où la première lettre du mot apparaitra (1 - 15): ");
+    ligne_ok=scanf("%d", &row);
     // Verification de saisie de la ligne
-    while ((row < 1) || (row > 15))
+    while (((row < 1) || (row > 15))||(ligne_ok==0))
     {
-        printf("Entrez le numéro de la ligne où la première lettre du mot apparaitra (1 - 15): ");
-        scanf("%d", &row);
-        // ajouter le cas ou le caracter n'est pas un chiffre
-        if ((row < 1) || (row > 15))
-        {
-            printf("Réponse invalide. Veuillez réssayer\n");
-        }
+
+  	  if(ligne_ok==0)
+	  {
+	    printf("Erreur de saisie : veuillez saisir une ligne valide (1-15) : ");
+	    while((row=getchar())!='\n');
+	    ligne_ok=scanf("%d", &row);
+	  }
+	  else
+	  {
+          if ((row < 1) || (row > 15))
+          {
+              printf("Numéro de ligne invalide : veuilez saisir un numéro de ligne entre 1 et 15 : ");
+	          while((row=getchar())!='\n');
+              ligne_ok=scanf("%d", &row);
+          }
+       }
     }
 
     // Verification de saisie de la colonne
+    printf("Entrez la lettre de la colonne où la première lettre du mot apparaitra (A - O): ");
+    scanf(" %c", &column_letter);
+    column = toupper(column_letter);
+    column = column - 'A' + 1;
     while ((column < 1) || (column > 15))
     {
-        printf("Entrez la lettre de la colonne où la première lettre du mot apparaitra (A - O): ");
-        scanf(" %c", &column_letter);
-        column = toupper(column_letter);
-        column = column - 'A' + 1;
-        // ajouter le cas ou le caracter n'est pas un chiffre
-        if ((column < 1) || (column > 15))
-        {
-            printf("Réponse invalide. Veuillez réssayer\n");
-        }
+	  printf("Erreur de saisie : veuillez saisi une colonne valide (A - O) :");
+	  while((column_letter=getchar())!='\n');
+	  scanf(" %c", &column_letter);
+      column = toupper(column_letter);
+      column = column - 'A' + 1;
     }
-
+    
+    printf("Entrez la direction du mot (H pour horizontal et V pour vertical) : ");
+    scanf(" %c", &direction);
+    direction = toupper(direction);
+    
     while ((direction != 'H') && (direction != 'V'))
     {
-        printf("Entrez la direction du mot (H pour horizontal et V pour vertical) : ");
+        printf("Erreur de saisie : entrez la direction du mot (H pour horizontal et V pour vertical) : ");
+        while ((direction=getchar())!='\n');
         scanf(" %c", &direction);
         direction = toupper(direction);
     }
