@@ -47,7 +47,7 @@ int main()
             }
             break;
         case 2:
-            // To do: import from exchange.c and make sure it works
+            echange(current_player);
             current_player = change_turn(current_player);
             current_turn++;
             break;
