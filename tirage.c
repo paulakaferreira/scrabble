@@ -128,6 +128,11 @@ void tirage(int nb_jetons, int joueur_lu)
 				i = nb_jetons;
 			}
 		}
+		if(cpt_jeton_tire==7)
+		{
+		  printf("S C R A B B L E : Félicitations ! Vous avez joué en un tour tous les jetons de votre jeu. Vous remportez un bonus de 50 points.\n");
+		  tabjoueur[joueur_lu].score += 50;
+		}
 		printf("Tirage au sort: vous avez tiré %d jetons du sac\n", cpt_jeton_tire);
 		printf("Le(s) jeton(s) ont été ajoutés à votre main\n");
 	}
