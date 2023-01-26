@@ -33,6 +33,7 @@ void echange(int choix_joueur)
 	int trouve = 0;
 	int lettres_ok;
 	int compteur_sac;
+	tour_echange=1;
 
 	compteur_sac = verification_sac();
 	if (compteur_sac < 7)
