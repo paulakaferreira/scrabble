@@ -60,6 +60,7 @@ int verif_lettres(int choix_joueur)
 	if (cpt > MAX_JETON_TOUR)
 	{
 		printf("Erreur : vous avez entré un nombre de lettres supérieur aux jetons que vous possédez.\n");
+		chaine_lettres_lues[7]='\0'; // on enlève la lettre résiduelle
 		return (trouve);
 	}
 
