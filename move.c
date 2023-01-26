@@ -367,7 +367,7 @@ int check_board_new_word (char word_read[BOARD_SIZE], int column, int row, char 
           printf("Le mot %s n'existe pas\n", verif_mot);
           return 0;
         }
-        else if (((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))!=0)&&(cpt>1))||((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))==0)&&(cpt>1)&&(direction='H')))
+        else if (((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))!=0)&&(cpt>1))||((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))==0)&&(cpt>1)&&(direction=='H')))
         {
           printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
           direction_mot = 'V';
@@ -379,6 +379,7 @@ int check_board_new_word (char word_read[BOARD_SIZE], int column, int row, char 
           verif_mot[i] = '\0';
         }
       }
+      cpt=0;
     }
   }
   
@@ -406,7 +407,7 @@ int check_board_new_word (char word_read[BOARD_SIZE], int column, int row, char 
           printf("Le mot %s n'existe pas\n", verif_mot);
           return 0;
         }
-        else if (((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))!=0)&&(cpt>1))||((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))==0)&&(cpt>1)&&(direction='H')))
+        else if (((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))!=0)&&(cpt>1))||((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))==0)&&(cpt>1)&&(direction=='V')))
         {
           printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
           direction_mot='H';
@@ -418,6 +419,7 @@ int check_board_new_word (char word_read[BOARD_SIZE], int column, int row, char 
           verif_mot[i] = '\0';
         }
       }
+      cpt=0;
     }
   }
   
