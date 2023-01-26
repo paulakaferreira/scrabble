@@ -33,7 +33,6 @@ void echange(int choix_joueur)
 	int trouve = 0;
 	int lettres_ok;
 	int compteur_sac;
-	tour_echange=1;
 
 	compteur_sac = verification_sac();
 	if (compteur_sac < 7)
@@ -77,7 +76,6 @@ void echange(int choix_joueur)
 				if (chaine_lettres_lues[i] == tabjoueur[choix_joueur].jeton[j])
 				{
 					printf("Lettre %c remise dans le sac\n", tabjoueur[choix_joueur].jeton[j]);
-					remise(tabjoueur[choix_joueur].jeton[j]);
 					tabjoueur[choix_joueur].jeton[j] = '\0';
 					trouve = 1;
 					cpt_jeton++;
@@ -97,6 +95,11 @@ void echange(int choix_joueur)
 
 		printf("Vous avez remis %d jetons dans le sac.\n", cpt_jeton);
 		tirage(cpt_jeton, choix_joueur);
+	
+		for (i = 0; chaine_lettres_lues[i] != '\0'; i++)
+		{
+			remise(chaine_lettres_lues[i]);
+		}
 
 		printf("Voici votre nouveau set de lettres : ");
 		for (i = 0; i < MAX_JETON_TOUR; i++)
@@ -106,4 +109,5 @@ void echange(int choix_joueur)
 		printf("\n");
 
 	} // fermeture du else (si compteur_sac est égal ou supérieur à 7)
+	
 }
