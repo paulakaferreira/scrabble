@@ -32,6 +32,8 @@ void fiche_lettre()
 		if (i == 91)
 		{
 			lettre.id_lettre = '0';
+			lettre.nbpoint=0;
+			lettre.quantite=2;
 		}
 		else
 		{
