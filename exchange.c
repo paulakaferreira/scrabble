@@ -108,6 +108,7 @@ void echange(int choix_joueur)
 			printf("%c ", tabjoueur[choix_joueur].jeton[i]);
 		}
 		printf("\n");
+		tour_echange=0;
 
 	} // fermeture du else (si compteur_sac est égal ou supérieur à 7)
 	
