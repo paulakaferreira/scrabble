@@ -59,7 +59,10 @@ int main()
         case 2:
             echange(current_player);
             current_player = change_turn(current_player);
-            current_turn++;
+            if (board[7][7].tile!=DEFAULT_TILE)
+            {
+              current_turn++;
+            }
             break;
         case 3:
             printf("Vous avez décidé de passer votre tour\n");
