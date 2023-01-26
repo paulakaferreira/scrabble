@@ -129,7 +129,7 @@ void tirage(int nb_jetons, int joueur_lu)
 				i = nb_jetons;
 			}
 		}
-		if((cpt_jeton_tire==7)&&(tour_echange==1))
+		if((cpt_jeton_tire==7)&&(tour_echange==0))
 		{
 		  printf("S C R A B B L E : Félicitations ! Vous avez joué en un tour tous les jetons de votre jeu. Vous remportez un bonus de 50 points.\n");
 		  tabjoueur[joueur_lu].score += 50;
