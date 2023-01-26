@@ -8,8 +8,12 @@
 #define DEFAULT_TILE '.'
 
 #define MAX_JETON_TOUR 7
+int check_board_new_word (char word_read[BOARD_SIZE], int column, int row, char direction, int current_player);
+void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direction, int player);
+struct Square copie_plateau[BOARD_SIZE][BOARD_SIZE];
 
 // Verifie la compatibilité du mot saisie avec les tuiles qui sont à la main du joueur
+
 int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
 {
     char hand_copy[MAX_JETON_TOUR];
@@ -54,7 +58,7 @@ int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
 
 // Verifie la compatibilité du mot saisie avec le tableau;
 // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
-int check_board_compatibility(int column, int row, char direction, char word_read[30], int turn)
+int check_board_compatibility(int column, int row, char direction, char word_read[BOARD_SIZE], int turn)
 {
     int i = 0;
     int intersection = 0;
@@ -110,14 +114,14 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
     // Verifie la condition des tours suivants : le mot doit croiser un mot existant
     if ((intersection == 0) && (turn != 0))
     {
-        printf("Attention à la règle basique du scrabble : votre mot doit croiser un mot existant sur le plateau\n");
+        printf("Attention à la règle principale du scrabble : votre mot doit croiser un mot existant sur le plateau\n");
         return 0;
     }
     return 1;
 }
 
 // Ajout du mot validé au tableau
-void modify_board(char word_read[30], int column, int row, char direction)
+void modify_board(char word_read[BOARD_SIZE], int column, int row, char direction)
 {
     for (int i = 0; i < strlen(word_read); i++)
     {
@@ -145,7 +149,7 @@ int get_move(int current_player, int turn)
 {
     int i = 0;
     int count = 1;
-    char word_read[30];
+    char word_read[BOARD_SIZE];
     char direction;
     char column_letter = '\0';
     int column = 0;
@@ -154,7 +158,10 @@ int get_move(int current_player, int turn)
     int ligne_ok=0;
 
     printf("Vouz avez decidé d'ajouter un mot au tableau. \n");
-    strcpy(word_read, "not-a-word");
+    for(i=0; i<BOARD_SIZE; i++)
+    {
+      word_read[i]='\0';
+    }
 
     while (in_dic(word_read) == 0)
     {
@@ -240,12 +247,19 @@ int get_move(int current_player, int turn)
     column--;
     row--;
 
+     if (check_board_new_word(word_read, column, row, direction, current_player)==0)
+     {
+       printf("Le mot que vous avez saisi interfère de façon invalide avec d'autres mots\n");
+       temp_score=0;
+       return 0;
+     }
     // Verifie la compatibilité du mot avec le tableau;
     // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
     if (check_board_compatibility(column, row, direction, word_read, turn) == 1)
     {
         printf("----------------------------------------\n");
         printf("Votre mot est compatible avec le tableau\n");
+
         n_letters_removed = check_hand_compatibility(word_read, current_player);
 
         // Verifie la compatibilité du mot avec le main du joueur
@@ -256,7 +270,7 @@ int get_move(int current_player, int turn)
         else
         {
             printf("----------------------------------------\n");
-            printf("Le lettres saisies ne sont pas compatibles avec votre main\n");
+            printf("Les lettres saisies ne sont pas compatibles avec votre main\n");
             printf("Retour au menu. Veuillez choisir une autre option au ressayer\n");
             return 0;
         }
@@ -284,3 +298,194 @@ int get_move(int current_player, int turn)
     tirage(n_letters_removed, current_player);
     return 1;
 }
+
+
+int check_board_new_word (char word_read[BOARD_SIZE], int column, int row, char direction, int current_player)
+{
+    
+    int i=0;
+    int j=0;
+    char verif_mot[BOARD_SIZE];
+    int cpt=0;
+    int cpt_score=0;
+    char direction_mot;
+
+    for(i=0; i<BOARD_SIZE; i++)
+    {
+      verif_mot[i] = '\0';
+    }
+    
+    for (i=0; i<BOARD_SIZE; i++)
+    {
+      for(j=0; j<BOARD_SIZE; j++)
+      {
+        copie_plateau[i][j]=board[i][j];
+      }
+     }
+     
+    for (i = 0; i < strlen(word_read); i++)
+    {
+        if (word_read[i] != DEFAULT_TILE)
+        {
+            copie_plateau[row][column].tile = toupper(word_read[i]);
+        }
+
+        // Fait avancer la boucle en fonction de la direction
+        if (direction == 'H')
+        {
+            column++;
+        }
+        else
+        {
+            row++;
+        }
+    }
+
+// le mot a été ajouté à la copie du plateau
+// maintenant il va s'agir de lire chaque colonne du tableau et de valider le mot ou non
+  for (column=0; column<BOARD_SIZE; column++)
+  {
+    for(row=0; row<BOARD_SIZE; row++)
+    {
+      if (copie_plateau[row][column].tile != DEFAULT_TILE)
+      {
+        j=0;
+        cpt=0;
+        while(copie_plateau[row][column].tile != DEFAULT_TILE)
+        {
+          verif_mot[j]=copie_plateau[row][column].tile;
+          if(copie_plateau[row][column].tile==board[row][column].tile)
+          {
+            cpt_score++;
+          }
+          j++;
+          row++;
+          cpt++;
+        }
+        if ((in_dic(verif_mot) == 0)&&(cpt>1))
+        {
+          printf("Le mot %s n'existe pas\n", verif_mot);
+          return 0;
+        }
+        else if (((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))!=0)&&(cpt>1))||((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))==0)&&(cpt>1)&&(direction='H')))
+        {
+          printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
+          direction_mot = 'V';
+          score_mots_modif(verif_mot, column, row,  direction_mot, current_player);
+        }
+        cpt_score=0;
+        for(i=0; i<BOARD_SIZE; i++)
+        {
+          verif_mot[i] = '\0';
+        }
+      }
+    }
+  }
+  
+    for (row=0; row<BOARD_SIZE; row++)
+  {
+    for(column=0; column<BOARD_SIZE; column++)
+    {
+      if (copie_plateau[row][column].tile != DEFAULT_TILE)
+      {
+        j=0;
+        cpt=0;
+        while(copie_plateau[row][column].tile != DEFAULT_TILE)
+        {
+          verif_mot[j]=copie_plateau[row][column].tile;
+          if(copie_plateau[row][column].tile==board[row][column].tile)
+          {
+            cpt_score++;
+          }
+          j++;
+          column++;
+          cpt++;
+        }
+        if ((in_dic(verif_mot) == 0)&&(cpt>1))
+        {
+          printf("Le mot %s n'existe pas\n", verif_mot);
+          return 0;
+        }
+        else if (((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))!=0)&&(cpt>1))||((cpt_score==((strlen(verif_mot)-1)))&&((strcmp(word_read, verif_mot))==0)&&(cpt>1)&&(direction='H')))
+        {
+          printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
+          direction_mot='H';
+          score_mots_modif(verif_mot, column, row,  direction_mot, current_player);
+        }
+        cpt_score=0;
+        for(i=0; i<BOARD_SIZE; i++)
+        {
+          verif_mot[i] = '\0';
+        }
+      }
+    }
+  }
+  
+  return 1;
+
+
+}
+
+void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direction, int player)
+{
+    int sum = 0;
+    int mult = 1;
+    int letter_index = 0;
+    
+    
+    if(direction=='V')
+    {
+      row--;
+    }
+    else
+    {
+      column--;
+    }
+
+
+    puts(verif_mot);
+    // 1- Comptabilise les points des lettres et leurs multiplicateurs
+    for (int i = 0; i < strlen(verif_mot); i++)
+    {
+        letter_index = copie_plateau[row][column].tile - 'A';
+        // Laisse passer les cases où la lettre utilisée pour former le mot était déjà dans le plateau
+        if (verif_mot[i] != DEFAULT_TILE)
+        {
+            // Commence le comptage des valeurs
+            if (copie_plateau[row][column].type == LETTER_FLAG)
+            {
+                  sum += copie_plateau[row][column].value * tablettre[letter_index].nbpoint;
+                
+            }
+            else if (copie_plateau[row][column].type == WORD_FLAG)
+            {
+                sum += tablettre[letter_index].nbpoint;
+                mult *= copie_plateau[row][column].value;
+            }
+            else
+            {
+                  sum += tablettre[letter_index].nbpoint;
+            }
+        }
+        else
+        {
+            sum += tablettre[letter_index].nbpoint;
+        }
+        // Fait reculer la boucle
+        if (direction == 'H')
+        {
+            column--;
+        }
+        else
+        {
+            row--;
+        }
+    }
+    
+
+    temp_score += sum * mult;
+
+}
+
+
+
