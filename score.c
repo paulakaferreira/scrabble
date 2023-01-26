@@ -5,6 +5,10 @@
 #include "player.c"
 #include "saclettre.c"
 
+int temp_score=0;
+
+void score_mots_modif(char word_read[BOARD_SIZE], int column, int row, int direction, int player);
+
 // Calcul du score
 // Modifie aussi les valeurs du board afin d'enlever les valeurs spéciales déjà utilisées;
 void get_player_score(char word_read[30], int column, int row, int direction, int player)
@@ -26,11 +30,15 @@ void get_player_score(char word_read[30], int column, int row, int direction, in
             if (board[row][column].type == LETTER_FLAG)
             {
                 sum += board[row][column].value * tablettre[letter_index].nbpoint;
+                board[row][column].value = SIMPLE_CASE;
+                board[row][column].type = ABSENT_FLAG;
             }
             else if (board[row][column].type == WORD_FLAG)
             {
                 sum += tablettre[letter_index].nbpoint;
                 mult *= board[row][column].value;
+                board[row][column].value = SIMPLE_CASE;
+                board[row][column].type = ABSENT_FLAG;
             }
             else
             {
@@ -53,8 +61,10 @@ void get_player_score(char word_read[30], int column, int row, int direction, in
     }
 
     tabjoueur[player].score += sum * mult;
-    printf("Nombre de points accumulés dans ce tour: %d\n", sum * mult);
-    printf("Votre score total (joueur %d) est : %d\n", player, tabjoueur[player].score);
+    tabjoueur[player].score += temp_score;
+    printf("Nombre de points accumulés dans ce tour: %d\n", (sum * mult)+temp_score);
+    temp_score=0;
+    printf("Votre score total (joueur %d) est : %d\n", player+1, tabjoueur[player].score);
 }
 
 void print_letter_value()
