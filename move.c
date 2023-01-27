@@ -8,6 +8,7 @@
 #define DEFAULT_TILE '.'
 
 #define MAX_JETON_TOUR 7
+char lettre_joker(char joker, int cpt_joker);
 int check_board_new_word (char word_read[BOARD_SIZE], int column, int row, char direction, int current_player);
 void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direction, int player);
 struct Square copie_plateau[BOARD_SIZE][BOARD_SIZE];
@@ -41,7 +42,20 @@ int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
         }
         if (found == 0)
         {
-            return 0;
+            for (int j=0; j<MAX_JETON_TOUR; j++)
+            {
+              if(hand_copy[j]=='0')
+              {
+                hand_copy[j]= '\0';
+                word_read[i]=tolower(word_read[i]);
+                found=1;
+                break;
+              } 
+            }
+            if(found==0)
+            {
+              return 0;
+            }
         }
     }
 
@@ -127,7 +141,14 @@ void modify_board(char word_read[BOARD_SIZE], int column, int row, char directio
     {
         if (word_read[i] != DEFAULT_TILE)
         {
-            board[row][column].tile = toupper(word_read[i]);
+            if(word_read[i]<='Z')
+            {
+              board[row][column].tile = toupper(word_read[i]);
+            }
+            else
+            {
+              board[row][column].tile = word_read[i];
+            }
         }
 
         // Fait avancer la boucle en fonction de la direction
@@ -156,6 +177,8 @@ int get_move(int current_player, int turn)
     int row = 0;
     int n_letters_removed = 0;
     int ligne_ok=0;
+    int cpt_joker=0;
+
 
     printf("Vouz avez decidé d'ajouter un mot au tableau. \n");
     for(i=0; i<BOARD_SIZE; i++)
@@ -167,6 +190,15 @@ int get_move(int current_player, int turn)
     {
         printf("Entrez le mot à ajouter au tableau (1 pour retourner au menu) : ");
         scanf("%s", word_read);
+        for(i=0; i<BOARD_SIZE; i++)
+        {
+          if(word_read[i]=='0')
+            {
+              cpt_joker++;
+              word_read[i]=lettre_joker(word_read[i], cpt_joker);
+              
+            }
+        }
         if (strcmp(word_read, "1") == 0)
         {
             return 0;
@@ -327,7 +359,14 @@ int check_board_new_word (char word_read[BOARD_SIZE], int column, int row, char 
     {
         if (word_read[i] != DEFAULT_TILE)
         {
-            copie_plateau[row][column].tile = toupper(word_read[i]);
+             if(word_read[i]>='A')
+            {
+              copie_plateau[row][column].tile = toupper(word_read[i]);
+            }
+            else
+            {
+              copie_plateau[row][column].tile = word_read[i];
+            }
         }
 
         // Fait avancer la boucle en fonction de la direction
@@ -443,13 +482,21 @@ void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direc
     {
       column--;
     }
-
+    
 
     puts(verif_mot);
     // 1- Comptabilise les points des lettres et leurs multiplicateurs
     for (int i = 0; i < strlen(verif_mot); i++)
     {
-        letter_index = copie_plateau[row][column].tile - 'A';
+        if(islower(copie_plateau[row][column].tile))
+        {
+          letter_index = 91;
+          tablettre[letter_index].nbpoint=0; // je ne sais pas pourquoi ça me le met à 1 par défaut...
+        }
+        else
+        {
+          letter_index = copie_plateau[row][column].tile - 'A';
+        }
         // Laisse passer les cases où la lettre utilisée pour former le mot était déjà dans le plateau
         if (verif_mot[i] != DEFAULT_TILE)
         {
@@ -489,5 +536,20 @@ void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direc
 
 }
 
-
-
+char lettre_joker(char joker, int cpt_joker)
+{
+  char lettre_remplace;
+  
+  printf("Par quelle lettre voulez vous remplacer votre joker n°%d ?: ");
+  scanf(" %c", &lettre_remplace);
+  
+  while ((lettre_remplace < 'A') && (lettre_remplace > 'Z'))
+  {
+      printf("Erreur de saisie : entrez une lettre valide : ");
+      while ((lettre_remplace=getchar())!='\n');
+      scanf(" %c", &lettre_remplace);
+  }
+  
+  lettre_remplace=tolower(lettre_remplace);
+  return(lettre_remplace); 
+}
