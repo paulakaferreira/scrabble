@@ -1,6 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "board.c"
 #include "player.c"
 #include "saclettre.c"
@@ -22,7 +23,15 @@ void get_player_score(char word_read[30], int column, int row, int direction, in
     // 1- Comptabilise les points des lettres et leurs multiplicateurs
     for (int i = 0; i < strlen(word_read); i++)
     {
-        letter_index = board[row][column].tile - 'A';
+        if(islower(board[row][column].tile))
+        {
+          letter_index = 91;
+          tablettre[letter_index].nbpoint=0; // je ne sais pas pourquoi ça me le met à 1 par défaut...
+        }
+        else
+        {
+          letter_index = board[row][column].tile - 'A';
+        }
         // Laisse passer les cases où la lettre utilisée pour former le mot était déjà dans le plateau
         if (word_read[i] != DEFAULT_TILE)
         {
