@@ -8,7 +8,7 @@
 #define DEFAULT_TILE '.'
 
 #define MAX_JETON_TOUR 7
-char lettre_joker(char joker, int cpt_joker);
+char lettre_joker(char joker, int cpt_joker, int joueur);
 int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char direction, int current_player);
 void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direction, int player);
 struct Square copie_plateau[BOARD_SIZE][BOARD_SIZE];
@@ -194,7 +194,7 @@ int get_move(int current_player, int turn)
       if (word_read[i] == '0')
       {
         cpt_joker++;
-        word_read[i] = lettre_joker(word_read[i], cpt_joker);
+        word_read[i] = lettre_joker(word_read[i], cpt_joker, current_player);
       }
     }
     // Retour au menu
@@ -526,21 +526,50 @@ void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direc
   temp_score += sum * mult;
 }
 
-char lettre_joker(char joker, int cpt_joker)
+char lettre_joker(char joker, int cpt_joker, int joueur)
 {
   char lettre_remplace;
+  
+  int i;
+  int trouve=0;
+  char copie_tab_joueur[MAX_JETON_TOUR];
+  
 
-  printf("Par quelle lettre voulez vous remplacer votre joker n°%d ?: ", cpt_joker);
-  scanf(" %c", &lettre_remplace);
-
-  while ((lettre_remplace < 'A') && (lettre_remplace > 'Z'))
+  
+  for(i=0; i<MAX_JETON_TOUR; i++)
   {
-    printf("Erreur de saisie : entrez une lettre valide : ");
-    while ((lettre_remplace = getchar()) != '\n')
-      ;
-    scanf(" %c", &lettre_remplace);
+    if(tabjoueur[joueur].jeton[i]=='0')
+    {
+      trouve++;
+    }
   }
+  
+  if((trouve==1)&&(cpt_joker>=2))
+  {
+    printf("Erreur pour le deuxième joker : vous ne possédez plus de jokers.\n");
+    return 0;
+  }
+  
+  else if(trouve==0)
+  {
+    printf("Vous ne possédez pas de joker.\n");
+    return 0;
+  }
+  
+  else
+  {
+    printf("Par quelle lettre voulez vous remplacer votre joker n°%d ?: ", cpt_joker);
+    scanf(" %c", &lettre_remplace);
 
-  lettre_remplace = tolower(lettre_remplace);
-  return (lettre_remplace);
+    while ((lettre_remplace < 'A') && (lettre_remplace > 'Z')&&(trouve==1))
+    {
+      printf("Erreur de saisie : entrez une lettre valide : ");
+      while ((lettre_remplace = getchar()) != '\n');
+      scanf(" %c", &lettre_remplace);
+      trouve=0;
+    }
+
+    lettre_remplace = tolower(lettre_remplace);
+    return (lettre_remplace);
+  }
 }
