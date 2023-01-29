@@ -293,16 +293,11 @@ int get_move(int current_player, int turn)
   if (check_board_compatibility(column, row, direction, word_read, turn) == 1)
   {
     printf("----------------------------------------\n");
-    printf("Votre mot est compatible avec le tableau\n");
 
     n_letters_removed = check_hand_compatibility(word_read, current_player);
 
     // Verifie la compatibilité du mot avec le main du joueur
-    if (n_letters_removed != 0)
-    {
-      printf("Votre mot est compatible avec votre main\n");
-    }
-    else
+    if (n_letters_removed == 0)
     {
       printf("----------------------------------------\n");
       printf("Les lettres saisies ne sont pas compatibles avec votre main\n");
