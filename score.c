@@ -18,8 +18,6 @@ void get_player_score(char word_read[BOARD_SIZE], int column, int row, int direc
     int mult = 1;
     int letter_index = 0;
 
-    puts(word_read);
-
     // 1- Comptabilise les points des lettres et leurs multiplicateurs
     for (int i = 0; i < strlen(word_read); i++)
     {

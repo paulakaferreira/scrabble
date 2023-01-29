@@ -75,6 +75,10 @@ int main()
         case 5:
             valeurs_lettre_main(current_player);
             break;
+        case 6:
+            printf("----------------------------------------\n");
+            printf("Votre score total (joueur %d) est : %d\n", current_player + 1, tabjoueur[current_player].score);
+            break;
         }
     }
 

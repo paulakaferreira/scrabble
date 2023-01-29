@@ -47,7 +47,7 @@ int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
         if (hand_copy[j] == '0')
         {
           hand_copy[j] = '\0';
-          word_read[i] = tolower(word_read[i]);
+          word_read[i] = toupper(word_read[i]);
           found = 1;
           break;
         }
@@ -127,7 +127,8 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
   // Verifie la condition des tours suivants : le mot doit croiser un mot existant
   if ((intersection == 0) && (turn != 0))
   {
-    printf("Attention à la règle principale du scrabble : votre mot doit croiser un mot existant sur le plateau\n");
+    printf("Attention à la règle du scrabble : votre mot doit croiser ou toucher un mot existant sur le plateau\n");
+    printf("Les lettres qui se touchent doivent aussi former un mot valide dans le dictionnaire\n");
     return 0;
   }
   return 1;
@@ -196,6 +197,7 @@ int get_move(int current_player, int turn)
         word_read[i] = lettre_joker(word_read[i], cpt_joker);
       }
     }
+    // Retour au menu
     if (strcmp(word_read, "1") == 0)
     {
       return 0;

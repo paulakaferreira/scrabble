@@ -21,8 +21,17 @@ void valeurs_lettre_main(int current_player)
     for (int i = 0; i < MAX_JETON_TOUR; i++)
     {
         lettre_lue = tabjoueur[current_player].jeton[i];
-        indice_lettre = lettre_lue - 'A';
+        if (lettre_lue == '0')
+        {
+            indice_lettre = MAX_LETTRE - 1;
+        }
+        else
+        {
+            indice_lettre = lettre_lue - 'A';
+        }
+
         point = tablettre[indice_lettre].nbpoint;
+
         if (point > 1)
         {
             printf("Lettre %c: %d points\n", lettre_lue, point);
