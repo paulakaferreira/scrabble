@@ -15,7 +15,7 @@ int actions()
     printf("4 - Voir les règles du plateau\n");
     printf("5 - Regarder les valeurs des lettres\n");
     printf("6 - Afficher mon score\n");
-    printf("7 - Finir le jeu\n");
+    printf("7 - Finir la partie\n");
     printf("----------------------------------------\n");
     printf("Veuillez saisir votre option : ");
     saisie_ok = scanf("%d", &action);
@@ -33,7 +33,7 @@ int actions()
         else if ((action < 1) || (action > MAX_ACTION))
         {
             printf("Option erronée\n");
-            printf("Veuillez saisir un numéro entre 1 et 6 :");
+            printf("Veuillez saisir un chiffre entre 1 et 7 :");
             while ((action = getchar()) != '\n')
                 ;
             saisie_ok = scanf("%d", &action);

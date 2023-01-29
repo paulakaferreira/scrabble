@@ -11,7 +11,8 @@
 char chaine_lettres_lues[MAX_JETON_TOUR]; // une variable globale qui va nous permettre de stocker les lettres lues
 // les comparer avec les lettres possédées et puis faire l'opération de remplacement de lettres
 
-// this function allows the user to put back a tile in the bag when exchanging letters
+// cette fonction permet au joueur de rentrer les lettres qu'il veut échanger. ces lettre sont vérifiées, et échangées avec des lettres aléatoires
+// Les lettres dont le joueur se débarasse sont remises dans le sac après le tirage des nouvelles lettres.
 
 void remise(int lettre_remise)
 {
@@ -25,7 +26,7 @@ void remise(int lettre_remise)
 	tabjeton[i] = lettre_remise;
 }
 
-void echange(int choix_joueur)
+int echange(int choix_joueur)
 {
 	char lettre;
 	int i = 0, j = 0, cpt_jeton = 0, k;
@@ -43,12 +44,17 @@ void echange(int choix_joueur)
 
 	else
 	{
-		printf("Quelles lettres souhaitez-vous remettre dans le sac ? : ");
+		printf("Quelles lettres souhaitez-vous remettre dans le sac ? : (1 pour annuler) : ");
 
 		// appel à la fonction verif_lettres qui permettra à l'utilisateur de saisir des lettres
 		// dont le programme vérifiera qu'elles correspondent aux lettres qu'il possède
 
 		lettres_ok = verif_lettres(choix_joueur);
+	        if (lettres_ok==2)
+	        {
+		  printf("Vous avez quitté le menu d'échange.\n");
+		  return 0;
+		}
 
 		// cette boucle va permettre de lire toutes les lettres entrées par l'utilisateur
 		// et enregistrées dans le tableau chaine_lettre
@@ -57,10 +63,15 @@ void echange(int choix_joueur)
 		while (lettres_ok == 0)
 		{
 			printf("Les lettres que vous avez saisies n'ont pas été reconnues.\n");
-			printf("Veuillez saisir des lettres en votre possession.\n");
+			printf("Veuillez saisir des lettres en votre possession (1 pour annuler).\n");
 			affichage_lettre_joueur(choix_joueur);
 			printf("Quelles lettres souhaitez-vous remettre dans le sac ? : ");
 			lettres_ok = verif_lettres(choix_joueur);
+			if (lettres_ok==2)
+			{
+			  printf("Vous avez quitté le menu d'échange.\n");
+			  return 0;
+			}
 		}
 
 		for (i = 0; chaine_lettres_lues[i] != '\0'; i++)

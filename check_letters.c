@@ -27,6 +27,10 @@ int verif_lettres(int choix_joueur)
 
 	if ((lettre = getchar()) != '\n')
 	{
+	        if(lettre=='1')
+	        {
+	          return 2;
+	        }
 		lettre = toupper(lettre);
 		chaine_lettres_lues[i] = lettre;
 		i++;
@@ -47,6 +51,10 @@ int verif_lettres(int choix_joueur)
 	{
 		while ((lettre = getchar()) != '\n')
 		{
+		        if(lettre=='1')
+		        {
+		          return 2;
+		        }
 			if (lettre != ' ')
 			{
 				lettre = toupper(lettre);
