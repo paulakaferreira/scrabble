@@ -11,6 +11,7 @@
 char tabjeton[TOTAL_JETON];
 int premier_tour = 1;
 int sac_vide = 0;
+int tour_echange = 0;
 
 int verification_sac()
 {
@@ -127,6 +128,15 @@ void tirage(int nb_jetons, int joueur_lu)
 				// on met i au nombre de jetons demandés pour sortir de la boucle définitivement
 				i = nb_jetons;
 			}
+		}
+		if((cpt_jeton_tire==7)&&(tour_echange==0))
+		{
+		  printf("S C R A B B L E : Félicitations ! Vous avez joué en un tour tous les jetons de votre jeu. Vous remportez un bonus de 50 points.\n");
+		  tabjoueur[joueur_lu].score += 50;
+		}
+		else
+		{
+			tour_echange=0;
 		}
 		printf("Tirage au sort: vous avez tiré %d jetons du sac\n", cpt_jeton_tire);
 		printf("Le(s) jeton(s) ont été ajoutés à votre main\n");

@@ -42,17 +42,30 @@ int main()
             {
                 // To do: ajouter une fonction de calcul après la validation du mot;
                 print_board();
-                current_player = change_turn(current_player);
-                current_turn++;
+                verification_sac();
+                cpt_lettres_joueur(current_player);
+                if ((sac_vide == 1) && (lettre_joueur_vide == 1))
+                {
+                    printf("La partie est terminée ! \n");
+                    fin_partie();
+                }
+                else
+                {
+                    current_player = change_turn(current_player);
+                    current_turn++;
+                }
             }
             break;
         case 2:
-            // To do: import from exchange.c and make sure it works
+            echange(current_player);
             current_player = change_turn(current_player);
-            current_turn++;
+            if (board[7][7].tile != DEFAULT_TILE)
+            {
+                current_turn++;
+            }
             break;
         case 3:
-            printf("Vous avez dédicé de passer votre tour\n");
+            printf("Vous avez décidé de passer votre tour\n");
             printf("----------------------------------------\n");
             current_player = change_turn(current_player);
             break;
@@ -60,7 +73,11 @@ int main()
             board_rules();
             break;
         case 5:
-            // to do.
+            valeurs_lettre_main(current_player);
+            break;
+        case 6:
+            printf("----------------------------------------\n");
+            printf("Votre score total (joueur %d) est : %d\n", current_player + 1, tabjoueur[current_player].score);
             break;
         }
     }

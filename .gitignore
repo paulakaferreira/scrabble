@@ -1,2 +1,4 @@
 *.exe
 board
+master
+.vscode/*

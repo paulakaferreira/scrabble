@@ -1,5 +1,6 @@
 #pragma once
 #include <stdio.h>
+#include "saclettre.c"
 #define MAX_JETON_TOUR 7
 #define MAX_JOUEUR 2
 
@@ -12,6 +13,7 @@ struct type_joueur
 
 // variables globales
 struct type_joueur tabjoueur[MAX_JOUEUR];
+int lettre_joueur_vide=0;
 
 void init_joueur(int cpt_joueur)
 {
@@ -51,6 +53,31 @@ void affichage_lettre_joueur(int joueur_lu)
   printf("\n");
 }
 
+
+
+void cpt_lettres_joueur (int joueur_lu)
+{
+  int i;
+  int cpt=0;
+  
+  for (i=0; i<MAX_JETON_TOUR; i++)
+  {
+    if (tabjoueur[joueur_lu].jeton[i] != '\0')
+    {
+      cpt++;
+    }
+  }
+  
+  if (cpt==0)
+  {
+    lettre_joueur_vide=1;
+  }
+  else
+  {
+    lettre_joueur_vide=0;
+  }
+}
+
 // fonction pour changer le tour du joueur.
 int change_turn(int player)
 {
@@ -62,4 +89,45 @@ int change_turn(int player)
   {
     return player + 1;
   }
+}
+
+
+void fin_partie()
+{
+	int i, j;
+	int malus=0;
+	int index_lettre;
+	
+	for (i=0; i<MAX_JOUEUR; i++)
+	{
+	  for (j=0; j<MAX_JETON_TOUR; j++)
+	    {
+	      if (tabjoueur[i].jeton[j] != '\0')
+	        {
+	          index_lettre = tabjoueur[i].jeton[j] - 'A';
+	          malus += tablettre[index_lettre].nbpoint;
+	        }
+	     }
+	  tabjoueur[i].score = tabjoueur[i].score - malus;
+	  printf("Le joueur %d prend un malus de %d", tabjoueur[i].id_joueur, malus);
+	  malus=0;
+	 }
+	 
+	 if(tabjoueur[0].score > tabjoueur[1].score)
+	 {
+	   printf("Le joueur %d a gagné, félicitations !\n", tabjoueur[0].id_joueur);
+	 }
+	 
+	 else if (tabjoueur[0].score == tabjoueur[1].score)
+	 {
+	   printf("Vous êtes à égalité : bravo à tous les deux !\n");
+	 }
+	 else
+	 {
+     printf("Le joueur %d a gagné, félicitations !", tabjoueur[1].id_joueur);
+   }
+         
+   printf("Score final : \n");
+   printf("Joueur 1 : %d points.\n", tabjoueur[0].score);
+   printf ("Joueur 2 : %d points. \n", tabjoueur[1].score);
 }
