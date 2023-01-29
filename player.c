@@ -13,7 +13,7 @@ struct type_joueur
 
 // variables globales
 struct type_joueur tabjoueur[MAX_JOUEUR];
-int lettre_joueur_vide=0;
+int lettre_joueur_vide = 0;
 
 void init_joueur(int cpt_joueur)
 {
@@ -53,28 +53,26 @@ void affichage_lettre_joueur(int joueur_lu)
   printf("\n");
 }
 
-
-
-void cpt_lettres_joueur (int joueur_lu)
+void cpt_lettres_joueur(int joueur_lu)
 {
   int i;
-  int cpt=0;
-  
-  for (i=0; i<MAX_JETON_TOUR; i++)
+  int cpt = 0;
+
+  for (i = 0; i < MAX_JETON_TOUR; i++)
   {
     if (tabjoueur[joueur_lu].jeton[i] != '\0')
     {
       cpt++;
     }
   }
-  
-  if (cpt==0)
+
+  if (cpt == 0)
   {
-    lettre_joueur_vide=1;
+    lettre_joueur_vide = 1;
   }
   else
   {
-    lettre_joueur_vide=0;
+    lettre_joueur_vide = 0;
   }
 }
 
@@ -91,43 +89,73 @@ int change_turn(int player)
   }
 }
 
-
 void fin_partie()
 {
-	int i, j;
-	int malus=0;
-	int index_lettre;
-	
-	for (i=0; i<MAX_JOUEUR; i++)
-	{
-	  for (j=0; j<MAX_JETON_TOUR; j++)
-	    {
-	      if (tabjoueur[i].jeton[j] != '\0')
-	        {
-	          index_lettre = tabjoueur[i].jeton[j] - 'A';
-	          malus += tablettre[index_lettre].nbpoint;
-	        }
-	     }
-	  tabjoueur[i].score = tabjoueur[i].score - malus;
-	  printf("Le joueur %d prend un malus de %d", tabjoueur[i].id_joueur, malus);
-	  malus=0;
-	 }
-	 
-	 if(tabjoueur[0].score > tabjoueur[1].score)
-	 {
-	   printf("Le joueur %d a gagné, félicitations !\n", tabjoueur[0].id_joueur);
-	 }
-	 
-	 else if (tabjoueur[0].score == tabjoueur[1].score)
-	 {
-	   printf("Vous êtes à égalité : bravo à tous les deux !\n");
-	 }
-	 else
-	 {
-     printf("Le joueur %d a gagné, félicitations !", tabjoueur[1].id_joueur);
-   }
-         
-   printf("Score final : \n");
-   printf("Joueur 1 : %d points.\n", tabjoueur[0].score);
-   printf ("Joueur 2 : %d points. \n", tabjoueur[1].score);
+  int i, j;
+  int malus = 0;
+  int index_lettre;
+
+  for (i = 0; i < MAX_JOUEUR; i++)
+  {
+    for (j = 0; j < MAX_JETON_TOUR; j++)
+    {
+      if (tabjoueur[i].jeton[j] != '\0')
+      {
+        index_lettre = tabjoueur[i].jeton[j] - 'A';
+        malus += tablettre[index_lettre].nbpoint;
+      }
+    }
+    tabjoueur[i].score = tabjoueur[i].score - malus;
+    printf("Le joueur %d prend un malus de %d", tabjoueur[i].id_joueur, malus);
+    malus = 0;
+  }
+
+  if (tabjoueur[0].score > tabjoueur[1].score)
+  {
+    printf("Le joueur %d a gagné, félicitations !\n", tabjoueur[0].id_joueur);
+  }
+
+  else if (tabjoueur[0].score == tabjoueur[1].score)
+  {
+    printf("Vous êtes à égalité : bravo à tous les deux !\n");
+  }
+  else
+  {
+    printf("Le joueur %d a gagné, félicitations !", tabjoueur[1].id_joueur);
+  }
+
+  printf("Score final : \n");
+  printf("Joueur 1 : %d points.\n", tabjoueur[0].score);
+  printf("Joueur 2 : %d points. \n", tabjoueur[1].score);
+}
+
+void valeurs_lettre_main(int current_player)
+{
+  char lettre_lue = '\0';
+  int indice_lettre = 0;
+  int point = 0;
+  printf(" -------Valeurs dans votre main-------\n\n");
+  for (int i = 0; i < MAX_JETON_TOUR; i++)
+  {
+    lettre_lue = tabjoueur[current_player].jeton[i];
+    if (lettre_lue == '0')
+    {
+      indice_lettre = MAX_LETTRE - 1;
+    }
+    else
+    {
+      indice_lettre = lettre_lue - 'A';
+    }
+
+    point = tablettre[indice_lettre].nbpoint;
+
+    if (point > 1)
+    {
+      printf("Lettre %c: %d points\n", lettre_lue, point);
+    }
+    else
+    {
+      printf("Lettre %c: %d point\n", lettre_lue, point);
+    }
+  }
 }
