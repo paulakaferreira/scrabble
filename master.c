@@ -12,6 +12,7 @@ int main()
     int n_players = MAX_JOUEUR; // to do: let the player decide the number of players.
     int current_turn = 0;
     int fin = 0;
+    int quitte_echange=3;
 
     printf("\n            S C R A B B L E\n\n");
 
@@ -62,13 +63,20 @@ int main()
             }
             break;
         case 2:
-            echange(current_player);
-            current_player = change_turn(current_player);
-            if (board[7][7].tile != DEFAULT_TILE)
+            quitte_echange=echange(current_player);
+            if(quitte_echange!=0)
             {
-                current_turn++;
+              current_player = change_turn(current_player);
+              if ((board[7][7].tile != DEFAULT_TILE))
+              {
+                  current_turn++;
+              }
+              break;
             }
-            break;
+            else
+            {
+              break;
+            }
         case 3:
             printf("Vous avez décidé de passer votre tour\n");
             printf("----------------------------------------\n");
