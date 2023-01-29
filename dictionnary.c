@@ -6,7 +6,7 @@
 #define BOARD_SIZE 15
 
 /* Finds word in dictionnary */
-int in_dic(char word[30])
+int in_dic(char word[BOARD_SIZE])
 {
     FILE *dic;
     int i = 0;
@@ -15,11 +15,11 @@ int in_dic(char word[30])
     char copie_mot[BOARD_SIZE];
 
     strcpy(copie_mot, word);
-    for(i=0; copie_mot[i]!='\0'; i++)
+    for (i = 0; copie_mot[i] != '\0'; i++)
     {
-      copie_mot[i]=toupper(copie_mot[i]);
+        copie_mot[i] = toupper(copie_mot[i]);
     }
-    
+
     dic = fopen("liste_normalisee.txt", "r");
     strcpy(word_dic, "");
 

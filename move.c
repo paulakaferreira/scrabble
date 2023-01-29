@@ -533,7 +533,7 @@ char lettre_joker(char joker, int cpt_joker)
 {
   char lettre_remplace;
 
-  printf("Par quelle lettre voulez vous remplacer votre joker n°%d ?: ");
+  printf("Par quelle lettre voulez vous remplacer votre joker n°%d ?: ", cpt_joker);
   scanf(" %c", &lettre_remplace);
 
   while ((lettre_remplace < 'A') && (lettre_remplace > 'Z'))
