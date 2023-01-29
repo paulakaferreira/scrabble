@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAX_ACTION 6
+#define MAX_ACTION 7
 
 int actions()
 {
@@ -15,6 +15,7 @@ int actions()
     printf("4 - Voir les règles du plateau\n");
     printf("5 - Regarder les valeurs des lettres\n");
     printf("6 - Afficher mon score\n");
+    printf("7 - Finir le jeu\n");
     printf("----------------------------------------\n");
     printf("Veuillez saisir votre option : ");
     saisie_ok = scanf("%d", &action);

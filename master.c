@@ -9,8 +9,9 @@ int main()
 {
     int action = 0;
     int current_player = 0;
-    int n_players = 2; // to do: let the player decide the number of players.
+    int n_players = MAX_JOUEUR; // to do: let the player decide the number of players.
     int current_turn = 0;
+    int fin = 0;
 
     printf("\n            S C R A B B L E\n\n");
 
@@ -22,12 +23,16 @@ int main()
     set_board_value();
 
     /* Tirage au sort des lettres */
-    tirage(7, 0);
+    for (int i = 0; i < n_players; i++)
+    {
+        premier_tour = 1;
+        tirage(7, i);
+    }
 
     print_board(); // pour tester l'initialisation des valeurs: print_board_value();
 
     /* Menu d'actions - Boucle du jeu - Le tour commence */
-    while (1)
+    while (fin == 0)
     {
         /* Affichage de lettres du joueur en cours */
         printf("----------------------------------------\n");
@@ -78,6 +83,10 @@ int main()
         case 6:
             printf("----------------------------------------\n");
             printf("Votre score total (joueur %d) est : %d\n", current_player + 1, tabjoueur[current_player].score);
+            break;
+        case 7:
+            fin_partie();
+            fin = 1;
             break;
         }
     }

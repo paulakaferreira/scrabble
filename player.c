@@ -92,7 +92,7 @@ void fin_partie()
 {
   int i, j;
   int malus = 0;
-  int index_lettre;
+  int index_lettre = 0;
 
   for (i = 0; i < MAX_JOUEUR; i++)
   {
@@ -104,8 +104,9 @@ void fin_partie()
         malus += tablettre[index_lettre].nbpoint;
       }
     }
+    // if (score =)
     tabjoueur[i].score = tabjoueur[i].score - malus;
-    printf("Le joueur %d prend un malus de %d", tabjoueur[i].id_joueur, malus);
+    printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
     malus = 0;
   }
 
@@ -120,7 +121,7 @@ void fin_partie()
   }
   else
   {
-    printf("Le joueur %d a gagné, félicitations !", tabjoueur[1].id_joueur);
+    printf("Le joueur %d a gagné, félicitations !\n", tabjoueur[1].id_joueur);
   }
 
   printf("Score final : \n");
