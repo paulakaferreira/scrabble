@@ -437,24 +437,32 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
     for (row = 0; row < BOARD_SIZE; row++)
     {
       fin=0;
+      printf("ligne 440 test\n");
       if ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(fin==0))
       {
         j = 0;
         cpt = 0;
+        printf("ligne 445 test\n");
         while ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(row < BOARD_SIZE))
         {
           verif_mot[j] = copie_plateau[row][column].tile;
+          printf("ligne 449 test\n");
           if (toupper(copie_plateau[row][column].tile) == toupper(board[row][column].tile))
           {
             cpt_score++;
           }
           j++;
-          row++;
+          if((row+1)!=BOARD_SIZE)
+          {
+            row++;
+          }
           cpt++;
+          printf("ligne 457 test\n");
         }
         
         strcpy(copie_verif_mot, verif_mot);
-        for(k=0; copie_verif_mot[k]!='\0'; k++)
+        
+        for(k=0; k<(strlen(copie_verif_mot)); k++)
         {
           copie_verif_mot[k]=toupper(copie_verif_mot[k]);
         }
@@ -487,30 +495,38 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
       cpt = 0;
     }
   }
+  printf("Après vertical\n");
 
   for (row = 0; row < BOARD_SIZE; row++)
   {
     for (column = 0; column < BOARD_SIZE; column++)
     {
       fin=0;
+      printf("ligne 501 test\n");
       if ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(fin==0))
       {
         j = 0;
         cpt = 0;
+        printf("ligne 506 test\n");
         while ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(column < BOARD_SIZE))
         {
+          printf("ligne 509 test\n");
           verif_mot[j] = copie_plateau[row][column].tile;
           if (toupper(copie_plateau[row][column].tile) == toupper(board[row][column].tile))
           {
             cpt_score++;
           }
           j++;
-          column++;
+          if((column+1)!=BOARD_SIZE)
+          {
+            column++;
+          }
           cpt++;
+          printf("Ligne 518 test\n");
         }
         
         strcpy(copie_verif_mot, verif_mot);
-        for(k=0; copie_verif_mot[k]!='\0'; k++)
+        for(k=0; k<(strlen(copie_verif_mot)); k++)
         {
           copie_verif_mot[k]=toupper(copie_verif_mot[k]);
         }
