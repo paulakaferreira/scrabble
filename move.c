@@ -122,9 +122,10 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
     }
     
     
-    if(column > 0)
+    left = column-1;
+    if(left==(-1))
     {
-      left = column - 1;
+      left=0;
     }
     
     printf("%d %d %d %d\n", up, down, right, left);
@@ -479,7 +480,6 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
         }
         if(row==BOARD_SIZE)
         {
-          row--;
           fin=1;
         }
         
@@ -536,7 +536,6 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
         }
         if(column==BOARD_SIZE)
         {
-          column--;
           fin=1;
         }
       }
