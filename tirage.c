@@ -36,6 +36,7 @@ void tirage(int nb_jetons, int joueur_lu)
 	time_t nb_secondes, tp;
 	int alea, initialisation;
 	int i = 0;
+	int j;
 	int cpt_joueur;
 	int cpt_jeton = 0;
 	int trouve = 0;
@@ -124,9 +125,16 @@ void tirage(int nb_jetons, int joueur_lu)
 			else
 			// cas où le sac est vide
 			{
-				printf("Le sac de lettre est vide. il est impossible de piocher plus de %d lettres\n", cpt_jeton_tire);
+				printf("Le sac de lettre est vide. il est impossible de piocher plus de jetons.\n");
 				// on met i au nombre de jetons demandés pour sortir de la boucle définitivement
 				i = nb_jetons;
+				for(j=0; j<MAX_JETON_TOUR; j++)
+				{
+				  if(tabjoueur[joueur_lu].jeton[j]=='\0')
+				  {
+				    tabjoueur[joueur_lu].jeton[j] = '\\';
+				  }
+				}
 			}
 		}
 		if ((cpt_jeton_tire == 7) && (tour_echange == 0))
