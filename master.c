@@ -30,7 +30,7 @@ int main()
         tirage(7, i);
     }
 
-    print_board(); // pour tester l'initialisation des valeurs: print_board_value();
+   
 
     /* Menu d'actions - Boucle du jeu - Le tour commence */
     while (fin == 0)
@@ -39,7 +39,8 @@ int main()
         printf("----------------------------------------\n");
         printf("Joueur actuel: %d\n", current_player + 1);
         affichage_lettre_joueur(current_player);
-
+        printf("Score du joueur : %d\n", tabjoueur[current_player].score);
+        print_board(); // pour tester l'initialisation des valeurs: print_board_value();
         action = actions();
         switch (action)
         {
@@ -47,13 +48,12 @@ int main()
             if (get_move(current_player, current_turn) == 1)
             {
                 // To do: ajouter une fonction de calcul après la validation du mot;
-                print_board();
                 verification_sac();
                 cpt_lettres_joueur(current_player);
                 if ((sac_vide == 1) && (lettre_joueur_vide == 1))
                 {
                     printf("La partie est terminée ! \n");
-                    fin_partie();
+                    fin=fin_partie();
                 }
                 else
                 {
