@@ -107,6 +107,16 @@ void fin_partie()
     // if (score =)
     tabjoueur[i].score = tabjoueur[i].score - malus;
     printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
+    if((tabjoueur[i].id_joueur==0)&&(malus>0))
+    {
+      tabjoueur[1].score += malus;
+      printf("Le joueur %d prend un bonus de %d\n", tabjoueur[1].id_joueur, malus);
+    }
+    else if((tabjoueur[i].id_joueur==1)&&(malus > 0))
+    {
+      tabjoueur[0].score += malus;
+      printf("Le joueur %d prend un bonus de %d\n", tabjoueur[0].id_joueur, malus);
+    }
     malus = 0;
   }
 
