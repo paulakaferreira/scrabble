@@ -142,12 +142,16 @@ void tirage(int nb_jetons, int joueur_lu)
 			printf("S C R A B B L E :\n");
 			printf("Félicitations ! Vous avez joué en un tour tous les jetons de votre jeu. Vous remportez un bonus de 50 points.\n");
 			tabjoueur[joueur_lu].score += 50;
+			printf("Score du joueur %d : %d", tabjoueur[joueur_lu].id_joueur, tabjoueur[joueur_lu].score);
 		}
 		else
 		{
 			tour_echange = 0;
 		}
-		printf("Tirage au sort: vous avez tiré %d jetons du sac\n", cpt_jeton_tire);
-		printf("Le(s) jeton(s) ont été ajoutés à votre main\n");
+		if(cpt_jeton_tire!=0)
+		{
+		  printf("Tirage au sort: vous avez tiré %d jetons du sac\n", cpt_jeton_tire);
+		  printf("Le(s) jeton(s) ont été ajoutés à votre main\n");
+		}
 	}
 }
