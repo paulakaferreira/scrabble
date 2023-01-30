@@ -85,7 +85,15 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
     // Vérifie la compatibilité du mot avec le plateau
     if (board[row][column].tile != word_read[i] && board[row][column].tile != DEFAULT_TILE)
     {
-      return 0;
+      if(word_read[i] == toupper(board[row][column].tile))
+      {
+        word_read[i] = DEFAULT_TILE;
+        intersection = 1;
+      }
+      else
+      {
+        return 0;
+      }  
     }
     // Intersection avec un autre mot
     else if (board[row][column].tile != DEFAULT_TILE)
@@ -343,10 +351,13 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
 
   int i = 0;
   int j = 0;
+  int k;
   char verif_mot[BOARD_SIZE];
   int cpt = 0;
   int cpt_score = 0;
   char direction_mot;
+  char copie_verif_mot[BOARD_SIZE];
+  
 
   for (i = 0; i < BOARD_SIZE; i++)
   {
@@ -368,12 +379,15 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
     {
       if (word_read[i] <= 'Z')
       {
-        copie_plateau[row][column].tile = toupper(word_read[i]);
+        if(word_read[i]==toupper(copie_plateau[row][column].tile))
+        {
+        }
+        else
+        {
+          copie_plateau[row][column].tile = toupper(word_read[i]);
+        }
       }
-      else
-      {
-        copie_plateau[row][column].tile = word_read[i];
-      }
+
     }
 
     // Fait avancer la boucle en fonction de la direction
@@ -401,7 +415,7 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
         while ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(row < BOARD_SIZE))
         {
           verif_mot[j] = copie_plateau[row][column].tile;
-          if (copie_plateau[row][column].tile == board[row][column].tile)
+          if (toupper(copie_plateau[row][column].tile) == toupper(board[row][column].tile))
           {
             cpt_score++;
           }
@@ -409,12 +423,20 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
           row++;
           cpt++;
         }
+        
+        strcpy(copie_verif_mot, verif_mot);
+        for(k=0; copie_verif_mot[k]!='\0'; k++)
+        {
+          copie_verif_mot[k]=toupper(copie_verif_mot[k]);
+        }
+        
         if ((in_dic(verif_mot) == 0) && (cpt > 1))
         {
           printf("Le mot %s n'existe pas\n", verif_mot);
           return 0;
         }
-        else if (((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, verif_mot)) != 0) && (cpt > 1)) || ((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, verif_mot)) == 0) && (cpt > 1) && (direction == 'H')))
+        
+        else if (((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, copie_verif_mot)) != 0) && (cpt > 1)) || ((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, copie_verif_mot)) == 0) && (cpt > 1) && (direction == 'H')))
         {
           printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
           direction_mot = 'V';
@@ -441,7 +463,7 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
         while ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(column < BOARD_SIZE))
         {
           verif_mot[j] = copie_plateau[row][column].tile;
-          if (copie_plateau[row][column].tile == board[row][column].tile)
+          if (toupper(copie_plateau[row][column].tile) == toupper(board[row][column].tile))
           {
             cpt_score++;
           }
@@ -449,12 +471,20 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
           column++;
           cpt++;
         }
+        
+        strcpy(copie_verif_mot, verif_mot);
+        for(k=0; copie_verif_mot[k]!='\0'; k++)
+        {
+          copie_verif_mot[k]=toupper(copie_verif_mot[k]);
+        }
+        
         if ((in_dic(verif_mot) == 0) && (cpt > 1))
         {
           printf("Le mot %s n'existe pas\n", verif_mot);
           return 0;
         }
-        else if (((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, verif_mot)) != 0) && (cpt > 1)) || ((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, verif_mot)) == 0) && (cpt > 1) && (direction == 'V')))
+
+        else if (((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, copie_verif_mot)) != 0) && (cpt > 1)) || ((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, copie_verif_mot)) == 0) && (cpt > 1) && (direction == 'V')))
         {
           printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
           direction_mot = 'H';
