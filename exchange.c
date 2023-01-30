@@ -39,7 +39,7 @@ int echange(int choix_joueur)
 	compteur_sac = verification_sac();
 	if (compteur_sac < 7)
 	{
-		printf("échange impossible : Il y a moins de 7 lettres dans le sac");
+		printf("échange impossible : Il y a moins de 7 lettres dans le sac.\n");
 	}
 
 	else
