@@ -102,14 +102,37 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
       intersection = 1;
     }
     
-    up = row - 1;
-    down = row + 1;
-    right = column + 1;
-    left = column - 1;
+    printf("AVANT LE UPA ND DOWN\n");
+    if(row>0)
+    {
+      up = row - 1;
+    }
+    
+    if(row < 14)
+    {
+      down = row + 1;
+    }
+    
+    
+   
+    right = column+1;
+    if(right==15)
+    {
+      right = 14;
+    }
+    
+    
+    if(column > 0)
+    {
+      left = column - 1;
+    }
+    
+    printf("%d %d %d %d\n", up, down, right, left);
     if ((board[down][column].tile != DEFAULT_TILE) || (board[up][column].tile != DEFAULT_TILE) || (board[row][left].tile != DEFAULT_TILE) || (board[row][right].tile != DEFAULT_TILE))
     {
       intersection = 1;
     }
+    printf("Après le up and down\n");
     
 
     // Milieu du tableu
@@ -357,8 +380,9 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
   int cpt_score = 0;
   char direction_mot;
   char copie_verif_mot[BOARD_SIZE];
+  int fin;
   
-
+  printf("avant sortie tableau\n");
   for (i = 0; i < BOARD_SIZE; i++)
   {
     verif_mot[i] = '\0';
@@ -371,8 +395,10 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
       copie_plateau[i][j] = board[i][j];
     }
   }
+  printf("Après copie tableau\n");
   
-
+  
+  printf("avant copie du mot sur tableau\n");
   for (i = 0; i < strlen(word_read); i++)
   {
     if (word_read[i] != DEFAULT_TILE)
@@ -400,6 +426,7 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
       row++;
     }
   }
+  printf("après copie du mot sur tableau\n");
 
 
   // le mot a été ajouté à la copie du plateau
@@ -408,7 +435,8 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
   {
     for (row = 0; row < BOARD_SIZE; row++)
     {
-      if (copie_plateau[row][column].tile != DEFAULT_TILE)
+      fin=0;
+      if ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(fin==0))
       {
         j = 0;
         cpt = 0;
@@ -440,13 +468,21 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
         {
           printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
           direction_mot = 'V';
+          printf("avant score veritcal\n");
           score_mots_modif(verif_mot, column, row, direction_mot, current_player);
+          printf("Après score vertical\n");
         }
         cpt_score = 0;
         for (i = 0; i < BOARD_SIZE; i++)
         {
           verif_mot[i] = '\0';
         }
+        if(row==BOARD_SIZE)
+        {
+          row--;
+          fin=1;
+        }
+        
       }
       cpt = 0;
     }
@@ -456,7 +492,8 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
   {
     for (column = 0; column < BOARD_SIZE; column++)
     {
-      if (copie_plateau[row][column].tile != DEFAULT_TILE)
+      fin=0;
+      if ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(fin==0))
       {
         j = 0;
         cpt = 0;
@@ -488,18 +525,26 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
         {
           printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
           direction_mot = 'H';
+          printf("Avant score horizontal\n");
           score_mots_modif(verif_mot, column, row, direction_mot, current_player);
+          printf("Après score horizontal\n");
         }
         cpt_score = 0;
         for (i = 0; i < BOARD_SIZE; i++)
         {
           verif_mot[i] = '\0';
         }
+        if(column==BOARD_SIZE)
+        {
+          column--;
+          fin=1;
+        }
       }
       cpt = 0;
     }
   }
-
+  
+  printf("------------------------------------OK !!!-----------------------------------------\n");
   return 1;
 }
 
@@ -621,7 +666,7 @@ int verif_depassement_tableau(char word_read[BOARD_SIZE], int column, int row, c
   int i = 0;
   int j = 0;
 
-
+  printf("Entrée vérif déplacement");
   for (i = 0; i < BOARD_SIZE; i++)
   {
     for (j = 0; j < BOARD_SIZE; j++)
@@ -661,5 +706,6 @@ int verif_depassement_tableau(char word_read[BOARD_SIZE], int column, int row, c
     }
   }
   
+  printf("sortie vérif déplacement\n");
   return 1;
  }
