@@ -11,6 +11,7 @@
 char lettre_joker(char joker, int cpt_joker, int joueur);
 int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char direction, int current_player);
 void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direction, int player);
+int verif_depassement_tableau(char word_read[BOARD_SIZE], int column, int row, char direction);
 struct Square copie_plateau[BOARD_SIZE][BOARD_SIZE];
 
 // Verifie la compatibilité du mot saisie avec les tuiles qui sont à la main du joueur
@@ -47,7 +48,7 @@ int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
         if (hand_copy[j] == '0')
         {
           hand_copy[j] = '\0';
-          word_read[i] = toupper(word_read[i]);
+          word_read[i] = tolower(word_read[i]);
           found = 1;
           break;
         }
@@ -92,7 +93,7 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
       word_read[i] = DEFAULT_TILE;
       intersection = 1;
     }
-
+    
     up = row - 1;
     down = row + 1;
     right = column + 1;
@@ -101,6 +102,7 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
     {
       intersection = 1;
     }
+    
 
     // Milieu du tableu
     if ((column == 7) && (row == 7))
@@ -282,12 +284,19 @@ int get_move(int current_player, int turn)
   column--;
   row--;
 
+  if ((verif_depassement_tableau(word_read, column, row, direction))==0)
+  {
+    printf("Erreur : votre mot dépasse le tableau !\n");
+    return 0;
+  }
+  
   if (check_board_new_word(word_read, column, row, direction, current_player) == 0)
   {
     printf("Le mot que vous avez saisi interfère de façon invalide avec d'autres mots\n");
     temp_score = 0;
     return 0;
   }
+
   // Verifie la compatibilité du mot avec le tableau;
   // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
   if (check_board_compatibility(column, row, direction, word_read, turn) == 1)
@@ -351,12 +360,13 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
       copie_plateau[i][j] = board[i][j];
     }
   }
+  
 
   for (i = 0; i < strlen(word_read); i++)
   {
     if (word_read[i] != DEFAULT_TILE)
     {
-      if (word_read[i] >= 'A')
+      if (word_read[i] <= 'Z')
       {
         copie_plateau[row][column].tile = toupper(word_read[i]);
       }
@@ -377,6 +387,7 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
     }
   }
 
+
   // le mot a été ajouté à la copie du plateau
   // maintenant il va s'agir de lire chaque colonne du tableau et de valider le mot ou non
   for (column = 0; column < BOARD_SIZE; column++)
@@ -387,7 +398,7 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
       {
         j = 0;
         cpt = 0;
-        while (copie_plateau[row][column].tile != DEFAULT_TILE)
+        while ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(row < BOARD_SIZE))
         {
           verif_mot[j] = copie_plateau[row][column].tile;
           if (copie_plateau[row][column].tile == board[row][column].tile)
@@ -427,7 +438,7 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
       {
         j = 0;
         cpt = 0;
-        while (copie_plateau[row][column].tile != DEFAULT_TILE)
+        while ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(column < BOARD_SIZE))
         {
           verif_mot[j] = copie_plateau[row][column].tile;
           if (copie_plateau[row][column].tile == board[row][column].tile)
@@ -573,3 +584,52 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
     return (lettre_remplace);
   }
 }
+
+int verif_depassement_tableau(char word_read[BOARD_SIZE], int column, int row, char direction)
+{
+
+  int i = 0;
+  int j = 0;
+
+
+  for (i = 0; i < BOARD_SIZE; i++)
+  {
+    for (j = 0; j < BOARD_SIZE; j++)
+    {
+      copie_plateau[i][j] = board[i][j];
+    }
+  }
+  
+
+  for (i = 0; i < strlen(word_read); i++)
+  {
+    if((column>=BOARD_SIZE)||(row>=BOARD_SIZE))
+    {
+      return 0;
+    }
+    
+    if (word_read[i] != DEFAULT_TILE)
+    {
+      if (word_read[i] <= 'Z')
+      {
+        copie_plateau[row][column].tile = toupper(word_read[i]);
+      }
+      else
+      {
+        copie_plateau[row][column].tile = word_read[i];
+      }
+    }
+
+    // Fait avancer la boucle en fonction de la direction
+    if (direction == 'H')
+    {
+      column++;
+    }
+    else
+    {
+      row++;
+    }
+  }
+  
+  return 1;
+ }
