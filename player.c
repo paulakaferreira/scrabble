@@ -59,7 +59,7 @@ void cpt_lettres_joueur(int joueur_lu)
 
   for (i = 0; i < MAX_JETON_TOUR; i++)
   {
-    if (tabjoueur[joueur_lu].jeton[i] != '\0')
+    if (tabjoueur[joueur_lu].jeton[i] != '\\')
     {
       cpt++;
     }
@@ -88,7 +88,7 @@ int change_turn(int player)
   }
 }
 
-void fin_partie()
+int fin_partie()
 {
   int i, j;
   int malus = 0;
@@ -107,6 +107,16 @@ void fin_partie()
     // if (score =)
     tabjoueur[i].score = tabjoueur[i].score - malus;
     printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
+    if((tabjoueur[i].id_joueur==1)&&(malus>0))
+    {
+      tabjoueur[1].score += malus;
+      printf("Le joueur %d prend un bonus de %d\n", tabjoueur[1].id_joueur, malus);
+    }
+    else if((tabjoueur[i].id_joueur==2)&&(malus > 0))
+    {
+      tabjoueur[0].score += malus;
+      printf("Le joueur %d prend un bonus de %d\n", tabjoueur[0].id_joueur, malus);
+    }
     malus = 0;
   }
 
@@ -127,6 +137,7 @@ void fin_partie()
   printf("Score final : \n");
   printf("Joueur 1 : %d points.\n", tabjoueur[0].score);
   printf("Joueur 2 : %d points. \n", tabjoueur[1].score);
+  return 1;
 }
 
 void valeurs_lettre_main(int current_player)
