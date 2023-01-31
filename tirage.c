@@ -39,7 +39,6 @@ void tirage(int nb_jetons, int joueur_lu)
 	int j;
 	int cpt_joueur;
 	int cpt_jeton = 0;
-	int trouve = 0;
 	int cpt_jeton_tire = 0;
 	/* Pour la fonction aléatoire, récupération du nombre de seconde écoulée depuis 1970 */
 	nb_secondes = time(&tp);
@@ -128,12 +127,12 @@ void tirage(int nb_jetons, int joueur_lu)
 				printf("Le sac de lettre est vide. il est impossible de piocher plus de jetons.\n");
 				// on met i au nombre de jetons demandés pour sortir de la boucle définitivement
 				i = nb_jetons;
-				for(j=0; j<MAX_JETON_TOUR; j++)
+				for (j = 0; j < MAX_JETON_TOUR; j++)
 				{
-				  if(tabjoueur[joueur_lu].jeton[j]=='\0')
-				  {
-				    tabjoueur[joueur_lu].jeton[j] = '\\';
-				  }
+					if (tabjoueur[joueur_lu].jeton[j] == '\0')
+					{
+						tabjoueur[joueur_lu].jeton[j] = '\\';
+					}
 				}
 			}
 		}
@@ -148,10 +147,10 @@ void tirage(int nb_jetons, int joueur_lu)
 		{
 			tour_echange = 0;
 		}
-		if(cpt_jeton_tire!=0)
+		if (cpt_jeton_tire != 0)
 		{
-		  printf("Tirage au sort: vous avez tiré %d jetons du sac\n", cpt_jeton_tire);
-		  printf("Le(s) jeton(s) ont été ajoutés à votre main\n");
+			printf("Tirage au sort: vous avez tiré %d jetons du sac\n", cpt_jeton_tire);
+			printf("Le(s) jeton(s) ont été ajoutés à votre main\n");
 		}
 	}
 }

@@ -199,7 +199,6 @@ void modify_board(char word_read[BOARD_SIZE], int column, int row, char directio
 int get_move(int current_player, int turn)
 {
   int i = 0;
-  int count = 1;
   char word_read[BOARD_SIZE];
   char direction;
   char column_letter = '\0';
@@ -601,7 +600,6 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
 
   int i;
   int trouve = 0;
-  char copie_tab_joueur[MAX_JETON_TOUR];
 
   for (i = 0; i < MAX_JETON_TOUR; i++)
   {

@@ -1,4 +1,6 @@
 *.exe
 board
 master
+scrabble
+crab
 .vscode/*

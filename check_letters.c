@@ -27,10 +27,10 @@ int verif_lettres(int choix_joueur)
 
 	if ((lettre = getchar()) != '\n')
 	{
-	        if(lettre=='1')
-	        {
-	          return 2;
-	        }
+		if (lettre == '1')
+		{
+			return 2;
+		}
 		lettre = toupper(lettre);
 		chaine_lettres_lues[i] = lettre;
 		i++;
@@ -51,10 +51,10 @@ int verif_lettres(int choix_joueur)
 	{
 		while ((lettre = getchar()) != '\n')
 		{
-		        if(lettre=='1')
-		        {
-		          return 2;
-		        }
+			if (lettre == '1')
+			{
+				return 2;
+			}
 			if (lettre != ' ')
 			{
 				lettre = toupper(lettre);
@@ -68,8 +68,8 @@ int verif_lettres(int choix_joueur)
 	if (cpt > MAX_JETON_TOUR)
 	{
 		printf("Erreur : vous avez entré un nombre de lettres supérieur aux jetons que vous possédez.\n");
-		chaine_lettres_lues[7]='\0'; // on enlève la lettre résiduelle
-		return (trouve);
+		chaine_lettres_lues[7] = '\0'; // on enlève la lettre résiduelle
+		return trouve;
 	}
 
 	else
@@ -103,8 +103,9 @@ int verif_lettres(int choix_joueur)
 		if (trouve == 1)
 		{
 			printf("Toutes les lettres entrées sont bien en votre possession.\n");
-			return (trouve);
 		}
 
 	} // sortie du else
+
+	return trouve;
 }
