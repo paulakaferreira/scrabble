@@ -98,7 +98,7 @@ int fin_partie()
   {
     for (j = 0; j < MAX_JETON_TOUR; j++)
     {
-      if (tabjoueur[i].jeton[j] != '\0')
+      if (tabjoueur[i].jeton[j] != '\0' && tabjoueur[i].jeton[j] != '0')
       {
         index_lettre = tabjoueur[i].jeton[j] - 'A';
         malus += tablettre[index_lettre].nbpoint;
@@ -107,12 +107,12 @@ int fin_partie()
     // if (score =)
     tabjoueur[i].score = tabjoueur[i].score - malus;
     printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
-    if((tabjoueur[i].id_joueur==1)&&(malus>0))
+    if ((tabjoueur[i].id_joueur == 1) && (malus > 0))
     {
       tabjoueur[1].score += malus;
       printf("Le joueur %d prend un bonus de %d\n", tabjoueur[1].id_joueur, malus);
     }
-    else if((tabjoueur[i].id_joueur==2)&&(malus > 0))
+    else if ((tabjoueur[i].id_joueur == 2) && (malus > 0))
     {
       tabjoueur[0].score += malus;
       printf("Le joueur %d prend un bonus de %d\n", tabjoueur[0].id_joueur, malus);
