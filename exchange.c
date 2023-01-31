@@ -28,13 +28,11 @@ void remise(int lettre_remise)
 
 int echange(int choix_joueur)
 {
-	char lettre;
-	int i = 0, j = 0, cpt_jeton = 0, k;
-	char jeton;
+	int i = 0, j = 0, cpt_jeton = 0;
 	int trouve = 0;
 	int lettres_ok;
 	int compteur_sac;
-	tour_echange=1;
+	tour_echange = 1;
 
 	compteur_sac = verification_sac();
 	if (compteur_sac < 7)
@@ -51,10 +49,10 @@ int echange(int choix_joueur)
 		// dont le programme vérifiera qu'elles correspondent aux lettres qu'il possède
 
 		lettres_ok = verif_lettres(choix_joueur);
-	        if (lettres_ok==2)
-	        {
-		  printf("Vous avez quitté le menu d'échange.\n");
-		  return 0;
+		if (lettres_ok == 2)
+		{
+			printf("Vous avez quitté le menu d'échange.\n");
+			return 0;
 		}
 
 		// cette boucle va permettre de lire toutes les lettres entrées par l'utilisateur
@@ -68,10 +66,10 @@ int echange(int choix_joueur)
 			affichage_lettre_joueur(choix_joueur);
 			printf("Quelles lettres souhaitez-vous remettre dans le sac ? : ");
 			lettres_ok = verif_lettres(choix_joueur);
-			if (lettres_ok==2)
+			if (lettres_ok == 2)
 			{
-			  printf("Vous avez quitté le menu d'échange.\n");
-			  return 0;
+				printf("Vous avez quitté le menu d'échange.\n");
+				return 0;
 			}
 		}
 
@@ -108,7 +106,7 @@ int echange(int choix_joueur)
 
 		printf("Vous avez remis %d jetons dans le sac.\n", cpt_jeton);
 		tirage(cpt_jeton, choix_joueur);
-	
+
 		for (i = 0; chaine_lettres_lues[i] != '\0'; i++)
 		{
 			remise(chaine_lettres_lues[i]);
@@ -120,8 +118,7 @@ int echange(int choix_joueur)
 			printf("%c ", tabjoueur[choix_joueur].jeton[i]);
 		}
 		printf("\n");
-		tour_echange=0;
+		tour_echange = 0;
 
 	} // fermeture du else (si compteur_sac est égal ou supérieur à 7)
-	
 }
