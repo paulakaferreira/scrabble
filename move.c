@@ -78,17 +78,17 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
   int i = 0;
   int intersection = 0;
   int middle_board = 0;
-  int up=0;
-  int down=0;
-  int right=0;
-  int left=0;
+  int up = 0;
+  int down = 0;
+  int right = 0;
+  int left = 0;
 
   for (i = 0; i < strlen(word_read); i++)
   {
     // Vérifie la compatibilité du mot avec le plateau
     if (board[row][column].tile != word_read[i] && board[row][column].tile != DEFAULT_TILE)
     {
-      if(word_read[i] == toupper(board[row][column].tile))
+      if (word_read[i] == toupper(board[row][column].tile))
       {
         word_read[i] = DEFAULT_TILE;
         intersection = 1;
@@ -96,7 +96,7 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
       else
       {
         return 0;
-      }  
+      }
     }
     // Intersection avec un autre mot
     else if (board[row][column].tile != DEFAULT_TILE)
@@ -104,38 +104,33 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
       word_read[i] = DEFAULT_TILE;
       intersection = 1;
     }
-    
-    if(row>0)
+
+    if (row > 0)
     {
       up = row - 1;
     }
-    
-    if(row < 14)
+
+    if (row < 14)
     {
       down = row + 1;
     }
-    
-    
-   
-    right = column+1;
-    if(right==15)
+
+    right = column + 1;
+    if (right == 15)
     {
       right = 14;
     }
-    
-    
-    left = column-1;
-    if(left==(-1))
+
+    left = column - 1;
+    if (left == (-1))
     {
-      left=0;
+      left = 0;
     }
-    
-    printf("%d %d %d %d\n", up, down, right, left);
+
     if ((board[down][column].tile != DEFAULT_TILE) || (board[up][column].tile != DEFAULT_TILE) || (board[row][left].tile != DEFAULT_TILE) || (board[row][right].tile != DEFAULT_TILE))
     {
       intersection = 1;
     }
-    
 
     // Milieu du tableu
     if ((column == 7) && (row == 7))
@@ -317,12 +312,12 @@ int get_move(int current_player, int turn)
   column--;
   row--;
 
-  if ((verif_depassement_tableau(word_read, column, row, direction))==0)
+  if ((verif_depassement_tableau(word_read, column, row, direction)) == 0)
   {
     printf("Erreur : votre mot dépasse le tableau !\n");
     return 0;
   }
-  
+
   if (check_board_new_word(word_read, column, row, direction, current_player) == 0)
   {
     printf("Le mot que vous avez saisi interfère de façon invalide avec d'autres mots\n");
@@ -383,7 +378,6 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
   char direction_mot;
   char copie_verif_mot[BOARD_SIZE];
   int fin;
-  
 
   for (i = 0; i < BOARD_SIZE; i++)
   {
@@ -398,14 +392,13 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
     }
   }
 
-  
   for (i = 0; i < strlen(word_read); i++)
   {
     if (word_read[i] != DEFAULT_TILE)
     {
       if (word_read[i] <= 'Z')
       {
-        if(word_read[i]==toupper(copie_plateau[row][column].tile))
+        if (word_read[i] == toupper(copie_plateau[row][column].tile))
         {
         }
         else
@@ -413,7 +406,6 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
           copie_plateau[row][column].tile = toupper(word_read[i]);
         }
       }
-
     }
 
     // Fait avancer la boucle en fonction de la direction
@@ -427,20 +419,18 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
     }
   }
 
-
-
   // le mot a été ajouté à la copie du plateau
   // maintenant il va s'agir de lire chaque colonne du tableau et de valider le mot ou non
   for (column = 0; column < BOARD_SIZE; column++)
   {
     for (row = 0; row < BOARD_SIZE; row++)
     {
-      fin=0;
-      if ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(fin==0))
+      fin = 0;
+      if ((copie_plateau[row][column].tile != DEFAULT_TILE) && (fin == 0))
       {
         j = 0;
         cpt = 0;
-        while ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(row < BOARD_SIZE))
+        while ((copie_plateau[row][column].tile != DEFAULT_TILE) && (row < BOARD_SIZE))
         {
           verif_mot[j] = copie_plateau[row][column].tile;
           if (toupper(copie_plateau[row][column].tile) == toupper(board[row][column].tile))
@@ -451,20 +441,20 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
           row++;
           cpt++;
         }
-        
+
         strcpy(copie_verif_mot, verif_mot);
-        
-        for(k=0; k<(strlen(copie_verif_mot)); k++)
+
+        for (k = 0; k < (strlen(copie_verif_mot)); k++)
         {
-          copie_verif_mot[k]=toupper(copie_verif_mot[k]);
+          copie_verif_mot[k] = toupper(copie_verif_mot[k]);
         }
-        
+
         if ((in_dic(verif_mot) == 0) && (cpt > 1))
         {
           printf("Le mot %s n'existe pas\n", verif_mot);
           return 0;
         }
-        
+
         else if (((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, copie_verif_mot)) != 0) && (cpt > 1)) || ((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, copie_verif_mot)) == 0) && (cpt > 1) && (direction == 'H')))
         {
           printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
@@ -476,11 +466,10 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
         {
           verif_mot[i] = '\0';
         }
-        if(row==BOARD_SIZE)
+        if (row == BOARD_SIZE)
         {
-          fin=1;
+          fin = 1;
         }
-        
       }
       cpt = 0;
     }
@@ -490,12 +479,12 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
   {
     for (column = 0; column < BOARD_SIZE; column++)
     {
-      fin=0;
-      if ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(fin==0))
+      fin = 0;
+      if ((copie_plateau[row][column].tile != DEFAULT_TILE) && (fin == 0))
       {
         j = 0;
         cpt = 0;
-        while ((copie_plateau[row][column].tile != DEFAULT_TILE)&&(column < BOARD_SIZE))
+        while ((copie_plateau[row][column].tile != DEFAULT_TILE) && (column < BOARD_SIZE))
         {
           verif_mot[j] = copie_plateau[row][column].tile;
           if (toupper(copie_plateau[row][column].tile) == toupper(board[row][column].tile))
@@ -506,13 +495,13 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
           column++;
           cpt++;
         }
-        
+
         strcpy(copie_verif_mot, verif_mot);
-        for(k=0; k<(strlen(copie_verif_mot)); k++)
+        for (k = 0; k < (strlen(copie_verif_mot)); k++)
         {
-          copie_verif_mot[k]=toupper(copie_verif_mot[k]);
+          copie_verif_mot[k] = toupper(copie_verif_mot[k]);
         }
-        
+
         if ((in_dic(verif_mot) == 0) && (cpt > 1))
         {
           printf("Le mot %s n'existe pas\n", verif_mot);
@@ -530,15 +519,15 @@ int check_board_new_word(char word_read[BOARD_SIZE], int column, int row, char d
         {
           verif_mot[i] = '\0';
         }
-        if(column==BOARD_SIZE)
+        if (column == BOARD_SIZE)
         {
-          fin=1;
+          fin = 1;
         }
       }
       cpt = 0;
     }
   }
-  
+
   return 1;
 }
 
@@ -609,44 +598,43 @@ void score_mots_modif(char verif_mot[BOARD_SIZE], int column, int row, int direc
 char lettre_joker(char joker, int cpt_joker, int joueur)
 {
   char lettre_remplace;
-  
-  int i;
-  int trouve=0;
-  char copie_tab_joueur[MAX_JETON_TOUR];
-  
 
-  
-  for(i=0; i<MAX_JETON_TOUR; i++)
+  int i;
+  int trouve = 0;
+  char copie_tab_joueur[MAX_JETON_TOUR];
+
+  for (i = 0; i < MAX_JETON_TOUR; i++)
   {
-    if(tabjoueur[joueur].jeton[i]=='0')
+    if (tabjoueur[joueur].jeton[i] == '0')
     {
       trouve++;
     }
   }
-  
-  if((trouve==1)&&(cpt_joker>=2))
+
+  if ((trouve == 1) && (cpt_joker >= 2))
   {
     printf("Erreur pour le deuxième joker : vous ne possédez plus de jokers.\n");
     return 0;
   }
-  
-  else if(trouve==0)
+
+  else if (trouve == 0)
   {
     printf("Vous ne possédez pas de joker.\n");
     return 0;
   }
-  
+
   else
   {
     printf("Par quelle lettre voulez vous remplacer votre joker n°%d ?: ", cpt_joker);
     scanf(" %c", &lettre_remplace);
 
-    while ((lettre_remplace < 'A') && (lettre_remplace > 'Z')&&(trouve==1))
+    while ((lettre_remplace < 'A') && (lettre_remplace > 'Z') && (trouve == 1))
     {
       printf("Erreur de saisie : entrez une lettre valide : ");
-      while ((lettre_remplace = getchar()) != '\n');
+      while ((lettre_remplace = getchar()) != '\n')
+        ;
       scanf(" %c", &lettre_remplace);
-      trouve=0;
+      trouve = 0;
     }
 
     lettre_remplace = tolower(lettre_remplace);
@@ -667,15 +655,14 @@ int verif_depassement_tableau(char word_read[BOARD_SIZE], int column, int row, c
       copie_plateau[i][j] = board[i][j];
     }
   }
-  
 
   for (i = 0; i < strlen(word_read); i++)
   {
-    if((column>=BOARD_SIZE)||(row>=BOARD_SIZE))
+    if ((column >= BOARD_SIZE) || (row >= BOARD_SIZE))
     {
       return 0;
     }
-    
+
     if (word_read[i] != DEFAULT_TILE)
     {
       if (word_read[i] <= 'Z')
@@ -698,6 +685,6 @@ int verif_depassement_tableau(char word_read[BOARD_SIZE], int column, int row, c
       row++;
     }
   }
-  
+
   return 1;
- }
+}
