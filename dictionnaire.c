@@ -3,16 +3,16 @@
 #include <string.h>
 #include <ctype.h>
 
-#define BOARD_SIZE 15
+#define TAILLE_PLATEAU 15
 
 /* Finds word in dictionnary */
-int in_dic(char word[BOARD_SIZE])
+int in_dic(char word[TAILLE_PLATEAU])
 {
     FILE *dic;
     int i = 0;
     int find = 3;
     char word_dic[30];
-    char copie_mot[BOARD_SIZE];
+    char copie_mot[TAILLE_PLATEAU];
 
     strcpy(copie_mot, word);
     for (i = 0; copie_mot[i] != '\0'; i++)

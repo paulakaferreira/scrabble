@@ -2,17 +2,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "board.c"
+#include "plateau.c"
 #include "player.c"
 #include "saclettre.c"
 
 int temp_score = 0;
 
-void score_mots_modif(char word_read[BOARD_SIZE], int column, int row, int direction, int player);
+void score_mots_modif(char word_read[TAILLE_PLATEAU], int column, int row, int direction, int player);
 
 // Calcul du score
-// Modifie aussi les valeurs du board afin d'enlever les valeurs spéciales déjà utilisées;
-void get_player_score(char word_read[BOARD_SIZE], int column, int row, int direction, int player)
+// Modifie aussi les valeurs du plateau afin d'enlever les valeurs spéciales déjà utilisées;
+void get_player_score(char word_read[TAILLE_PLATEAU], int column, int row, int direction, int player)
 {
     int sum = 0;
     int mult = 1;
@@ -21,31 +21,31 @@ void get_player_score(char word_read[BOARD_SIZE], int column, int row, int direc
     // 1- Comptabilise les points des lettres et leurs multiplicateurs
     for (int i = 0; i < strlen(word_read); i++)
     {
-        if (islower(board[row][column].tile))
+        if (islower(plateau[row][column].tuile))
         {
             letter_index = 91;
             tablettre[letter_index].nbpoint = 0; // je ne sais pas pourquoi ça me le met à 1 par défaut...
         }
         else
         {
-            letter_index = board[row][column].tile - 'A';
+            letter_index = plateau[row][column].tuile - 'A';
         }
         // Laisse passer les cases où la lettre utilisée pour former le mot était déjà dans le plateau
-        if (word_read[i] != DEFAULT_TILE)
+        if (word_read[i] != TUILE_STANDARD)
         {
             // Commence le comptage des valeurs
-            if (board[row][column].type == LETTER_FLAG)
+            if (plateau[row][column].type == BALISE_LETTRE)
             {
-                sum += board[row][column].value * tablettre[letter_index].nbpoint;
-                board[row][column].value = SIMPLE_CASE;
-                board[row][column].type = ABSENT_FLAG;
+                sum += plateau[row][column].valeur * tablettre[letter_index].nbpoint;
+                plateau[row][column].valeur = CASE_SIMPLE;
+                plateau[row][column].type = BALISE_ABSENTE;
             }
-            else if (board[row][column].type == WORD_FLAG)
+            else if (plateau[row][column].type == BALISE_MOT)
             {
                 sum += tablettre[letter_index].nbpoint;
-                mult *= board[row][column].value;
-                board[row][column].value = SIMPLE_CASE;
-                board[row][column].type = ABSENT_FLAG;
+                mult *= plateau[row][column].valeur;
+                plateau[row][column].valeur = CASE_SIMPLE;
+                plateau[row][column].type = BALISE_ABSENTE;
             }
             else
             {

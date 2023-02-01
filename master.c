@@ -21,7 +21,7 @@ int main()
     init_joueur(nb_joueurs);
     fiche_lettre();
     sac_lettres();
-    cration_plateau();
+    creation_plateau();
     init_valeurs_plateau();
 
     /* Tirage au sort des lettres */
@@ -65,7 +65,7 @@ int main()
             if (quitte_echange != 0)
             {
                 joueur_actuel = changement_tour(joueur_actuel);
-                if ((board[7][7].tile != DEFAULT_TILE))
+                if ((plateau[7][7].tuile != TUILE_STANDARD))
                 {
                     tour_actuel++;
                 }
