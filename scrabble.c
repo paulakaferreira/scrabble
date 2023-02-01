@@ -5,7 +5,7 @@
 #include "regles.c"
 #include "echange.c"
 
-/*****Programme principal******/
+/***** Programme principal ******/
 int main()
 {
     int action = 0;
