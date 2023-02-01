@@ -76,23 +76,24 @@ void cpt_lettres_joueur(int joueur_lu)
 }
 
 // fonction pour changer le tour du joueur.
-int change_turn(int player)
+int changement_tour(int joueur)
 {
-  if (player == MAX_JOUEUR - 1)
+  if (joueur == MAX_JOUEUR - 1)
   {
     return 0;
   }
   else
   {
-    return player + 1;
+    return joueur + 1;
   }
 }
 
+// Termine la partie
 int fin_partie()
 {
   int i, j;
   int malus = 0;
-  int index_lettre = 0;
+  int indice_lettre = 0;
 
   for (i = 0; i < MAX_JOUEUR; i++)
   {
@@ -100,8 +101,8 @@ int fin_partie()
     {
       if (tabjoueur[i].jeton[j] != '\0' && tabjoueur[i].jeton[j] != '0')
       {
-        index_lettre = tabjoueur[i].jeton[j] - 'A';
-        malus += tablettre[index_lettre].nbpoint;
+        indice_lettre = tabjoueur[i].jeton[j] - 'A';
+        malus += tablettre[indice_lettre].nbpoint;
       }
     }
     // if (score =)
@@ -140,7 +141,7 @@ int fin_partie()
   return 1;
 }
 
-void valeurs_lettre_main(int current_player)
+void valeurs_lettre_main(int joueur_actuel)
 {
   char lettre_lue = '\0';
   int indice_lettre = 0;
@@ -148,7 +149,7 @@ void valeurs_lettre_main(int current_player)
   printf(" -------Valeurs dans votre main-------\n\n");
   for (int i = 0; i < MAX_JETON_TOUR; i++)
   {
-    lettre_lue = tabjoueur[current_player].jeton[i];
+    lettre_lue = tabjoueur[joueur_actuel].jeton[i];
     if (lettre_lue == '0')
     {
       indice_lettre = MAX_LETTRE - 1;

@@ -2,6 +2,7 @@
 
 #define MAX_ACTION 7
 
+/********* Menu principal *********/
 int actions()
 {
     int action = 0;
@@ -25,7 +26,7 @@ int actions()
 
         if (saisie_ok == 0)
         {
-            printf("Erreur de saisie : veuillez saisir une action valide (1-6) : ");
+            printf("Erreur de saisie : veuillez saisir une action valide (1-%d) : ", MAX_ACTION);
             while ((action = getchar()) != '\n')
                 ;
             saisie_ok = scanf("%d", &action);
@@ -33,7 +34,7 @@ int actions()
         else if ((action < 1) || (action > MAX_ACTION))
         {
             printf("Option erronée\n");
-            printf("Veuillez saisir un chiffre entre 1 et 7 :");
+            printf("Veuillez saisir un chiffre entre 1 et %d :", MAX_ACTION);
             while ((action = getchar()) != '\n')
                 ;
             saisie_ok = scanf("%d", &action);

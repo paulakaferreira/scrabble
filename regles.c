@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+/****** Régles du plateau *****/
 void board_rules()
 {
     printf(" -------Règles du plateau-------\n\n");

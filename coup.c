@@ -196,7 +196,7 @@ void modify_board(char word_read[BOARD_SIZE], int column, int row, char directio
 
 // Demande au joueur de jouer son tour
 // Fonction principale qui appelle les fonctions de compatibilité et de modification du tableau
-int get_move(int current_player, int turn)
+int coup_partie(int current_player, int turn)
 {
   int i = 0;
   char word_read[BOARD_SIZE];

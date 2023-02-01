@@ -1,96 +1,94 @@
 #include <stdio.h>
-#include "actions.c"
-#include "move.c"
+#include "menu.c"
+#include "coup.c"
 #include "score.c"
-#include "rules.c"
-#include "exchange.c"
+#include "regles.c"
+#include "echange.c"
 
+/*****Programme principal******/
 int main()
 {
     int action = 0;
-    int current_player = 0;
-    int n_players = MAX_JOUEUR; // to do: let the player decide the number of players.
-    int current_turn = 0;
+    int joueur_actuel = 0;
+    int nb_joueurs = MAX_JOUEUR;
+    int tour_actuel = 0;
     int fin = 0;
-    int quitte_echange=3;
+    int quitte_echange = 3;
 
     printf("\n            S C R A B B L E\n\n");
 
     /* Initialisations */
-    init_joueur(n_players);
+    init_joueur(nb_joueurs);
     fiche_lettre();
     sac_lettres();
-    create_board();
-    set_board_value();
+    cration_plateau();
+    init_valeurs_plateau();
 
     /* Tirage au sort des lettres */
-    for (int i = 0; i < n_players; i++)
+    for (int i = 0; i < nb_joueurs; i++)
     {
         premier_tour = 1;
         tirage(7, i);
     }
 
-   
-
     /* Menu d'actions - Boucle du jeu - Le tour commence */
     while (fin == 0)
     {
-        /* Affichage de lettres du joueur en cours */
+        /* Affichage de lettres et du score du joueur en cours */
         printf("----------------------------------------\n");
-        printf("Joueur actuel: %d\n", current_player + 1);
-        affichage_lettre_joueur(current_player);
-        printf("Score du joueur : %d\n", tabjoueur[current_player].score);
-        print_board(); // pour tester l'initialisation des valeurs: print_board_value();
+        printf("Joueur actuel: %d\n", joueur_actuel + 1);
+        affichage_lettre_joueur(joueur_actuel);
+        printf("Score du joueur : %d\n", tabjoueur[joueur_actuel].score);
+        affichage_plateau();
         action = actions();
         switch (action)
         {
         case 1:
-            if (get_move(current_player, current_turn) == 1)
+            if (coup_partie(joueur_actuel, tour_actuel) == 1)
             {
-                // To do: ajouter une fonction de calcul après la validation du mot;
                 verification_sac();
-                cpt_lettres_joueur(current_player);
+                cpt_lettres_joueur(joueur_actuel);
                 if ((sac_vide == 1) && (lettre_joueur_vide == 1))
                 {
                     printf("La partie est terminée ! \n");
-                    fin=fin_partie();
+                    fin = fin_partie();
                 }
                 else
                 {
-                    current_player = change_turn(current_player);
-                    current_turn++;
+                    joueur_actuel = changement_tour(joueur_actuel);
+                    tour_actuel++;
                 }
             }
             break;
         case 2:
-            quitte_echange=echange(current_player);
-            if(quitte_echange!=0)
+            quitte_echange = echange(joueur_actuel);
+            if (quitte_echange != 0)
             {
-              current_player = change_turn(current_player);
-              if ((board[7][7].tile != DEFAULT_TILE))
-              {
-                  current_turn++;
-              }
-              break;
+                joueur_actuel = changement_tour(joueur_actuel);
+                if ((board[7][7].tile != DEFAULT_TILE))
+                {
+                    tour_actuel++;
+                }
+                break;
             }
             else
             {
-              break;
+                break;
             }
         case 3:
             printf("Vous avez décidé de passer votre tour\n");
             printf("----------------------------------------\n");
-            current_player = change_turn(current_player);
+            joueur_actuel = changement_tour(joueur_actuel);
             break;
         case 4:
             board_rules();
             break;
         case 5:
-            valeurs_lettre_main(current_player);
+            valeurs_lettre_main(joueur_actuel);
             break;
         case 6:
             printf("----------------------------------------\n");
-            printf("Votre score total (joueur %d) est : %d\n", current_player + 1, tabjoueur[current_player].score);
+            printf("Votre score total (joueur %d) est : %d\n", joueur_actuel + 1, tabjoueur[joueur_actuel].score);
             break;
         case 7:
             fin_partie();

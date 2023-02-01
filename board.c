@@ -29,7 +29,7 @@ struct Square
 struct Square board[BOARD_SIZE][BOARD_SIZE];
 
 // Initialise le tableau avec les valeurs de base
-void create_board()
+void cration_plateau()
 {
     int i, j = 0;
 
@@ -47,7 +47,7 @@ void create_board()
 }
 
 // Implémente les valeurs de multiplication pour chaque carré spécial
-void set_board_value()
+void init_valeurs_plateau()
 {
     int i, j = 0;
     // Crétion du premier triangle + ligne du milieu
@@ -145,7 +145,7 @@ void set_board_value()
     }
 }
 
-void print_board()
+void affichage_plateau()
 {
     int i, j;
     int k = 1;
