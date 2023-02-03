@@ -48,7 +48,7 @@ int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
         if (hand_copy[j] == '0')
         {
           hand_copy[j] = '\0';
-          word_read[i] = tolower(word_read[i]);
+          word_read[i] = tolower(word_read[i]); // on met la lettre en minuscule pour pouvoir identifier le joker
           found = 1;
           break;
         }
@@ -105,28 +105,34 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
       intersection = 1;
     }
 
+    // on vérifie maintenant si le mot est adjacent à un mot déjà posé
+    // si la ligne n'est pas égale à 0, on vérifie la case au-dessus du mot
     if (row > 0)
     {
       up = row - 1;
     }
-
+    
+    // si la ligne est inférieure à 14, on vérifie la case en dessous du mot
     if (row < 14)
     {
       down = row + 1;
     }
-
+    
+    // on vérifie de même la colonne suivante, sauf si elle est égale à 15 (dépasse le tableau)
     right = column + 1;
     if (right == 15)
     {
       right = 14;
     }
 
+    // de même pour la colonne de gauche qui ne doit pas aller en-deça de 0.
     left = column - 1;
     if (left == (-1))
     {
       left = 0;
     }
-
+    
+    // si l'une des cases sélectionnées contient un jeton, alors la pose est valide. Nous utilisons le même booléen pour l'intersection pour simplifier le traitement
     if ((plateau[down][column].tuile != TUILE_STANDARD) || (plateau[up][column].tuile != TUILE_STANDARD) || (plateau[row][left].tuile != TUILE_STANDARD) || (plateau[row][right].tuile != TUILE_STANDARD))
     {
       intersection = 1;
@@ -218,7 +224,7 @@ int coup_partie(int current_player, int turn)
   {
     printf("Entrez le mot à ajouter au tableau (1 pour retourner au menu) : ");
     scanf("%s", word_read);
-    for (i = 0; i < TAILLE_PLATEAU; i++)
+    for (i = 0; i < TAILLE_PLATEAU; i++) // boucle for qui lit le nombre de joker saisi et les traite en appelant la fonction lettre_joker
     {
       if (word_read[i] == '0')
       {
@@ -642,7 +648,7 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int column, int row, int d
 char lettre_joker(char joker, int cpt_joker, int joueur)
 {
   char lettre_remplace;
-
+  // cette fonction permet de remplacer le joker saisi par le joueur par une lettre
   int i;
   int trouve = 0;
 
@@ -679,7 +685,7 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
       trouve = 0;
     }
 
-    lettre_remplace = tolower(lettre_remplace);
+    lettre_remplace = tolower(lettre_remplace); // pour identifier le joker, on le met en minuscule
     return (lettre_remplace);
   }
 }
@@ -689,6 +695,10 @@ int verif_depassement_tableau(char word_read[TAILLE_PLATEAU], int column, int ro
 
   int i = 0;
   int j = 0;
+  
+  /* Cettte fonction permet de vérifier que le mot saisi ne dépasse pas le tableau du plateau
+  elle reprend le fonctionnement de l'inscription d'un mot sur le plateau, mais si ligne ou colonne
+  dépassent le plateau, elle retourne 0 */
 
   for (i = 0; i < TAILLE_PLATEAU; i++)
   {
