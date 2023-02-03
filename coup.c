@@ -223,14 +223,27 @@ int coup_partie(int current_player, int turn)
       if (word_read[i] == '0')
       {
         cpt_joker++;
-        if(cpt_joker <=2)
+        if(cpt_joker <= 2)
         {
-          word_read[i] = lettre_joker(word_read[i], cpt_joker, current_player);
+          if((word_read[i] = lettre_joker(word_read[i], cpt_joker, current_player))==0)
+          {
+            if(cpt_joker==1)
+            {
+            printf("Vous n'avez pas de joker.\n");
+            }
+            else if (cpt_joker==2)
+            {
+              printf("Vous n'avez plus assez de jokers\n");
+            }
+            return 0;
+          }
         }
         else
         {
-          printf("Erreur : il n'y a que deux jetons jokers dans le jeu. Veuillez revérifier votre saisie.\n");
+          printf("Erreur : vous avez saisi au moins %d jetons jokers. Or, il n'en existe que deux dans tout le jeu.\n", cpt_joker);
+          printf("Veuillez revérifier votre saisie.\n");
           return 0;
+        }
       }
     }
     // Retour au menu
@@ -631,7 +644,6 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
   int i;
   int trouve = 0;
 
-  // boucle qui compte le nombre de joker dans la main du boujeur
   for (i = 0; i < MAX_JETON_TOUR; i++)
   {
     if (tabjoueur[joueur].jeton[i] == '0')
@@ -648,7 +660,6 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
 
   else if (trouve == 0)
   {
-    printf("Vous ne possédez pas de joker.\n");
     return 0;
   }
 
