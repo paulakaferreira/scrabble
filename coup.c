@@ -223,7 +223,14 @@ int coup_partie(int current_player, int turn)
       if (word_read[i] == '0')
       {
         cpt_joker++;
-        word_read[i] = lettre_joker(word_read[i], cpt_joker, current_player);
+        if(cpt_joker <=2)
+        {
+          word_read[i] = lettre_joker(word_read[i], cpt_joker, current_player);
+        }
+        else
+        {
+          printf("Erreur : il n'y a que deux jetons jokers dans le jeu. Veuillez revérifier votre saisie.\n");
+          return 0;
       }
     }
     // Retour au menu
@@ -590,6 +597,9 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int column, int row, int d
       {
         sum += tablettre[letter_index].nbpoint;
         mult *= copie_plateau[row][column].valeur;
+        // même fonctionnement pour le bonus de multiplication de la valeur du mot : il peut être appliqué
+        // aux mots formés avec les lettres déjà présentes. Il doit aussi être appliqué au mot nouvellement posé
+        // donc la balise n'est pas remplacée par une balise par défaut, contrairement à la fonction de score initiale
       }
       else
       {
@@ -600,7 +610,7 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int column, int row, int d
     {
       sum += tablettre[letter_index].nbpoint;
     }
-    // Fait reculer la boucle
+    // Fait reculer la boucle car on part de la dernière lettre du mot
     if (direction == 'H')
     {
       column--;
@@ -621,6 +631,7 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
   int i;
   int trouve = 0;
 
+  // boucle qui compte le nombre de joker dans la main du boujeur
   for (i = 0; i < MAX_JETON_TOUR; i++)
   {
     if (tabjoueur[joueur].jeton[i] == '0')
