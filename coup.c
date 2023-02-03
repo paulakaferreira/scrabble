@@ -229,12 +229,13 @@ int coup_partie(int current_player, int turn)
           {
             if(cpt_joker==1)
             {
-            printf("Vous n'avez pas de joker.\n");
+              printf("Vous n'avez pas de joker.\n");
             }
             else if (cpt_joker==2)
             {
               printf("Vous n'avez plus assez de jokers\n");
             }
+            cpt_joker=0;
             return 0;
           }
         }
@@ -242,6 +243,7 @@ int coup_partie(int current_player, int turn)
         {
           printf("Erreur : vous avez saisi au moins %d jetons jokers. Or, il n'en existe que deux dans tout le jeu.\n", cpt_joker);
           printf("Veuillez revérifier votre saisie.\n");
+          cpt_joker=0;
           return 0;
         }
       }
