@@ -14,9 +14,8 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, in
 int verif_depassement_tableau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction);
 struct Carre copie_plateau[TAILLE_PLATEAU][TAILLE_PLATEAU];
 
-// Verifie la compatibilité du mot saisie avec les tuiles qui sont à la main du joueur
-
-int check_hand_compatibility(char mot_lu[MAX_JETON_TOUR], int joueur_actuel)
+/** Verifie la compatibilité du mot saisie avec les tuiles qui sont à la main du joueur **/
+int verif_compatibilite_main(char mot_lu[MAX_JETON_TOUR], int joueur_actuel)
 {
   char copie_main[MAX_JETON_TOUR];
   int nb_lettres_supprimees = 0;
@@ -358,7 +357,7 @@ int coup_partie(int joueur_actuel, int turn)
   {
     printf("----------------------------------------\n");
 
-    nb_lettres_supprimees = check_hand_compatibility(mot_lu, joueur_actuel);
+    nb_lettres_supprimees = verif_compatibilite_main(mot_lu, joueur_actuel);
 
     // Verifie la compatibilité du mot avec le main du joueur
     if (nb_lettres_supprimees == 0)
