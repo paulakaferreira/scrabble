@@ -20,7 +20,7 @@ int in_dic(char mot[TAILLE_PLATEAU])
         copie_mot[i] = toupper(copie_mot[i]);
     }
 
-    dic = fopen("liste_normalisee.txt", "r");
+    dic = fopen("dictionnaire.txt", "r");
     strcpy(mot_dic, "");
 
     while ((!feof(dic)) && (strcmp(copie_mot, mot_dic) != 0))

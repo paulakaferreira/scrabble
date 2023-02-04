@@ -8,6 +8,7 @@
 
 char chaine_lettres_lues[MAX_JETON_TOUR];
 
+/**** Vérifie que les lettres saisies sont à la possession du joueur ****/
 int verif_lettres(int choix_joueur)
 {
 	int lettre = 'v';
@@ -24,9 +25,9 @@ int verif_lettres(int choix_joueur)
 	}
 
 	i = 0;
-	
-        // saisie de chaine_lettres_lues
-	
+
+	// saisie de chaine_lettres_lues
+
 	if ((lettre = getchar()) != '\n') // pour éviter des problèmes de buffer, si \n est toujours dans le buffer
 	{
 		if (lettre == '1')
@@ -34,7 +35,7 @@ int verif_lettres(int choix_joueur)
 			return 2; // si lecture de "1", alors on quitte le menu d'échange
 		}
 		lettre = toupper(lettre);
-		chaine_lettres_lues[i] = lettre; // si \n n'est pas dans le buffer, alors il faut stocker la première lettre saisie directement avant de continuer 
+		chaine_lettres_lues[i] = lettre; // si \n n'est pas dans le buffer, alors il faut stocker la première lettre saisie directement avant de continuer
 		i++;
 		cpt++;
 		while ((lettre = getchar()) != '\n')
@@ -79,7 +80,7 @@ int verif_lettres(int choix_joueur)
 	{
 
 		strcpy(tab_jeton_tempo, tabjoueur[choix_joueur].jeton); // pour comparer les lettres, utilisation d'une copie de la main du joueur
-		for (i = 0; chaine_lettres_lues[i] != '\0'; i++) // parcours de chaine_lettre_lue jusqu'à '\0' qui correspond à une fin de saisie
+		for (i = 0; chaine_lettres_lues[i] != '\0'; i++)		// parcours de chaine_lettre_lue jusqu'à '\0' qui correspond à une fin de saisie
 		{
 			if (chaine_lettres_lues[i] != '\0')
 			{
