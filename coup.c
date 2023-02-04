@@ -168,8 +168,8 @@ int verif_compatibilite_tableau(int colonne, int ligne, char direction, char mot
   return 1;
 }
 
-// Ajout du mot validé au tableau
-void modify_board(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction)
+/*** Ajout du mot validé au plateau ***/
+void modif_plateau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction)
 {
   for (int i = 0; i < strlen(mot_lu); i++)
   {
@@ -377,7 +377,7 @@ int coup_partie(int joueur_actuel, int tour)
   }
 
   // Modifie le tableau après validation
-  modify_board(mot_lu, colonne, ligne, direction);
+  modif_plateau(mot_lu, colonne, ligne, direction);
 
   // Change le score du joueur en cours
   printf("----------------------------------------\n");
