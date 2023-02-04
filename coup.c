@@ -10,7 +10,7 @@
 #define MAX_JETON_TOUR 7
 char lettre_joker(char joker, int cpt_joker, int joueur);
 int check_board_new_word(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction, int joueur_actuel);
-void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, int direction, int player);
+void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur);
 int verif_depassement_tableau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction);
 struct Carre copie_plateau[TAILLE_PLATEAU][TAILLE_PLATEAU];
 
@@ -18,42 +18,42 @@ struct Carre copie_plateau[TAILLE_PLATEAU][TAILLE_PLATEAU];
 
 int check_hand_compatibility(char mot_lu[MAX_JETON_TOUR], int joueur_actuel)
 {
-  char hand_copy[MAX_JETON_TOUR];
-  int n_letters_removed = 0;
+  char copie_main[MAX_JETON_TOUR];
+  int nb_lettres_supprimees = 0;
 
   // Initialise une copie de la main de joueur.
-  strcpy(hand_copy, tabjoueur[joueur_actuel].jeton);
+  strcpy(copie_main, tabjoueur[joueur_actuel].jeton);
 
   for (int i = 0; i < strlen(mot_lu); i++)
   {
-    int found = 0;
+    int trouve = 0;
     for (int j = 0; j < MAX_JETON_TOUR; j++)
     {
       if (mot_lu[i] == TUILE_STANDARD)
       {
-        found = 1;
+        trouve = 1;
         break;
       }
-      else if (mot_lu[i] == hand_copy[j])
+      else if (mot_lu[i] == copie_main[j])
       {
-        hand_copy[j] = '\0';
-        found = 1;
+        copie_main[j] = '\0';
+        trouve = 1;
         break;
       }
     }
-    if (found == 0)
+    if (trouve == 0)
     {
       for (int j = 0; j < MAX_JETON_TOUR; j++)
       {
-        if (hand_copy[j] == '0')
+        if (copie_main[j] == '0')
         {
-          hand_copy[j] = '\0';
+          copie_main[j] = '\0';
           mot_lu[i] = tolower(mot_lu[i]); // on met la lettre en minuscule pour pouvoir identifier le joker
-          found = 1;
+          trouve = 1;
           break;
         }
       }
-      if (found == 0)
+      if (trouve == 0)
       {
         return 0;
       }
@@ -62,13 +62,13 @@ int check_hand_compatibility(char mot_lu[MAX_JETON_TOUR], int joueur_actuel)
 
   for (int i = 0; i < MAX_JETON_TOUR; i++)
   {
-    tabjoueur[joueur_actuel].jeton[i] = hand_copy[i];
-    if (hand_copy[i] == '\0')
+    tabjoueur[joueur_actuel].jeton[i] = copie_main[i];
+    if (copie_main[i] == '\0')
     {
-      n_letters_removed++;
+      nb_lettres_supprimees++;
     }
   }
-  return n_letters_removed;
+  return nb_lettres_supprimees;
 }
 
 // Verifie la compatibilité du mot saisie avec le tableau;
@@ -210,7 +210,7 @@ int coup_partie(int joueur_actuel, int turn)
   char column_letter = '\0';
   int colonne = 0;
   int ligne = 0;
-  int n_letters_removed = 0;
+  int nb_lettres_supprimees = 0;
   int ligne_ok = 0;
   int cpt_joker = 0;
 
@@ -358,10 +358,10 @@ int coup_partie(int joueur_actuel, int turn)
   {
     printf("----------------------------------------\n");
 
-    n_letters_removed = check_hand_compatibility(mot_lu, joueur_actuel);
+    nb_lettres_supprimees = check_hand_compatibility(mot_lu, joueur_actuel);
 
     // Verifie la compatibilité du mot avec le main du joueur
-    if (n_letters_removed == 0)
+    if (nb_lettres_supprimees == 0)
     {
       printf("----------------------------------------\n");
       printf("Les lettres saisies ne sont pas compatibles avec votre main\n");
@@ -385,11 +385,11 @@ int coup_partie(int joueur_actuel, int turn)
   printf("----------------------------------------\n");
   get_player_score(mot_lu, colonne, ligne, direction, joueur_actuel);
   printf("----------------------------------------\n");
-  printf("Nombre de lettres à modifier dans votre main: %d\n", n_letters_removed);
+  printf("Nombre de lettres à modifier dans votre main: %d\n", nb_lettres_supprimees);
 
   // Fait le tirage au sort pour le joeur actuel
   printf("----------------------------------------\n");
-  tirage(n_letters_removed, joueur_actuel);
+  tirage(nb_lettres_supprimees, joueur_actuel);
   return 1;
 }
 
@@ -571,7 +571,7 @@ int check_board_new_word(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, ch
   return 1;
 }
 
-void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, int direction, int player)
+void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur)
 {
   int sum = 0;
   int mult = 1;

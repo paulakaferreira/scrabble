@@ -8,11 +8,11 @@
 
 int temp_score = 0;
 
-void score_mots_modif(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direction, int player);
+void score_mots_modif(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur);
 
 // Calcul du score
 // Modifie aussi les valeurs du plateau afin d'enlever les valeurs spéciales déjà utilisées;
-void get_player_score(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direction, int player)
+void get_player_score(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur)
 {
     int sum = 0;
     int mult = 1;
@@ -67,11 +67,11 @@ void get_player_score(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int d
         }
     }
 
-    tabjoueur[player].score += sum * mult;
-    tabjoueur[player].score += temp_score;
+    tabjoueur[joueur].score += sum * mult;
+    tabjoueur[joueur].score += temp_score;
     printf("Nombre de points accumulés dans ce tour: %d\n", (sum * mult) + temp_score);
     temp_score = 0;
-    printf("Votre score total (joueur %d) est : %d\n", player + 1, tabjoueur[player].score);
+    printf("Votre score total (joueur %d) est : %d\n", joueur + 1, tabjoueur[joueur].score);
 }
 
 void print_letter_value()
