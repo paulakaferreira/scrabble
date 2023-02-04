@@ -27,6 +27,7 @@ struct Carre
 };
 
 struct Carre plateau[TAILLE_PLATEAU][TAILLE_PLATEAU];
+struct Carre copie_plateau[TAILLE_PLATEAU][TAILLE_PLATEAU];
 
 /******** Initialisation du plateau ********/
 void creation_plateau()
@@ -145,7 +146,7 @@ void init_valeurs_plateau()
     }
 }
 
-/********* Affichage du plateau ************/
+/********* Affichage du plateau **********/
 void affichage_plateau()
 {
     int i, j;
