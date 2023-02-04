@@ -190,6 +190,7 @@ int verif_mots_nouveaux(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, cha
   return 1;
 }
 
+/**** Calcul score - mots modifiés ****/
 void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur)
 {
   int sum = 0;
@@ -263,6 +264,7 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, in
   temp_score += sum * mult;
 }
 
+/**** Remplacement du joker ****/
 char lettre_joker(char joker, int cpt_joker, int joueur)
 {
   char lettre_remplace;
@@ -308,6 +310,7 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
   }
 }
 
+/**** Verification de deplacement du tableau ****/
 int verif_depassement_tableau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction)
 {
 
@@ -359,11 +362,13 @@ int verif_depassement_tableau(char mot_lu[TAILLE_PLATEAU], int colonne, int lign
   return 1;
 }
 
-/** Verifie la compatibilité du mot saisie avec les tuiles qui sont à la main du joueur **/
+/***** Verification comptabilite - main *****/
 int verif_compatibilite_main(char mot_lu[MAX_JETON_TOUR], int joueur_actuel)
 {
   char copie_main[MAX_JETON_TOUR];
   int nb_lettres_supprimees = 0;
+
+  /** Cette fonction verifie la compatibilité du mot saisie avec les tuiles qui sont à la main du joueur **/
 
   // Initialise une copie de la main de joueur.
   strcpy(copie_main, tabjoueur[joueur_actuel].jeton);
@@ -415,7 +420,7 @@ int verif_compatibilite_main(char mot_lu[MAX_JETON_TOUR], int joueur_actuel)
   return nb_lettres_supprimees;
 }
 
-/**** Verifie la compatibilité du mot saisie avec le tableau ****/
+/***** Verification compatibilite tableau *****/
 int verif_compatibilite_tableau(int colonne, int ligne, char direction, char mot_lu[TAILLE_PLATEAU], int tour)
 {
   int i = 0;
@@ -425,6 +430,8 @@ int verif_compatibilite_tableau(int colonne, int ligne, char direction, char mot
   int bas = 0;
   int droite = 0;
   int gauche = 0;
+
+  /* Cette fonction verifie la compatibilité du mot saisie avec les contraintes du plateau */
 
   for (i = 0; i < strlen(mot_lu); i++)
   {
@@ -544,7 +551,8 @@ void modif_plateau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char dir
 
 /**** Placer un mot *****/
 // Demande au joueur de jouer son tour
-// Fonction principale qui appelle les fonctions de compatibilité et de modification du tableau
+// Fonction principale qui appele les fonctions de compatibilité et de modification du tableau
+// Appele aussi les fonctions de calcul du score et de tirage au sort
 int coup_partie(int joueur_actuel, int tour)
 {
   int i = 0;
@@ -700,7 +708,7 @@ int coup_partie(int joueur_actuel, int tour)
   }
 
   // Verifie la compatibilité du mot avec le tableau
-  // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
+  // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau de la main du joueur;
   if (verif_compatibilite_tableau(colonne, ligne, direction, mot_lu, tour) == 1)
   {
     printf("----------------------------------------\n");
@@ -734,7 +742,7 @@ int coup_partie(int joueur_actuel, int tour)
   printf("----------------------------------------\n");
   printf("Nombre de lettres à modifier dans votre main: %d\n", nb_lettres_supprimees);
 
-  // Fait le tirage au sort pour le joeur actuel
+  // Fait le tirage au sort pour le joeur en cours
   printf("----------------------------------------\n");
   tirage(nb_lettres_supprimees, joueur_actuel);
   return 1;
