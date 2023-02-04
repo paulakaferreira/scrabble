@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "player.c"
+#include "joueur.c"
 #include "plateau.c"
 #include "score.c"
 #include "tirage.c"

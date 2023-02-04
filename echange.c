@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <time.h>
-#include "player.c"
+#include "joueur.c"
 #include "saclettre.c"
 #include "verif_lettres.c"
 

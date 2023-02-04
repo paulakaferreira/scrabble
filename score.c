@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "plateau.c"
-#include "player.c"
+#include "joueur.c"
 #include "saclettre.c"
 
 int temp_score = 0;
