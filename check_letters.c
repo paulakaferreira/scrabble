@@ -24,20 +24,22 @@ int verif_lettres(int choix_joueur)
 	}
 
 	i = 0;
-
-	if ((lettre = getchar()) != '\n')
+	
+        // saisie de chaine_lettres_lues
+	
+	if ((lettre = getchar()) != '\n') // pour éviter des problèmes de buffer, si \n est toujours dans le buffer
 	{
 		if (lettre == '1')
 		{
-			return 2;
+			return 2; // si lecture de "1", alors on quitte le menu d'échange
 		}
 		lettre = toupper(lettre);
-		chaine_lettres_lues[i] = lettre;
+		chaine_lettres_lues[i] = lettre; // si \n n'est pas dans le buffer, alors il faut stocker la première lettre saisie directement avant de continuer 
 		i++;
 		cpt++;
 		while ((lettre = getchar()) != '\n')
 		{
-			if (lettre != ' ')
+			if (lettre != ' ') // si la lettre lue n'est pas un espace, on stocke la lettre dans chaine_lettre_lue
 			{
 				lettre = toupper(lettre);
 				chaine_lettres_lues[i] = lettre;
@@ -47,11 +49,11 @@ int verif_lettres(int choix_joueur)
 		}
 	}
 
-	else
+	else // si le caractère '\n' n'est pas dans le buffer, on range les lettres saisies dans la variable chaine_lettre_lue
 	{
 		while ((lettre = getchar()) != '\n')
 		{
-			if (lettre == '1')
+			if (lettre == '1') // pour quitter le menu si 1 est saisi
 			{
 				return 2;
 			}
@@ -65,23 +67,27 @@ int verif_lettres(int choix_joueur)
 		}
 	}
 
+	// si cpt est supérieur au nombre max de jeton
 	if (cpt > MAX_JETON_TOUR)
 	{
 		printf("Erreur : vous avez entré un nombre de lettres supérieur aux jetons que vous possédez.\n");
-		chaine_lettres_lues[7] = '\0'; // on enlève la lettre résiduelle
+		chaine_lettres_lues[7] = '\0'; // on enlève la lettre résiduelle sinon elle reste
 		return trouve;
 	}
 
 	else
 	{
 
-		strcpy(tab_jeton_tempo, tabjoueur[choix_joueur].jeton);
-		for (i = 0; chaine_lettres_lues[i] != '\0'; i++)
+		strcpy(tab_jeton_tempo, tabjoueur[choix_joueur].jeton); // pour comparer les lettres, utilisation d'une copie de la main du joueur
+		for (i = 0; chaine_lettres_lues[i] != '\0'; i++) // parcours de chaine_lettre_lue jusqu'à '\0' qui correspond à une fin de saisie
 		{
 			if (chaine_lettres_lues[i] != '\0')
 			{
 				trouve = 0;
 				// à chaque lettre qu'on commence à vérifier, on remet trouve à 0
+				// pour vérifier que la lettre est bien dans la main du joueur
+				// si toutes les lettres sont bien en possession du joueur, on ne repassera pas dans ce if
+				// et trouve restera à 1
 			}
 			for (j = 0; j < MAX_JETON_TOUR; j++)
 			{

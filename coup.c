@@ -48,7 +48,7 @@ int check_hand_compatibility(char word_read[MAX_JETON_TOUR], int current_player)
         if (hand_copy[j] == '0')
         {
           hand_copy[j] = '\0';
-          word_read[i] = tolower(word_read[i]);
+          word_read[i] = tolower(word_read[i]); // on met la lettre en minuscule pour pouvoir identifier le joker
           found = 1;
           break;
         }
@@ -105,28 +105,34 @@ int check_board_compatibility(int column, int row, char direction, char word_rea
       intersection = 1;
     }
 
+    // on vérifie maintenant si le mot est adjacent à un mot déjà posé
+    // si la ligne n'est pas égale à 0, on vérifie la case au-dessus du mot
     if (row > 0)
     {
       up = row - 1;
     }
-
+    
+    // si la ligne est inférieure à 14, on vérifie la case en dessous du mot
     if (row < 14)
     {
       down = row + 1;
     }
-
+    
+    // on vérifie de même la colonne suivante, sauf si elle est égale à 15 (dépasse le tableau)
     right = column + 1;
     if (right == 15)
     {
       right = 14;
     }
 
+    // de même pour la colonne de gauche qui ne doit pas aller en-deça de 0.
     left = column - 1;
     if (left == (-1))
     {
       left = 0;
     }
-
+    
+    // si l'une des cases sélectionnées contient un jeton, alors la pose est valide. Nous utilisons le même booléen pour l'intersection pour simplifier le traitement
     if ((plateau[down][column].tuile != TUILE_STANDARD) || (plateau[up][column].tuile != TUILE_STANDARD) || (plateau[row][left].tuile != TUILE_STANDARD) || (plateau[row][right].tuile != TUILE_STANDARD))
     {
       intersection = 1;
@@ -218,12 +224,34 @@ int coup_partie(int current_player, int turn)
   {
     printf("Entrez le mot à ajouter au tableau (1 pour retourner au menu) : ");
     scanf("%s", word_read);
-    for (i = 0; i < TAILLE_PLATEAU; i++)
+    for (i = 0; i < TAILLE_PLATEAU; i++) // boucle for qui lit le nombre de joker saisi et les traite en appelant la fonction lettre_joker
     {
       if (word_read[i] == '0')
       {
         cpt_joker++;
-        word_read[i] = lettre_joker(word_read[i], cpt_joker, current_player);
+        if(cpt_joker <= 2)
+        {
+          if((word_read[i] = lettre_joker(word_read[i], cpt_joker, current_player))==0)
+          {
+            if(cpt_joker==1)
+            {
+              printf("Vous n'avez pas de joker.\n");
+            }
+            else if (cpt_joker==2)
+            {
+              printf("Vous n'avez plus assez de jokers\n");
+            }
+            cpt_joker=0;
+            return 0;
+          }
+        }
+        else
+        {
+          printf("Erreur : vous avez saisi au moins %d jetons jokers. Or, il n'en existe que deux dans tout le jeu.\n", cpt_joker);
+          printf("Veuillez revérifier votre saisie.\n");
+          cpt_joker=0;
+          return 0;
+        }
       }
     }
     // Retour au menu
@@ -367,7 +395,10 @@ int coup_partie(int current_player, int turn)
 
 int check_board_new_word(char word_read[TAILLE_PLATEAU], int column, int row, char direction, int current_player)
 {
-
+  /* cette fonction permet de vérifier les mots nouveaux formés à partir de lettres déjà existantes sur le plateau
+  Elle fonctionne en créant une copie du plateau, en posant le mot joué par le joueur, et en vérifiant la validité 
+  des mots formés sur le plateau */
+  
   int i = 0;
   int j = 0;
   int k;
@@ -378,11 +409,14 @@ int check_board_new_word(char word_read[TAILLE_PLATEAU], int column, int row, ch
   char copie_verif_mot[TAILLE_PLATEAU];
   int fin;
 
+  // intialisation de verif_mot
   for (i = 0; i < TAILLE_PLATEAU; i++)
   {
     verif_mot[i] = '\0';
   }
-
+  
+  
+  // copie du plateau de jeu
   for (i = 0; i < TAILLE_PLATEAU; i++)
   {
     for (j = 0; j < TAILLE_PLATEAU; j++)
@@ -391,18 +425,19 @@ int check_board_new_word(char word_read[TAILLE_PLATEAU], int column, int row, ch
     }
   }
 
-  for (i = 0; i < strlen(word_read); i++)
+  // 
+  for (i = 0; i < strlen(word_read); i++) // ajout du mot au plaetau
   {
-    if (word_read[i] != TUILE_STANDARD)
+    if (word_read[i] != TUILE_STANDARD) // si la lettre saisie ne correspond pas à tuile_standard
     {
-      if (word_read[i] <= 'Z')
+      if (word_read[i] <= 'Z') // si la lettre saisie est <= 'Z' (donc pas un joker qui est supérieur à Z)
       {
-        if (word_read[i] == toupper(copie_plateau[row][column].tuile))
+        if (word_read[i] == toupper(copie_plateau[row][column].tuile)) // si la lettre est déjà présente sur le plateau, on ne fait rien
         {
         }
         else
         {
-          copie_plateau[row][column].tuile = toupper(word_read[i]);
+          copie_plateau[row][column].tuile = toupper(word_read[i]); // Si la lettre est pas déjà présente sur le plateau, on la met sur le plateau
         }
       }
     }
@@ -422,58 +457,65 @@ int check_board_new_word(char word_read[TAILLE_PLATEAU], int column, int row, ch
   // maintenant il va s'agir de lire chaque colonne du tableau et de valider le mot ou non
   for (column = 0; column < TAILLE_PLATEAU; column++)
   {
-    for (row = 0; row < TAILLE_PLATEAU; row++)
+    for (row = 0; row < TAILLE_PLATEAU; row++) // parcours colonne par colonne, grâce au compteur ligne qui augmente jusqu'à < TAILLE_PLATEAU
     {
-      fin = 0;
+      fin = 0; // remise à 0 du booléen fin qui permet au if suivant de ne pas prendre en compte le cas où la ligne est égale à 15 (TAILLE_PLATEAU)
       if ((copie_plateau[row][column].tuile != TUILE_STANDARD) && (fin == 0))
       {
-        j = 0;
-        cpt = 0;
-        while ((copie_plateau[row][column].tuile != TUILE_STANDARD) && (row < TAILLE_PLATEAU))
+        j = 0; // initialise le compteur J qui permettre de parcourir verif_mot
+        cpt = 0; // permet de compter la taille du mot. Si la lettre est toute seule, cpt=1, et donc ce n'est pas un mot
+        while ((copie_plateau[row][column].tuile != TUILE_STANDARD) && (row < TAILLE_PLATEAU)) // tant que ligne ne dépasse pas TAILLE_PLATEAU et que la tuile est différente de la tuile par défaut, on continue à ranger les lettres lues dans verif_mot
         {
           verif_mot[j] = copie_plateau[row][column].tuile;
           if (toupper(copie_plateau[row][column].tuile) == toupper(plateau[row][column].tuile))
           {
-            cpt_score++;
+            cpt_score++; // vérification du nb de lettres qui sont déjà présentes sur l'ancien plateau
+            // pour vérifier si le mot est nouveau ou si c'est déjà un mot posé qui n'a pas changé qui n'est donc pas àvérifier
           }
-          j++;
-          row++;
-          cpt++;
+          j++; // on incrémente j pour passer à l'indice suivant de verif_mot
+          row++; // on passe à a ligne suivante
+          cpt++; // taille du mot
         }
 
-        strcpy(copie_verif_mot, verif_mot);
+        strcpy(copie_verif_mot, verif_mot); // pour vérifier les mots dans le dico, on fait une copie. ça permet de conserver les lettres en minuscule
+        // lors du calcul du score
 
         for (k = 0; k < (strlen(copie_verif_mot)); k++)
         {
-          copie_verif_mot[k] = toupper(copie_verif_mot[k]);
+          copie_verif_mot[k] = toupper(copie_verif_mot[k]); // passage du mot en majuscule
         }
 
         if ((in_dic(verif_mot) == 0) && (cpt > 1))
         {
-          printf("Le mot %s n'existe pas\n", verif_mot);
+          printf("Le mot %s n'existe pas\n", verif_mot); // si un mot lu n'existe pas, on arrête tout et la saisie est impossible
           return 0;
         }
-
+        
+        // ce else if permet d'éviter de lire un mot qui n'a été modifié par le coup du joueur
+        // et d'éviter de lire le mot qui vient d'être saisi par le joueur
+        // et d'éviter de lire une lettre isolée
+        // ou de lire le mot si un joueur joue un mot similaire au mot qui sera formé avec des lettres déjà présentes dans une autre direction
         else if (((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, copie_verif_mot)) != 0) && (cpt > 1)) || ((cpt_score == ((strlen(verif_mot) - 1))) && ((strcmp(word_read, copie_verif_mot)) == 0) && (cpt > 1) && (direction == 'H')))
         {
           printf("En plaçant vos lettres, vous formez le mot %s\n", verif_mot);
-          direction_mot = 'V';
+          direction_mot = 'V'; // comme on vérifie les mots en vertical, on envoie le paramètre 'V' à la fonction score
           score_mots_modif(verif_mot, column, row, direction_mot, current_player);
         }
-        cpt_score = 0;
+        cpt_score = 0; // on remet les compteurs à 0 pour passer au prochain mot
         for (i = 0; i < TAILLE_PLATEAU; i++)
         {
-          verif_mot[i] = '\0';
+          verif_mot[i] = '\0'; // réinitialisaion de verif_mot
         }
         if (row == TAILLE_PLATEAU)
         {
-          fin = 1;
+          fin = 1; // si row atteint un maximum, on ne rentre plus dans le if
         }
       }
       cpt = 0;
     }
   }
-
+  
+  // de façon similaire mais pour une lecture ligne par ligne
   for (row = 0; row < TAILLE_PLATEAU; row++)
   {
     for (column = 0; column < TAILLE_PLATEAU; column++)
@@ -535,7 +577,12 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int column, int row, int d
   int sum = 0;
   int mult = 1;
   int letter_index = 0;
-
+  
+  /* Cette fonction est similaire à la fonction de calcul des scores, sauf qu'elle fonctionne à l'envers
+  du fait du fonctionnement de la fonction de vérification des nouveaux mots formés avec des lettres déjà posées
+  qui envoie l'indice juste après le mot lu */
+  
+  // comme la fonction envoie l'indice juste après l'indice de la dernière lettre sur le plateau, il faut décrémenter l'indice
   if (direction == 'V')
   {
     row--;
@@ -549,10 +596,10 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int column, int row, int d
   // 1- Comptabilise les points des lettres et leurs multiplicateurs
   for (int i = 0; i < strlen(verif_mot); i++)
   {
-    if (islower(copie_plateau[row][column].tuile))
+    if (islower(copie_plateau[row][column].tuile)) // si c'est une minuscule, c'est un joker, donc on ne compte pas
     {
       letter_index = 91;
-      tablettre[letter_index].nbpoint = 0; // je ne sais pas pourquoi ça me le met à 1 par défaut...
+      tablettre[letter_index].nbpoint = 0;
     }
     else
     {
@@ -564,12 +611,16 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int column, int row, int d
       // Commence le comptage des valeurs
       if (copie_plateau[row][column].type == BALISE_LETTRE)
       {
-        sum += copie_plateau[row][column].valeur * tablettre[letter_index].nbpoint;
+        sum += copie_plateau[row][column].valeur * tablettre[letter_index].nbpoint; // si la BALISE_LETTRE est présente dans la case, alors on applique le bonus
+        // la balise ne disparaît pas car elle doit compter aussi pour le mot nouvellement posé
       }
       else if (copie_plateau[row][column].type == BALISE_MOT)
       {
         sum += tablettre[letter_index].nbpoint;
         mult *= copie_plateau[row][column].valeur;
+        // même fonctionnement pour le bonus de multiplication de la valeur du mot : il peut être appliqué
+        // aux mots formés avec les lettres déjà présentes. Il doit aussi être appliqué au mot nouvellement posé
+        // donc la balise n'est pas remplacée par une balise par défaut, contrairement à la fonction de score initiale
       }
       else
       {
@@ -580,7 +631,7 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int column, int row, int d
     {
       sum += tablettre[letter_index].nbpoint;
     }
-    // Fait reculer la boucle
+    // Fait reculer la boucle car on part de la dernière lettre du mot
     if (direction == 'H')
     {
       column--;
@@ -597,7 +648,7 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int column, int row, int d
 char lettre_joker(char joker, int cpt_joker, int joueur)
 {
   char lettre_remplace;
-
+  // cette fonction permet de remplacer le joker saisi par le joueur par une lettre
   int i;
   int trouve = 0;
 
@@ -617,7 +668,6 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
 
   else if (trouve == 0)
   {
-    printf("Vous ne possédez pas de joker.\n");
     return 0;
   }
 
@@ -635,7 +685,7 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
       trouve = 0;
     }
 
-    lettre_remplace = tolower(lettre_remplace);
+    lettre_remplace = tolower(lettre_remplace); // pour identifier le joker, on le met en minuscule
     return (lettre_remplace);
   }
 }
@@ -645,6 +695,10 @@ int verif_depassement_tableau(char word_read[TAILLE_PLATEAU], int column, int ro
 
   int i = 0;
   int j = 0;
+  
+  /* Cettte fonction permet de vérifier que le mot saisi ne dépasse pas le tableau du plateau
+  elle reprend le fonctionnement de l'inscription d'un mot sur le plateau, mais si ligne ou colonne
+  dépassent le plateau, elle retourne 0 */
 
   for (i = 0; i < TAILLE_PLATEAU; i++)
   {
