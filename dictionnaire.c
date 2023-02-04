@@ -5,28 +5,28 @@
 
 #define TAILLE_PLATEAU 15
 
-/* Finds word in dictionnary */
-int in_dic(char word[TAILLE_PLATEAU])
+/**** Cherche le mot au dictionnaire ****/
+int in_dic(char mot[TAILLE_PLATEAU])
 {
     FILE *dic;
     int i = 0;
     int find = 3;
-    char word_dic[30];
+    char mot_dic[30];
     char copie_mot[TAILLE_PLATEAU];
 
-    strcpy(copie_mot, word);
+    strcpy(copie_mot, mot);
     for (i = 0; copie_mot[i] != '\0'; i++)
     {
         copie_mot[i] = toupper(copie_mot[i]);
     }
 
     dic = fopen("liste_normalisee.txt", "r");
-    strcpy(word_dic, "");
+    strcpy(mot_dic, "");
 
-    while ((!feof(dic)) && (strcmp(copie_mot, word_dic) != 0))
+    while ((!feof(dic)) && (strcmp(copie_mot, mot_dic) != 0))
     {
-        fscanf(dic, "%s", word_dic);
-        if (strcmp(copie_mot, word_dic) == 0)
+        fscanf(dic, "%s", mot_dic);
+        if (strcmp(copie_mot, mot_dic) == 0)
         {
             find = 1;
         }
