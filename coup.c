@@ -70,21 +70,20 @@ int verif_compatibilite_main(char mot_lu[MAX_JETON_TOUR], int joueur_actuel)
   return nb_lettres_supprimees;
 }
 
-// Verifie la compatibilité du mot saisie avec le tableau;
+/** Verifie la compatibilité du mot saisie avec le tableau **/
 // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
-int check_board_compatibility(int colonne, int ligne, char direction, char mot_lu[TAILLE_PLATEAU], int turn)
+int verif_compatibilite_tableau(int colonne, int ligne, char direction, char mot_lu[TAILLE_PLATEAU], int tour)
 {
   int i = 0;
   int intersection = 0;
-  int middle_board = 0;
-  int up = 0;
-  int down = 0;
-  int right = 0;
-  int left = 0;
+  int milieu_tableau = 0;
+  int haut = 0;
+  int bas = 0;
+  int droite = 0;
+  int gauche = 0;
 
   for (i = 0; i < strlen(mot_lu); i++)
   {
-    // Vérifie la compatibilité du mot avec le plateau
     if (plateau[ligne][colonne].tuile != mot_lu[i] && plateau[ligne][colonne].tuile != TUILE_STANDARD)
     {
       if (mot_lu[i] == toupper(plateau[ligne][colonne].tuile))
@@ -108,31 +107,31 @@ int check_board_compatibility(int colonne, int ligne, char direction, char mot_l
     // si la ligne n'est pas égale à 0, on vérifie la case au-dessus du mot
     if (ligne > 0)
     {
-      up = ligne - 1;
+      haut = ligne - 1;
     }
 
     // si la ligne est inférieure à 14, on vérifie la case en dessous du mot
     if (ligne < 14)
     {
-      down = ligne + 1;
+      bas = ligne + 1;
     }
 
     // on vérifie de même la colonne suivante, sauf si elle est égale à 15 (dépasse le tableau)
-    right = colonne + 1;
-    if (right == 15)
+    droite = colonne + 1;
+    if (droite == 15)
     {
-      right = 14;
+      droite = 14;
     }
 
     // de même pour la colonne de gauche qui ne doit pas aller en-deça de 0.
-    left = colonne - 1;
-    if (left == (-1))
+    gauche = colonne - 1;
+    if (gauche == (-1))
     {
-      left = 0;
+      gauche = 0;
     }
 
     // si l'une des cases sélectionnées contient un jeton, alors la pose est valide. Nous utilisons le même booléen pour l'intersection pour simplifier le traitement
-    if ((plateau[down][colonne].tuile != TUILE_STANDARD) || (plateau[up][colonne].tuile != TUILE_STANDARD) || (plateau[ligne][left].tuile != TUILE_STANDARD) || (plateau[ligne][right].tuile != TUILE_STANDARD))
+    if ((plateau[bas][colonne].tuile != TUILE_STANDARD) || (plateau[haut][colonne].tuile != TUILE_STANDARD) || (plateau[ligne][gauche].tuile != TUILE_STANDARD) || (plateau[ligne][droite].tuile != TUILE_STANDARD))
     {
       intersection = 1;
     }
@@ -140,7 +139,7 @@ int check_board_compatibility(int colonne, int ligne, char direction, char mot_l
     // Milieu du tableu
     if ((colonne == 7) && (ligne == 7))
     {
-      middle_board = 1;
+      milieu_tableau = 1;
     }
 
     // Fait avancer la boucle
@@ -154,13 +153,13 @@ int check_board_compatibility(int colonne, int ligne, char direction, char mot_l
     }
   }
   // Verifie la condition du premier tour : le mot doit passer par le milieu tu tableau
-  if ((middle_board == 0) && (turn == 0))
+  if ((milieu_tableau == 0) && (tour == 0))
   {
     printf("Vous êtes au premier tour et votre mot ne passe pas par le milieu du tableau\n");
     return 0;
   }
   // Verifie la condition des tours suivants : le mot doit croiser un mot existant
-  if ((intersection == 0) && (turn != 0))
+  if ((intersection == 0) && (tour != 0))
   {
     printf("Attention à la règle du scrabble : votre mot doit croiser ou toucher un mot existant sur le plateau\n");
     printf("Les lettres qui se touchent doivent aussi former un mot valide dans le dictionnaire\n");
@@ -201,7 +200,7 @@ void modify_board(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char dire
 
 // Demande au joueur de jouer son tour
 // Fonction principale qui appelle les fonctions de compatibilité et de modification du tableau
-int coup_partie(int joueur_actuel, int turn)
+int coup_partie(int joueur_actuel, int tour)
 {
   int i = 0;
   char mot_lu[TAILLE_PLATEAU];
@@ -277,7 +276,7 @@ int coup_partie(int joueur_actuel, int turn)
   printf("Le mot est valide \n");
   printf("Vous allez saisir maintenant les coordonées du tableau\n");
 
-  if (turn == 0)
+  if (tour == 0)
   {
     printf("Attention: pour le premier tour, le mot doit passer impérativement par le milieu du tableau\n");
   }
@@ -353,7 +352,7 @@ int coup_partie(int joueur_actuel, int turn)
 
   // Verifie la compatibilité du mot avec le tableau;
   // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
-  if (check_board_compatibility(colonne, ligne, direction, mot_lu, turn) == 1)
+  if (verif_compatibilite_tableau(colonne, ligne, direction, mot_lu, tour) == 1)
   {
     printf("----------------------------------------\n");
 
