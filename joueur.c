@@ -15,6 +15,7 @@ struct type_joueur
 struct type_joueur tabjoueur[MAX_JOUEUR];
 int lettre_joueur_vide = 0;
 
+/**** Initialisation des joueurs *****/
 void init_joueur(int cpt_joueur)
 {
   struct type_joueur un_joueur;
@@ -76,9 +77,10 @@ void cpt_lettres_joueur(int joueur_lu)
   }
 }
 
-// fonction pour changer le tour du joueur.
+/***** Changement de tour ******/
 int changement_tour(int joueur)
 {
+  // fonction pour changer le tour du joueur.
   if (joueur == MAX_JOUEUR - 1)
   {
     return 0;
@@ -89,7 +91,7 @@ int changement_tour(int joueur)
   }
 }
 
-// Termine la partie
+/***** Termine la partie *****/
 int fin_partie()
 {
   int i, j;
@@ -107,7 +109,6 @@ int fin_partie()
         malus += tablettre[indice_lettre].nbpoint; // le malus, qui est initialisé à 0, reçoit la valeur de la lettre cherchée danss tablettre
       }
     }
-    // if (score =)
     tabjoueur[i].score = tabjoueur[i].score - malus; // soustraction du malus au score du joueur concerné
     printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
     if ((tabjoueur[i].id_joueur == 1) && (malus > 0))
@@ -145,6 +146,7 @@ int fin_partie()
   return 1;
 }
 
+/****** Affichage des valeurs - main *****/
 void valeurs_lettre_main(int joueur_actuel)
 {
   char lettre_lue = '\0';

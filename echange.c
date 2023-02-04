@@ -7,16 +7,17 @@
 #include "saclettre.c"
 #include "verif_lettres.c"
 
-// variables globales
+// variable globale
 char chaine_lettres_lues[MAX_JETON_TOUR]; // une variable globale qui va nous permettre de stocker les lettres lues
 // les comparer avec les lettres possédées et puis faire l'opération de remplacement de lettres
 
-// cette fonction permet au joueur de rentrer les lettres qu'il veut échanger. ces lettre sont vérifiées, et échangées avec des lettres aléatoires
-// Les lettres dont le joueur se débarasse sont remises dans le sac après le tirage des nouvelles lettres.
-
+/**** Échange des lettres  ****/
 void remise(int lettre_remise)
 {
 	int i = 0;
+
+	// cette fonction permet au joueur de rentrer les lettres qu'il veut échanger. ces lettre sont vérifiées, et échangées avec des lettres aléatoires
+	// Les lettres dont le joueur se débarasse sont remises dans le sac après le tirage des nouvelles lettres.
 
 	while (tabjeton[i] != '\0')
 	{

@@ -10,7 +10,7 @@ int dans_dic(char mot[TAILLE_PLATEAU])
 {
     FILE *dic;
     int i = 0;
-    int find = 3;
+    int trouve = 3;
     char mot_dic[30];
     char copie_mot[TAILLE_PLATEAU];
 
@@ -28,11 +28,11 @@ int dans_dic(char mot[TAILLE_PLATEAU])
         fscanf(dic, "%s", mot_dic);
         if (strcmp(copie_mot, mot_dic) == 0)
         {
-            find = 1;
+            trouve = 1;
         }
     }
 
-    if (find == 1)
+    if (trouve == 1)
     {
         return 1;
     }
