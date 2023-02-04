@@ -13,10 +13,11 @@ int premier_tour = 1;
 int sac_vide = 0;
 int tour_echange = 0;
 
+/***** Verification du vide - sac ****/
 int verification_sac()
 {
 	int i, cpt = 0;
-	
+
 	/* Une fonction qui vérifie si le sac est vide en le parcourant entièrement à travers une boucle for */
 	for (i = 0; i < TOTAL_JETON; i++)
 	{
@@ -33,6 +34,7 @@ int verification_sac()
 	return (cpt);
 }
 
+/***** Tirage au sort des tuiles *****/
 void tirage(int nb_jetons, int joueur_lu)
 {
 	time_t nb_secondes, tp;
