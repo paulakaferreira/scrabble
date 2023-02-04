@@ -1,7 +1,12 @@
 #pragma once
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
 #define MAX_LETTRE 27
 #define TOTAL_JETON 102
+#define MAX_JETON_TOUR 7
+#define MAX_JOUEUR 2
 
 /* Déclaration des types globaux*/
 
@@ -15,6 +20,8 @@ struct lettre
 // variables globales
 struct lettre tablettre[MAX_LETTRE];
 char tabjeton[TOTAL_JETON];
+char chaine_lettres_lues[MAX_JETON_TOUR]; // une variable globale qui va nous permettre de stocker les lettres lues
+// les comparer avec les lettres possédées et puis faire l'opération de remplacement de lettres
 
 /***** Initialisation de la structure de lettres *****/
 void fiche_lettre()

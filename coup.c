@@ -5,8 +5,6 @@
 #include "score.c"
 #include "tirage.c"
 
-char lettre_joker(char joker, int cpt_joker, int joueur);
-
 /***** Verification des nouveaux mots *****/
 int verif_mots_nouveaux(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction, int joueur_actuel)
 {
