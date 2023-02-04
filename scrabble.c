@@ -81,7 +81,7 @@ int main()
             joueur_actuel = changement_tour(joueur_actuel);
             break;
         case 4:
-            board_rules();
+            regles_plateau();
             break;
         case 5:
             valeurs_lettre_main(joueur_actuel);
