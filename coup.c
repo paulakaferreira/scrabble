@@ -5,9 +5,6 @@
 #include "score.c"
 #include "tirage.c"
 
-#define TUILE_STANDARD '.'
-#define MAX_JETON_TOUR 7
-
 char lettre_joker(char joker, int cpt_joker, int joueur);
 
 /***** Verification des nouveaux mots *****/
