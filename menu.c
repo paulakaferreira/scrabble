@@ -14,7 +14,7 @@ int actions()
     printf("2 - Échanger mes tuiles contre de nouvelles\n");
     printf("3 - Passer\n");
     printf("4 - Voir les règles du plateau\n");
-    printf("5 - Regarder les valeurs des lettres\n");
+    printf("5 - Voir les valeurs des lettres\n");
     printf("6 - Afficher mon score\n");
     printf("7 - Finir la partie\n");
     printf("----------------------------------------\n");
