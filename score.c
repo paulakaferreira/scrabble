@@ -12,7 +12,7 @@ void score_mots_modif(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int d
 
 // Calcul du score
 // Modifie aussi les valeurs du plateau afin d'enlever les valeurs spéciales déjà utilisées;
-void get_player_score(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur)
+void score_joueur(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur)
 {
     int sum = 0;
     int mult = 1;

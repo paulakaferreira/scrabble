@@ -9,7 +9,7 @@
 
 #define MAX_JETON_TOUR 7
 char lettre_joker(char joker, int cpt_joker, int joueur);
-int check_board_new_word(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction, int joueur_actuel);
+int verif_mots_nouveaux(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction, int joueur_actuel);
 void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur);
 int verif_depassement_tableau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction);
 struct Carre copie_plateau[TAILLE_PLATEAU][TAILLE_PLATEAU];
@@ -70,8 +70,7 @@ int verif_compatibilite_main(char mot_lu[MAX_JETON_TOUR], int joueur_actuel)
   return nb_lettres_supprimees;
 }
 
-/** Verifie la compatibilité du mot saisie avec le tableau **/
-// Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
+/**** Verifie la compatibilité du mot saisie avec le tableau ****/
 int verif_compatibilite_tableau(int colonne, int ligne, char direction, char mot_lu[TAILLE_PLATEAU], int tour)
 {
   int i = 0;
@@ -168,7 +167,7 @@ int verif_compatibilite_tableau(int colonne, int ligne, char direction, char mot
   return 1;
 }
 
-/*** Ajout du mot validé au plateau ***/
+/***** Ajout du mot validé au plateau *****/
 void modif_plateau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction)
 {
   for (int i = 0; i < strlen(mot_lu); i++)
@@ -198,6 +197,7 @@ void modif_plateau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char dir
   printf("Votre mot a été ajouté au plateau\n");
 }
 
+/**** Placer un mot *****/
 // Demande au joueur de jouer son tour
 // Fonction principale qui appelle les fonctions de compatibilité et de modification du tableau
 int coup_partie(int joueur_actuel, int tour)
@@ -205,7 +205,7 @@ int coup_partie(int joueur_actuel, int tour)
   int i = 0;
   char mot_lu[TAILLE_PLATEAU];
   char direction;
-  char column_letter = '\0';
+  char lettre_colonne = '\0';
   int colonne = 0;
   int ligne = 0;
   int nb_lettres_supprimees = 0;
@@ -218,7 +218,7 @@ int coup_partie(int joueur_actuel, int tour)
     mot_lu[i] = '\0';
   }
 
-  while (in_dic(mot_lu) == 0)
+  while (dans_dic(mot_lu) == 0)
   {
     printf("Entrez le mot à ajouter au tableau (1 pour retourner au menu) : ");
     scanf("%s", mot_lu);
@@ -263,7 +263,7 @@ int coup_partie(int joueur_actuel, int tour)
       {
         mot_lu[i] = toupper(mot_lu[i]);
       }
-      if (in_dic(mot_lu) == 0)
+      if (dans_dic(mot_lu) == 0)
       {
         printf("----------------------------------------\n");
         printf("Le mot que vous avez écrit n'est pas dans notre dictionnaire\n");
@@ -283,6 +283,7 @@ int coup_partie(int joueur_actuel, int tour)
 
   printf("Entrez le numéro de la ligne où la première lettre du mot apparaitra (1 - 15): ");
   ligne_ok = scanf("%d", &ligne);
+
   // Verification de saisie de la ligne
   while (((ligne < 1) || (ligne > 15)) || (ligne_ok == 0))
   {
@@ -298,7 +299,7 @@ int coup_partie(int joueur_actuel, int tour)
     {
       if ((ligne < 1) || (ligne > 15))
       {
-        printf("Numéro de ligne invalide : veuilez saisir un numéro de ligne entre 1 et 15 : ");
+        printf("Numéro de ligne invalide : veuillez saisir un numéro de ligne entre 1 et 15 : ");
         while ((ligne = getchar()) != '\n')
           ;
         ligne_ok = scanf("%d", &ligne);
@@ -308,19 +309,20 @@ int coup_partie(int joueur_actuel, int tour)
 
   // Verification de saisie de la colonne
   printf("Entrez la lettre de la colonne où la première lettre du mot apparaitra (A - O): ");
-  scanf(" %c", &column_letter);
-  colonne = toupper(column_letter);
+  scanf(" %c", &lettre_colonne);
+  colonne = toupper(lettre_colonne);
   colonne = colonne - 'A' + 1;
   while ((colonne < 1) || (colonne > 15))
   {
     printf("Erreur de saisie : veuillez saisi une colonne valide (A - O) :");
-    while ((column_letter = getchar()) != '\n')
+    while ((lettre_colonne = getchar()) != '\n')
       ;
-    scanf(" %c", &column_letter);
-    colonne = toupper(column_letter);
+    scanf(" %c", &lettre_colonne);
+    colonne = toupper(lettre_colonne);
     colonne = colonne - 'A' + 1;
   }
 
+  // Verification de saisie de la direction
   printf("Entrez la direction du mot (H pour horizontal et V pour vertical) : ");
   scanf(" %c", &direction);
   direction = toupper(direction);
@@ -337,20 +339,22 @@ int coup_partie(int joueur_actuel, int tour)
   colonne--;
   ligne--;
 
+  // Verirification de depassement de tableau
   if ((verif_depassement_tableau(mot_lu, colonne, ligne, direction)) == 0)
   {
     printf("Erreur : votre mot dépasse le tableau !\n");
     return 0;
   }
 
-  if (check_board_new_word(mot_lu, colonne, ligne, direction, joueur_actuel) == 0)
+  // Verification d'interferance avec d'autres mots
+  if (verif_mots_nouveaux(mot_lu, colonne, ligne, direction, joueur_actuel) == 0)
   {
     printf("Le mot que vous avez saisi interfère de façon invalide avec d'autres mots\n");
     temp_score = 0;
     return 0;
   }
 
-  // Verifie la compatibilité du mot avec le tableau;
+  // Verifie la compatibilité du mot avec le tableau
   // Si compatible, modifie le mot sasie pour enlever les tuiles déjà existantes dans le tableau;
   if (verif_compatibilite_tableau(colonne, ligne, direction, mot_lu, tour) == 1)
   {
@@ -358,7 +362,7 @@ int coup_partie(int joueur_actuel, int tour)
 
     nb_lettres_supprimees = verif_compatibilite_main(mot_lu, joueur_actuel);
 
-    // Verifie la compatibilité du mot avec le main du joueur
+    // Verifie la compatibilité du mot avec la main du joueur
     if (nb_lettres_supprimees == 0)
     {
       printf("----------------------------------------\n");
@@ -381,7 +385,7 @@ int coup_partie(int joueur_actuel, int tour)
 
   // Change le score du joueur en cours
   printf("----------------------------------------\n");
-  get_player_score(mot_lu, colonne, ligne, direction, joueur_actuel);
+  score_joueur(mot_lu, colonne, ligne, direction, joueur_actuel);
   printf("----------------------------------------\n");
   printf("Nombre de lettres à modifier dans votre main: %d\n", nb_lettres_supprimees);
 
@@ -391,7 +395,8 @@ int coup_partie(int joueur_actuel, int tour)
   return 1;
 }
 
-int check_board_new_word(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction, int joueur_actuel)
+/***** Verification des nouveaux mots *****/
+int verif_mots_nouveaux(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction, int joueur_actuel)
 {
   /* cette fonction permet de vérifier les mots nouveaux formés à partir de lettres déjà existantes sur le plateau
   Elle fonctionne en créant une copie du plateau, en posant le mot joué par le joueur, et en vérifiant la validité
@@ -482,7 +487,7 @@ int check_board_new_word(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, ch
           copie_verif_mot[k] = toupper(copie_verif_mot[k]); // passage du mot en majuscule
         }
 
-        if ((in_dic(verif_mot) == 0) && (cpt > 1))
+        if ((dans_dic(verif_mot) == 0) && (cpt > 1))
         {
           printf("Le mot %s n'existe pas\n", verif_mot); // si un mot lu n'existe pas, on arrête tout et la saisie est impossible
           return 0;
@@ -540,7 +545,7 @@ int check_board_new_word(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, ch
           copie_verif_mot[k] = toupper(copie_verif_mot[k]);
         }
 
-        if ((in_dic(verif_mot) == 0) && (cpt > 1))
+        if ((dans_dic(verif_mot) == 0) && (cpt > 1))
         {
           printf("Le mot %s n'existe pas\n", verif_mot);
           return 0;

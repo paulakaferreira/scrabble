@@ -6,7 +6,7 @@
 #define TAILLE_PLATEAU 15
 
 /**** Cherche le mot au dictionnaire ****/
-int in_dic(char mot[TAILLE_PLATEAU])
+int dans_dic(char mot[TAILLE_PLATEAU])
 {
     FILE *dic;
     int i = 0;
