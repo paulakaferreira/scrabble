@@ -16,6 +16,7 @@ struct lettre
 struct lettre tablettre[MAX_LETTRE];
 char tabjeton[TOTAL_JETON];
 
+/***** Initialisation de la structure de lettres *****/
 void fiche_lettre()
 {
 
@@ -139,6 +140,7 @@ void fiche_lettre()
 	}
 }
 
+/***** Initialisation du sac des lettres *****/
 void sac_lettres()
 {
 	int i, j = 0;

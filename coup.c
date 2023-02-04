@@ -193,9 +193,9 @@ int verif_mots_nouveaux(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, cha
 /**** Calcul score - mots modifiés ****/
 void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, int direction, int joueur)
 {
-  int sum = 0;
+  int somme = 0;
   int mult = 1;
-  int letter_index = 0;
+  int indice_lettre = 0;
 
   /* Cette fonction est similaire à la fonction de calcul des scores, sauf qu'elle fonctionne à l'envers
   du fait du fonctionnement de la fonction de vérification des nouveaux mots formés avec des lettres déjà posées
@@ -217,12 +217,12 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, in
   {
     if (islower(copie_plateau[ligne][colonne].tuile)) // si c'est une minuscule, c'est un joker, donc on ne compte pas
     {
-      letter_index = 91;
-      tablettre[letter_index].nbpoint = 0;
+      indice_lettre = 91;
+      tablettre[indice_lettre].nbpoint = 0;
     }
     else
     {
-      letter_index = copie_plateau[ligne][colonne].tuile - 'A';
+      indice_lettre = copie_plateau[ligne][colonne].tuile - 'A';
     }
     // Laisse passer les cases où la lettre utilisée pour former le mot était déjà dans le plateau
     if (verif_mot[i] != TUILE_STANDARD)
@@ -230,12 +230,12 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, in
       // Commence le comptage des valeurs
       if (copie_plateau[ligne][colonne].type == BALISE_LETTRE)
       {
-        sum += copie_plateau[ligne][colonne].valeur * tablettre[letter_index].nbpoint; // si la BALISE_LETTRE est présente dans la case, alors on applique le bonus
+        somme += copie_plateau[ligne][colonne].valeur * tablettre[indice_lettre].nbpoint; // si la BALISE_LETTRE est présente dans la case, alors on applique le bonus
         // la balise ne disparaît pas car elle doit compter aussi pour le mot nouvellement posé
       }
       else if (copie_plateau[ligne][colonne].type == BALISE_MOT)
       {
-        sum += tablettre[letter_index].nbpoint;
+        somme += tablettre[indice_lettre].nbpoint;
         mult *= copie_plateau[ligne][colonne].valeur;
         // même fonctionnement pour le bonus de multiplication de la valeur du mot : il peut être appliqué
         // aux mots formés avec les lettres déjà présentes. Il doit aussi être appliqué au mot nouvellement posé
@@ -243,12 +243,12 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, in
       }
       else
       {
-        sum += tablettre[letter_index].nbpoint;
+        somme += tablettre[indice_lettre].nbpoint;
       }
     }
     else
     {
-      sum += tablettre[letter_index].nbpoint;
+      somme += tablettre[indice_lettre].nbpoint;
     }
     // Fait reculer la boucle car on part de la dernière lettre du mot
     if (direction == 'H')
@@ -261,7 +261,7 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, in
     }
   }
 
-  temp_score += sum * mult;
+  temp_score += somme * mult;
 }
 
 /**** Remplacement du joker ****/

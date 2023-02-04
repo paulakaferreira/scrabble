@@ -15,7 +15,7 @@ struct type_joueur
 struct type_joueur tabjoueur[MAX_JOUEUR];
 int lettre_joueur_vide = 0;
 
-/**** Initialisation des joueurs *****/
+/***** Initialisation des joueurs *****/
 void init_joueur(int cpt_joueur)
 {
   struct type_joueur un_joueur;
