@@ -148,7 +148,7 @@ int fin_partie()
   return 1;
 }
 
-/****** Affichage des valeurs des lettres du joueur *****/
+/****** Affichage des valeurs des lettres du joueur - option 5 *****/
 void valeurs_lettre_main(int joueur_actuel)
 {
   char lettre_lue = '\0';
