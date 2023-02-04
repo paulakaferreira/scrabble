@@ -41,6 +41,7 @@ void init_joueur(int cpt_joueur)
   }
 }
 
+/****** Affichage des lettres du joueur *****/
 void affichage_lettre_joueur(int joueur_lu)
 {
   int i;
@@ -54,6 +55,7 @@ void affichage_lettre_joueur(int joueur_lu)
   printf("\n");
 }
 
+/***** Verification du vide - main du joueur *****/
 void cpt_lettres_joueur(int joueur_lu)
 {
   int i;
@@ -91,7 +93,7 @@ int changement_tour(int joueur)
   }
 }
 
-/***** Termine la partie *****/
+/***** Fin de la partie *****/
 int fin_partie()
 {
   int i, j;
@@ -146,7 +148,7 @@ int fin_partie()
   return 1;
 }
 
-/****** Affichage des valeurs - main *****/
+/****** Affichage des valeurs des lettres du joueur *****/
 void valeurs_lettre_main(int joueur_actuel)
 {
   char lettre_lue = '\0';
