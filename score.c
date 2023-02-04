@@ -8,44 +8,44 @@
 
 int temp_score = 0;
 
-void score_mots_modif(char word_read[TAILLE_PLATEAU], int column, int row, int direction, int player);
+void score_mots_modif(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direction, int player);
 
 // Calcul du score
 // Modifie aussi les valeurs du plateau afin d'enlever les valeurs spéciales déjà utilisées;
-void get_player_score(char word_read[TAILLE_PLATEAU], int column, int row, int direction, int player)
+void get_player_score(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direction, int player)
 {
     int sum = 0;
     int mult = 1;
     int letter_index = 0;
 
     // 1- Comptabilise les points des lettres et leurs multiplicateurs
-    for (int i = 0; i < strlen(word_read); i++)
+    for (int i = 0; i < strlen(mot_lu); i++)
     {
-        if (islower(plateau[row][column].tuile))
+        if (islower(plateau[ligne][colonne].tuile))
         {
             letter_index = 91;
             tablettre[letter_index].nbpoint = 0; // je ne sais pas pourquoi ça me le met à 1 par défaut...
         }
         else
         {
-            letter_index = plateau[row][column].tuile - 'A';
+            letter_index = plateau[ligne][colonne].tuile - 'A';
         }
         // Laisse passer les cases où la lettre utilisée pour former le mot était déjà dans le plateau
-        if (word_read[i] != TUILE_STANDARD)
+        if (mot_lu[i] != TUILE_STANDARD)
         {
             // Commence le comptage des valeurs
-            if (plateau[row][column].type == BALISE_LETTRE)
+            if (plateau[ligne][colonne].type == BALISE_LETTRE)
             {
-                sum += plateau[row][column].valeur * tablettre[letter_index].nbpoint;
-                plateau[row][column].valeur = CASE_SIMPLE;
-                plateau[row][column].type = BALISE_ABSENTE;
+                sum += plateau[ligne][colonne].valeur * tablettre[letter_index].nbpoint;
+                plateau[ligne][colonne].valeur = CASE_SIMPLE;
+                plateau[ligne][colonne].type = BALISE_ABSENTE;
             }
-            else if (plateau[row][column].type == BALISE_MOT)
+            else if (plateau[ligne][colonne].type == BALISE_MOT)
             {
                 sum += tablettre[letter_index].nbpoint;
-                mult *= plateau[row][column].valeur;
-                plateau[row][column].valeur = CASE_SIMPLE;
-                plateau[row][column].type = BALISE_ABSENTE;
+                mult *= plateau[ligne][colonne].valeur;
+                plateau[ligne][colonne].valeur = CASE_SIMPLE;
+                plateau[ligne][colonne].type = BALISE_ABSENTE;
             }
             else
             {
@@ -59,11 +59,11 @@ void get_player_score(char word_read[TAILLE_PLATEAU], int column, int row, int d
         // Fait avancer la boucle
         if (direction == 'H')
         {
-            column++;
+            colonne++;
         }
         else
         {
-            row++;
+            ligne++;
         }
     }
 
