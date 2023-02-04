@@ -5,7 +5,7 @@
 #include <time.h>
 #include "player.c"
 #include "saclettre.c"
-#include "check_letters.c"
+#include "verif_lettres.c"
 
 // variables globales
 char chaine_lettres_lues[MAX_JETON_TOUR]; // une variable globale qui va nous permettre de stocker les lettres lues
