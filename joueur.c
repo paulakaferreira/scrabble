@@ -1,6 +1,6 @@
 #pragma once
 #include <stdio.h>
-#include "saclettre.c"
+#include "lettres.c"
 #define MAX_JETON_TOUR 7
 #define MAX_JOUEUR 2
 

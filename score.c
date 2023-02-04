@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include "plateau.c"
 #include "joueur.c"
-#include "saclettre.c"
+#include "lettres.c"
 
 int temp_score = 0;
 

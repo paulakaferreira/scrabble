@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "joueur.c"
-#include "saclettre.c"
+#include "lettres.c"
 #include "verif_lettres.c"
 
 // variable globale
