@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void board_rules()
+/****** Régles du plateau *****/
+void regles_plateau()
 {
     printf(" -------Règles du plateau-------\n\n");
     printf("Cases spéciales :\n");

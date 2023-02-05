@@ -1,6 +1,6 @@
 #pragma once
 #include <stdio.h>
-#include "saclettre.c"
+#include "lettres.c"
 #define MAX_JETON_TOUR 7
 #define MAX_JOUEUR 2
 
@@ -15,6 +15,7 @@ struct type_joueur
 struct type_joueur tabjoueur[MAX_JOUEUR];
 int lettre_joueur_vide = 0;
 
+/***** Initialisation des joueurs *****/
 void init_joueur(int cpt_joueur)
 {
   struct type_joueur un_joueur;
@@ -40,10 +41,12 @@ void init_joueur(int cpt_joueur)
   }
 }
 
+/****** Affichage des lettres du joueur *****/
 void affichage_lettre_joueur(int joueur_lu)
 {
   int i;
 
+  /* Parcours des lettres du joueur avec la variable i */
   printf("Lettres du joueur %d:\n", joueur_lu + 1);
   for (i = 0; i < MAX_JETON_TOUR; i++)
   {
@@ -52,6 +55,7 @@ void affichage_lettre_joueur(int joueur_lu)
   printf("\n");
 }
 
+/***** Verification du vide - main du joueur *****/
 void cpt_lettres_joueur(int joueur_lu)
 {
   int i;
@@ -61,11 +65,11 @@ void cpt_lettres_joueur(int joueur_lu)
   {
     if (tabjoueur[joueur_lu].jeton[i] != '\\')
     {
-      cpt++;
+      cpt++; // Si le jeton lu est différent du caractère '\\' qui signale un jeton qui n'a pas pu être remplacé, alors cpt est incrémenté
     }
   }
 
-  if (cpt == 0)
+  if (cpt == 0) // si aucun jeton n'a été trouvé, alors lettre_joueur_vide passe à 1
   {
     lettre_joueur_vide = 1;
   }
@@ -75,51 +79,54 @@ void cpt_lettres_joueur(int joueur_lu)
   }
 }
 
-// fonction pour changer le tour du joueur.
-int change_turn(int player)
+/***** Changement de tour ******/
+int changement_tour(int joueur)
 {
-  if (player == MAX_JOUEUR - 1)
+  // fonction pour changer le tour du joueur.
+  if (joueur == MAX_JOUEUR - 1)
   {
     return 0;
   }
   else
   {
-    return player + 1;
+    return joueur + 1;
   }
 }
 
+/***** Fin de la partie *****/
 int fin_partie()
 {
   int i, j;
   int malus = 0;
-  int index_lettre = 0;
+  int indice_lettre = 0;
 
-  for (i = 0; i < MAX_JOUEUR; i++)
+  /* Calcul des malus */
+  for (i = 0; i < MAX_JOUEUR; i++) // première boucle for qui permet de parcourir tous les joueurs
   {
-    for (j = 0; j < MAX_JETON_TOUR; j++)
+    for (j = 0; j < MAX_JETON_TOUR; j++) // deuxième boucle for qui permet de parcourir les lettres des joueurs
     {
-      if (tabjoueur[i].jeton[j] != '\0' && tabjoueur[i].jeton[j] != '0')
+      if (tabjoueur[i].jeton[j] != '\\' && tabjoueur[i].jeton[j] != '0') // si l'indice du jeton n'est pas vide (signalé par \\) ou pas un joker
       {
-        index_lettre = tabjoueur[i].jeton[j] - 'A';
-        malus += tablettre[index_lettre].nbpoint;
+        indice_lettre = tabjoueur[i].jeton[j] - 'A';
+        malus += tablettre[indice_lettre].nbpoint; // le malus, qui est initialisé à 0, reçoit la valeur de la lettre cherchée danss tablettre
       }
     }
-    // if (score =)
-    tabjoueur[i].score = tabjoueur[i].score - malus;
+    tabjoueur[i].score = tabjoueur[i].score - malus; // soustraction du malus au score du joueur concerné
     printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
     if ((tabjoueur[i].id_joueur == 1) && (malus > 0))
     {
-      tabjoueur[1].score += malus;
+      tabjoueur[1].score += malus; // on additionne le malus au score du joueur adverse
       printf("Le joueur %d prend un bonus de %d\n", tabjoueur[1].id_joueur, malus);
     }
     else if ((tabjoueur[i].id_joueur == 2) && (malus > 0))
     {
-      tabjoueur[0].score += malus;
+      tabjoueur[0].score += malus; // on additionne le malus au score du joueur adversse
       printf("Le joueur %d prend un bonus de %d\n", tabjoueur[0].id_joueur, malus);
     }
-    malus = 0;
+    malus = 0; // malus remis à 0 pour calculer le malus éventuel de l'autre joueur
   }
 
+  // affichage des gagnants
   if (tabjoueur[0].score > tabjoueur[1].score)
   {
     printf("Le joueur %d a gagné, félicitations !\n", tabjoueur[0].id_joueur);
@@ -134,13 +141,15 @@ int fin_partie()
     printf("Le joueur %d a gagné, félicitations !\n", tabjoueur[1].id_joueur);
   }
 
+  // affichage  du score final
   printf("Score final : \n");
   printf("Joueur 1 : %d points.\n", tabjoueur[0].score);
   printf("Joueur 2 : %d points. \n", tabjoueur[1].score);
   return 1;
 }
 
-void valeurs_lettre_main(int current_player)
+/****** Affichage des valeurs des lettres du joueur - option 5 *****/
+void valeurs_lettre_main(int joueur_actuel)
 {
   char lettre_lue = '\0';
   int indice_lettre = 0;
@@ -148,7 +157,7 @@ void valeurs_lettre_main(int current_player)
   printf(" -------Valeurs dans votre main-------\n\n");
   for (int i = 0; i < MAX_JETON_TOUR; i++)
   {
-    lettre_lue = tabjoueur[current_player].jeton[i];
+    lettre_lue = tabjoueur[joueur_actuel].jeton[i];
     if (lettre_lue == '0')
     {
       indice_lettre = MAX_LETTRE - 1;

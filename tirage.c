@@ -13,9 +13,12 @@ int premier_tour = 1;
 int sac_vide = 0;
 int tour_echange = 0;
 
+/***** Verification du vide - sac ****/
 int verification_sac()
 {
 	int i, cpt = 0;
+
+	/* Une fonction qui vérifie si le sac est vide en le parcourant entièrement à travers une boucle for */
 	for (i = 0; i < TOTAL_JETON; i++)
 	{
 		if (tabjeton[i] != '\0')
@@ -31,6 +34,7 @@ int verification_sac()
 	return (cpt);
 }
 
+/***** Tirage au sort des tuiles *****/
 void tirage(int nb_jetons, int joueur_lu)
 {
 	time_t nb_secondes, tp;
@@ -127,7 +131,7 @@ void tirage(int nb_jetons, int joueur_lu)
 				printf("Le sac de lettre est vide. il est impossible de piocher plus de jetons.\n");
 				// on met i au nombre de jetons demandés pour sortir de la boucle définitivement
 				i = nb_jetons;
-				for (j = 0; j < MAX_JETON_TOUR; j++)
+				for (j = 0; j < MAX_JETON_TOUR; j++) // remplacement des caractères vides par '\\'
 				{
 					if (tabjoueur[joueur_lu].jeton[j] == '\0')
 					{
@@ -136,7 +140,7 @@ void tirage(int nb_jetons, int joueur_lu)
 				}
 			}
 		}
-		if ((cpt_jeton_tire == 7) && (tour_echange == 0))
+		if ((cpt_jeton_tire == 7) && (tour_echange == 0)) // si l'utilisateur tire 7 jetons, c'est qu'il a joué 7 jetons, donc droit à un bonus. Sauf si c'est dans le cadre d'un échange, signalé par un booléen lors de la fonction d'échange (sinon ça serait trop facile)
 		{
 			printf("S C R A B B L E :\n");
 			printf("Félicitations ! Vous avez joué en un tour tous les jetons de votre jeu. Vous remportez un bonus de 50 points.\n");
@@ -145,7 +149,7 @@ void tirage(int nb_jetons, int joueur_lu)
 		}
 		else
 		{
-			tour_echange = 0;
+			tour_echange = 0; // si tour_echange == 1, on ne donne pas de bonus, mais on remet le booléen à 0 pour la prochaine action du prochain joueur
 		}
 		if (cpt_jeton_tire != 0)
 		{
