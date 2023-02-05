@@ -1,6 +1,6 @@
 # Scrabble
 This project aims to build a Scrabble-like game in C.  
-The game is to be played in french.
+The game is to be played in French.
 # Getting started with GitHub
 Creating SSH key: 
 
