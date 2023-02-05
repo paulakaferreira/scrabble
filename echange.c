@@ -115,6 +115,22 @@ int verif_lettres(int choix_joueur)
 	return trouve;
 }
 
+/**** Remise des lettres dans le sac ****/
+void remise(int lettre_remise)
+{
+	int i = 0;
+
+	// cette fonction permet au joueur de rentrer les lettres qu'il veut échanger. ces lettre sont vérifiées, et échangées avec des lettres aléatoires
+	// Les lettres dont le joueur se débarasse sont remises dans le sac après le tirage des nouvelles lettres.
+
+	while (tabjeton[i] != '\0')
+	{
+		i++;
+	}
+
+	tabjeton[i] = lettre_remise;
+}
+
 /**** Échange des lettres  ****/
 int echange(int choix_joueur)
 {
@@ -211,20 +227,4 @@ int echange(int choix_joueur)
 		tour_echange = 0;
 
 	} // fermeture du else (si compteur_sac est égal ou supérieur à 7)
-}
-
-/**** Remise des lettres dans le sac ****/
-void remise(int lettre_remise)
-{
-	int i = 0;
-
-	// cette fonction permet au joueur de rentrer les lettres qu'il veut échanger. ces lettre sont vérifiées, et échangées avec des lettres aléatoires
-	// Les lettres dont le joueur se débarasse sont remises dans le sac après le tirage des nouvelles lettres.
-
-	while (tabjeton[i] != '\0')
-	{
-		i++;
-	}
-
-	tabjeton[i] = lettre_remise;
 }
