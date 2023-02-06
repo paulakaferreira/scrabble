@@ -1,3 +1,9 @@
+/*
+//////////////////////////////////////////////////////////////////////
+///////////////// Scrabble - Master MIMO - 2022/2023 /////////////////
+////////////// Auteurs : Paula Ferreira et Lucas Leroux //////////////
+//////////////////////////////////////////////////////////////////////
+*/
 #include <stdio.h>
 #include "menu.c"
 #include "coup.c"
@@ -14,6 +20,7 @@ int main()
     int tour_actuel = 0;
     int fin = 0;
     int quitte_echange = 3;
+    int quitter_partie=0;
 
     printf("\n            S C R A B B L E\n\n");
 
@@ -51,7 +58,7 @@ int main()
                 if ((sac_vide == 1) && (lettre_joueur_vide == 1))
                 {
                     printf("La partie est terminée ! \n");
-                    fin = fin_partie();
+                    fin = fin_partie(quitter_partie);
                 }
                 else
                 {
@@ -91,8 +98,8 @@ int main()
             printf("Votre score total (joueur %d) est : %d\n", joueur_actuel + 1, tabjoueur[joueur_actuel].score);
             break;
         case 7:
-            fin_partie();
-            fin = 1;
+            quitter_partie=1;
+            fin = fin_partie(quitter_partie);
             break;
         }
     }
