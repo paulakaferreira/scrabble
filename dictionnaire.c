@@ -31,7 +31,8 @@ int dans_dic(char mot[TAILLE_PLATEAU])
             trouve = 1;
         }
     }
-
+ 
+    fclose(dic);
     if (trouve == 1)
     {
         return 1;
