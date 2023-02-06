@@ -182,7 +182,7 @@ void valeurs_lettre_main(int joueur_actuel)
   for (int i = 0; i < MAX_JETON_TOUR; i++)
   {
     lettre_lue = tabjoueur[joueur_actuel].jeton[i];
-    if (lettre_lue == '0')
+    if ((lettre_lue == '0') || (lettre_lue == '\\'))
     {
       indice_lettre = MAX_LETTRE - 1;
     }
