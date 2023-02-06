@@ -133,7 +133,10 @@ int fin_partie(int abandon)
         }
       }
       tabjoueur[i].score = tabjoueur[i].score - malus; // soustraction du malus au score du joueur concerné
-      printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
+      if (malus != 0)
+      {
+        printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
+      }
       if ((tabjoueur[i].id_joueur == 1) && (malus > 0)&&(abandon==0))
       {
         tabjoueur[1].score += malus; // on additionne le malus au score du joueur adverse
