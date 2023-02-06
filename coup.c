@@ -230,42 +230,22 @@ char lettre_joker(char joker, int cpt_joker, int joueur)
   }
 }
 
-/**** Verification de deplacement du tableau ****/
+/**** Verification de dépassement du tableau ****/
 int verif_depassement_tableau(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, char direction)
 {
 
   int i = 0;
-  int j = 0;
 
   /* Cettte fonction permet de vérifier que le mot saisi ne dépasse pas le tableau du plateau
   elle reprend le fonctionnement de l'inscription d'un mot sur le plateau, mais si ligne ou colonne
   dépassent le plateau, elle retourne 0 */
 
-  for (i = 0; i < TAILLE_PLATEAU; i++)
-  {
-    for (j = 0; j < TAILLE_PLATEAU; j++)
-    {
-      copie_plateau[i][j] = plateau[i][j];
-    }
-  }
 
   for (i = 0; i < strlen(mot_lu); i++)
   {
     if ((colonne >= TAILLE_PLATEAU) || (ligne >= TAILLE_PLATEAU))
     {
       return 0;
-    }
-
-    if (mot_lu[i] != TUILE_STANDARD)
-    {
-      if (mot_lu[i] <= 'Z')
-      {
-        copie_plateau[ligne][colonne].tuile = toupper(mot_lu[i]);
-      }
-      else
-      {
-        copie_plateau[ligne][colonne].tuile = mot_lu[i];
-      }
     }
 
     // Fait avancer la boucle en fonction de la direction
