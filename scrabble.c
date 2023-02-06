@@ -58,7 +58,7 @@ int main()
                 if ((sac_vide == 1) && (lettre_joueur_vide == 1))
                 {
                     printf("La partie est terminée ! \n");
-                    fin = fin_partie(quitter_partie);
+                    fin = fin_partie(0);
                 }
                 else
                 {
@@ -100,6 +100,7 @@ int main()
         case 7:
             quitter_partie=1;
             fin = fin_partie(quitter_partie);
+            quitter_partie=0;
             break;
         }
     }
