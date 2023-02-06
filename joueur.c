@@ -94,37 +94,58 @@ int changement_tour(int joueur)
 }
 
 /***** Fin de la partie *****/
-int fin_partie()
+int fin_partie(int abandon)
 {
   int i, j;
   int malus = 0;
   int indice_lettre = 0;
+  int choix_abandon=0;
 
   /* Calcul des malus */
-  for (i = 0; i < MAX_JOUEUR; i++) // première boucle for qui permet de parcourir tous les joueurs
+  if(abandon==1)
   {
-    for (j = 0; j < MAX_JETON_TOUR; j++) // deuxième boucle for qui permet de parcourir les lettres des joueurs
+    printf("Êtes vous sûr de vouloir quitter la partie ?\n");
+    printf("-1- Oui\n");
+    printf("-2- Non\n");
+    printf("Votre choix :");
+    scanf("%d", &choix_abandon);
+    while((choix_abandon<1) || (choix_abandon>2))
     {
-      if (tabjoueur[i].jeton[j] != '\\' && tabjoueur[i].jeton[j] != '0') // si l'indice du jeton n'est pas vide (signalé par \\) ou pas un joker
-      {
-        indice_lettre = tabjoueur[i].jeton[j] - 'A';
-        malus += tablettre[indice_lettre].nbpoint; // le malus, qui est initialisé à 0, reçoit la valeur de la lettre cherchée danss tablettre
-      }
+      printf("Erreur : veuillez saisir une option entre 1 et 2 : ");
+      while ((choix_abandon = getchar()) != '\n');
+      scanf("%d", &choix_abandon);
     }
-    tabjoueur[i].score = tabjoueur[i].score - malus; // soustraction du malus au score du joueur concerné
-    printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
-    if ((tabjoueur[i].id_joueur == 1) && (malus > 0))
+    if(choix_abandon==2)
     {
-      tabjoueur[1].score += malus; // on additionne le malus au score du joueur adverse
-      printf("Le joueur %d prend un bonus de %d\n", tabjoueur[1].id_joueur, malus);
+      return 0;
     }
-    else if ((tabjoueur[i].id_joueur == 2) && (malus > 0))
-    {
-      tabjoueur[0].score += malus; // on additionne le malus au score du joueur adversse
-      printf("Le joueur %d prend un bonus de %d\n", tabjoueur[0].id_joueur, malus);
-    }
-    malus = 0; // malus remis à 0 pour calculer le malus éventuel de l'autre joueur
   }
+     
+
+    for (i = 0; i < MAX_JOUEUR; i++) // première boucle for qui permet de parcourir tous les joueurs
+    {
+      for (j = 0; j < MAX_JETON_TOUR; j++) // deuxième boucle for qui permet de parcourir les lettres des joueurs
+      {
+        if (tabjoueur[i].jeton[j] != '\\' && tabjoueur[i].jeton[j] != '0') // si l'indice du jeton n'est pas vide (signalé par \\) ou pas un joker
+        {
+          indice_lettre = tabjoueur[i].jeton[j] - 'A';
+          malus += tablettre[indice_lettre].nbpoint; // le malus, qui est initialisé à 0, reçoit la valeur de la lettre cherchée danss tablettre
+        }
+      }
+      tabjoueur[i].score = tabjoueur[i].score - malus; // soustraction du malus au score du joueur concerné
+      printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
+      if ((tabjoueur[i].id_joueur == 1) && (malus > 0)&&(abandon==0))
+      {
+        tabjoueur[1].score += malus; // on additionne le malus au score du joueur adverse
+        printf("Le joueur %d prend un bonus de %d\n", tabjoueur[1].id_joueur, malus);
+      }
+      else if ((tabjoueur[i].id_joueur == 2) && (malus > 0)&&(abandon==0))
+      {
+        tabjoueur[0].score += malus; // on additionne le malus au score du joueur adversse
+        printf("Le joueur %d prend un bonus de %d\n", tabjoueur[0].id_joueur, malus);
+      }
+      malus = 0; // malus remis à 0 pour calculer le malus éventuel de l'autre joueur
+    }
 
   // affichage des gagnants
   if (tabjoueur[0].score > tabjoueur[1].score)
