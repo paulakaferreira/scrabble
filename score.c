@@ -21,8 +21,7 @@ void score_joueur(char mot_lu[TAILLE_PLATEAU], int colonne, int ligne, int direc
     {
         if (islower(plateau[ligne][colonne].tuile))
         {
-            indice_lettre = 91;
-            tablettre[indice_lettre].nbpoint = 0;
+            indice_lettre = 26;
         }
         else
         {
@@ -99,8 +98,7 @@ void score_mots_modif(char verif_mot[TAILLE_PLATEAU], int colonne, int ligne, in
     {
         if (islower(copie_plateau[ligne][colonne].tuile)) // si c'est une minuscule, c'est un joker, donc on ne compte pas
         {
-            indice_lettre = 91;
-            tablettre[indice_lettre].nbpoint = 0;
+            indice_lettre = 26;
         }
         else
         {
