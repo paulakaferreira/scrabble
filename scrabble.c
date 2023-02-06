@@ -32,11 +32,8 @@ int main()
     init_valeurs_plateau();
 
     /* Tirage au sort des lettres */
-    for (int i = 0; i < nb_joueurs; i++)
-    {
-        premier_tour = 1;
-        tirage(7, i);
-    }
+     premier_tour = 1;
+     tirage(7, 0);
 
     /* Menu d'actions - Boucle du jeu - Le tour commence */
     while (fin == 0)
@@ -48,6 +45,7 @@ int main()
         printf("Score du joueur : %d\n", tabjoueur[joueur_actuel].score);
         affichage_plateau();
         action = actions();
+        
         switch (action)
         {
         case 1:

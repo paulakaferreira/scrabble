@@ -133,7 +133,10 @@ int fin_partie(int abandon)
         }
       }
       tabjoueur[i].score = tabjoueur[i].score - malus; // soustraction du malus au score du joueur concerné
-      printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
+      if (malus != 0)
+      {
+        printf("Le joueur %d prend un malus de %d\n", tabjoueur[i].id_joueur, malus);
+      }
       if ((tabjoueur[i].id_joueur == 1) && (malus > 0)&&(abandon==0))
       {
         tabjoueur[1].score += malus; // on additionne le malus au score du joueur adverse
@@ -179,7 +182,7 @@ void valeurs_lettre_main(int joueur_actuel)
   for (int i = 0; i < MAX_JETON_TOUR; i++)
   {
     lettre_lue = tabjoueur[joueur_actuel].jeton[i];
-    if (lettre_lue == '0')
+    if ((lettre_lue == '0') || (lettre_lue == '\\'))
     {
       indice_lettre = MAX_LETTRE - 1;
     }
